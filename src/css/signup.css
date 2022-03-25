@@ -1,0 +1,6 @@
+.sign-div {
+    width: 400px;
+    height: calc(80vh);
+    background-color: white;
+    border-radius: 20px;
+}
