@@ -3,4 +3,57 @@
     height: calc(80vh);
     background-color: white;
     border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    
+}
+
+.sign-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sign-input {
+    width: 70%;
+    margin-top: 30px;
+    border: transparent 2px solid;
+    border-bottom:rgba(0, 0, 0, 0.57) 2px solid ;
+    height: 20px;
+    transition: all ease 0.8s;
+}
+
+.sign-input:focus{
+    outline: none;
+    width: 73%;
+}
+
+.sign-submit {
+    width : 70%;
+    height: 40px;
+    margin-top: 20px;
+    background-color: darkred;
+    color : white;
+    border-radius: 5px;
+}
+
+.sign-submit-disable {
+    background-color: rgba(139, 0, 0, 0.665);
+}
+
+@media  screen and (max-width : 400px) {
+    .sign-div {
+        width: 100%;
+        height: 100vh;
+        border-radius: 0px;
+    }
+}
+
+@media screen and (max-height : 500px) {
+    .sign-div {
+        overflow-y: scroll;
+    }
 }
