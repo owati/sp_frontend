@@ -4,16 +4,19 @@ import { toast, ToastContainer } from "react-toast";
 import "../css/signup.css"
 import Modal from "./Modal";
 import SignupInput from "./inputs/SignupInput";
+import logo from '../assets/logo1.png';
 
 const SignupModal = ({ show }) => {
     useEffect(() => {
-        toast.info("fill the form below to sign up ")
+        setTimeout( () => {
+            toast.info("fill the form below to sign up ");
+        }, 1000)
     }, [])
 
     return (
         <Modal show={show}>
             <div className="sign-div">
-                <h3>SAVAGE PHANTOM</h3>
+                <img src={logo} className="sign-img"/>
                 <Formik
                     initialValues={
                         {
@@ -73,7 +76,6 @@ const SignupModal = ({ show }) => {
                                                     key={i}
                                                     value={values[i]}
                                                     name={i}
-                                                    placeholder={i}
                                                     onblur={handleBlur}
                                                     onchange={handleChange}
                                                 />

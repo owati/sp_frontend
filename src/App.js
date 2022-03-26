@@ -1,13 +1,23 @@
-import SignupModal from "./components/SignupModal";
-import { ToastContainer } from "react-toast";
 import 'tachyons';
+import Signup from './pages/Signup';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <>
-      <SignupModal show={true}/>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/signup" element={<Signup />} />
+
+        <Route path="*" element={<NotFound/>} />
+      </Routes>
+    </Router>
   );
+}
+
+function NotFound () {
+  return (
+    <h1>Page not found</h1>
+  )
 }
 
 export default App;
