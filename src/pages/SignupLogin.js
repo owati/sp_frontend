@@ -1,8 +1,9 @@
 import SignupModal from "../components/SignupModal";
 import back from '../assets/back.png'
+import LoginModal from "../components/LoginModal";
 
-function Signup () {
-    console.log(back)
+function SignupLogin ({login}) {
+    console.log(process.env)
     return (
         <div style={{
             width : "100%",
@@ -14,9 +15,12 @@ function Signup () {
             position :"fixed",
 
         }}>
-            <SignupModal show={true} />
+            { login ?
+                <LoginModal show={true} /> :
+                <SignupModal show={true} />
+                }
         </div>
     )
 }
 
-export default Signup;
+export default SignupLogin;

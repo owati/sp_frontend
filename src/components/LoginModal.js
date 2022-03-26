@@ -1,71 +1,54 @@
 import { useEffect } from "react";
+import {Link} from 'react-router-dom';
 import { Formik } from "formik";
 import { toast, ToastContainer } from "react-toast";
-import { useNavigate } from "react-router";
+import { useNavigate } from 'react-router-dom';
 import "../css/signup.css"
 import Modal from "./Modal";
 import SignupInput from "./inputs/SignupInput";
 import logo from '../assets/logo1.png';
-import { Link } from "react-router-dom";
 import { postRequest } from "../functions/api";
 
-const SignupModal = ({ show }) => {
+const LoginModal = ({ show }) => {
     const navigate = useNavigate();
+
     useEffect(() => {
         setTimeout( () => {
-            toast.info("fill the form below to sign up ");
+            toast.info("fill the form below to log in ");
         }, 1000)
     }, [])
 
     return (
         <Modal show={show}>
-            <div className="sign-div">
+            <div className="log-div">
                 <img src={logo} className="sign-img"/>
                 <Formik
                     initialValues={
                         {
-                            first_name: "",
-                            last_name: "",
                             email: "",
-                            password: "",
-                            password2:""
+                            password: ""
                         }
                     }
                     onSubmit={
                         (values, { setSubmitting }) => {
-                            let {email, first_name, last_name, password, password2} = values
+                            let {email } = values
                             if(email && !email.includes('@')) {
                                 toast.error("enter a valid email");
                                 setSubmitting(false);
-                            } 
-                            else if(first_name && first_name.length < 2) {
-                                toast.error("first name is too short");
-                                setSubmitting(false);
-                            } else if (last_name && last_name.length < 2) {
-                                toast.error("last name is too short");
-                                setSubmitting(false);
-                            } else if (password && password.length < 6) {
-                                toast.error("password is too short");
-                                setSubmitting(false);
-                            } else if (password && password.length > 15) {
-                                toast.error("password is too long");
-                                setSubmitting(false);
-                            } else if( password && password2 && password !== password2) {
-                                toast.error ("password do not match");
-                                setSubmitting(false);
                             } else {
-                                postRequest('account/signup', values)
+                                postRequest('account/login', values)
                                 .then(response => {
-                                    if(response.status === 201){
+                                    if(response.status === 200){
                                         toast.success(response.data.message);
                                         setTimeout(() => {
-                                            navigate('/login');
+                                            navigate('/login')
                                         }, 1000)
                                     } else {
                                         toast.error(response.data.message)
                                         setSubmitting(false)
                                     }
                                 })
+                                
                             }
                         }
                     }
@@ -98,20 +81,18 @@ const SignupModal = ({ show }) => {
                                 }
                                 <button type="submit" 
                                 className={
-                                    `sign-submit grow shadow-5 ${( isSubmitting    || !values.first_name  || !values.last_name   ||  !values.email || !values.password || !values.password2) ? "sign-submit-disable" : ""}`
+                                    `sign-submit grow shadow-5 ${( isSubmitting   ||  !values.email || !values.password ) ? "sign-submit-disable" : ""}`
                                  }
                                 disabled={isSubmitting || 
-                                    !values.first_name  || 
-                                    !values.last_name   || 
-                                    !values.email       || !values.password || !values.password2}
+                                    !values.email    || !values.password }
                                 >
-                                    SIGN UP</button>
+                                    SIGN IN</button>
                             </form>
                         )
                     }
 
                 </Formik>
-                <h4>already registered? <Link to="/login">sign in</Link></h4>
+                <h4>Haven't registered? <Link to='/signup'>Sign up</Link></h4>
             </div>
             <ToastContainer position="top-center" delay={2000} />
         </Modal>
@@ -119,4 +100,4 @@ const SignupModal = ({ show }) => {
 
 }
 
-export default SignupModal;
+export default LoginModal;

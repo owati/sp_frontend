@@ -1,13 +1,13 @@
 import 'tachyons';
-import Signup from './pages/Signup';
+import SignupLogin from './pages/SignupLogin';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/signup" element={<Signup />} />
-
+        <Route path="/signup" element={<SignupLogin login={false}/>} />
+        <Route path="/login" element={<SignupLogin login={true} />} />
         <Route path="*" element={<NotFound/>} />
       </Routes>
     </Router>

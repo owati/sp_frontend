@@ -11,6 +11,19 @@
     
 }
 
+.log-div {
+    width: 400px;
+    height: calc(70vh);
+    background-color: white;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding : 20px;
+    
+}
+
 .sign-img {
     width: 40%;
     height: auto;
@@ -90,10 +103,19 @@
         border-radius: 0px;
         background-color: rgba(255, 255, 255, 0.645);
     }
+    .log-div {
+        width: 100%;
+        height: 100vh;
+        border-radius: 0px;
+        background-color: rgba(255, 255, 255, 0.645);
+    }
 }
 
 @media screen and (max-height : 500px) {
     .sign-div {
+        overflow-y: scroll;
+    }
+    .log-div {
         overflow-y: scroll;
     }
 }
