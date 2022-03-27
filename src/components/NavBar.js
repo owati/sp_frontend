@@ -1,9 +1,16 @@
-
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../css/navbar.css';
 import logo from '../assets/logo2.png';
 import search from '../assets/search.png';
+import cart from '../assets/cart.png';
+import fave from '../assets/fave.png';
+import profile from '../assets/prof.png'
+
 
 function NavBar () {
+    const navigate = useNavigate();
+    let [curr, setCurr] = useState("")
     return (
         <nav className='nav'>
             <div style={{width : "20%"}}>
@@ -14,14 +21,33 @@ function NavBar () {
                     ['New Releases', 'Trending', 'Collection']
                     .map(
                         link => (
-                            <h4 className='links grow'>{link}</h4>
+                            <h4 key={link} className= {`links grow ${link === curr ? 'active' : ""}`}
+                                onClick={() => {
+                                    switch (link) {
+                                        case 'New Releases':
+                                            setCurr('New Releases');
+                                            navigate('home');
+                                            break;
+                                        case 'Trending':
+                                            setCurr('Trending');
+                                            navigate('home');
+                                            break;
+                                        case 'Collection':
+                                            setCurr('Collection');
+                                            navigate('home');
+                                            break;
+                                    }
+                                }}
+                            >{link}</h4>
                         )
                     )
                 }
             </div>
-            <div style={{width : "20%", display : "flex"}}>
+            <div style={{width : "20%", display : "flex", alignItems: "center", justifyContent :"flex-end"}}>
                 <SearchBut />
-                <img />
+                <img src={fave} height="25" width="25" className='nav-img grow'/>
+                <img src={cart} height="25" width="25" className='nav-img grow'/>
+                <img src={profile} height="25" width="25" className='nav-img grow' />
             </div>
 
         </nav>

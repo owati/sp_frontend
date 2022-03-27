@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import TopHead from './TopHead';
 import NavBar from './NavBar';
+import Footer from './Footer';
 
 function Layout() {
     return (
@@ -12,6 +13,7 @@ function Layout() {
                 <Route exact path="home" element={<Home />} />
                 <Route path="*" element={<NotFound/>} />
             </Routes>
+            <Footer />
         </>
     )
 }

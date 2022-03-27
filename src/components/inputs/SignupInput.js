@@ -8,19 +8,19 @@ function SignupInput({ value, name, onchange, onblur }) {
     useEffect(() => {
         switch (name) {
             case "first_name":
-                setPlace("First name");
+                setPlace("first name");
                 break;
             case "last_name":
-                setPlace("Last name");
+                setPlace("last name");
                 break;
             case "emal":
-                setPlace("Email address");
+                setPlace("email address");
                 break;
             case "password":
                 setPlace("password");
                 break;
             case "password2":
-                setPlace("reset password");
+                setPlace("confirm password");
                 break;
             default:
                 setPlace(name);
