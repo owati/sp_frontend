@@ -1,0 +1,22 @@
+.top {
+    width: 100%;
+    height: fit-content;
+    background-color: rgb(208,40,38);
+    padding : 5px;
+    text-align: center;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.off {
+    color: rgb(182, 177, 177);
+    cursor: pointer;
+}
+
+.slide {
+    transition: all ease 0.8s;
+    margin: 0px 50px;
+    width: 400px;
+    text-align: center;
+}

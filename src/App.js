@@ -1,6 +1,7 @@
 import 'tachyons';
 import SignupLogin from './pages/SignupLogin';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
 
 function App() {
   return (
@@ -8,7 +9,7 @@ function App() {
       <Routes>
         <Route path="/signup" element={<SignupLogin login={false}/>} />
         <Route path="/login" element={<SignupLogin login={true} />} />
-        <Route path="*" element={<NotFound/>} />
+        <Route path="/*" element={<Layout/>} />
       </Routes>
     </Router>
   );
