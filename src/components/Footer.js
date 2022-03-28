@@ -1,6 +1,10 @@
 
 import '../css/footer.css';
 import logo from '../assets/logo1.png';
+import insta from '../assets/insta.png'
+import twitter from '../assets/twitter.png'
+import youtube from '../assets/youtube.png'
+import face from '../assets/face.png'
 
 function Footer() {
     return (
@@ -8,7 +12,7 @@ function Footer() {
             <div className='footer'>
                 <div className='footer-section-1'>
                     <img src={logo} width="200" height="100" />
-                    <div style={{ paddingTop: "70px" }}>
+                    <div className="reduce" style={{ paddingTop: "70px" }}>
                         <p>Savave Phantom Shop,</p>
                         <p>12 Random Street,</p>
                         <p>City City, Country Country.</p>
@@ -49,9 +53,19 @@ function Footer() {
                     </div>
 
                 </div>
-                <div className='footer-section-3'>
-                    <div style={{display : "flex", justifyContent : "center", alignItems : "center"}}>
-                        <h4>socials</h4>
+                <div className='footer-section-3 dull-white'>
+                    <div style={{display : "flex", flexDirection : "column",justifyContent : "center", alignItems : "center"}}>
+                        <h4><i>Socials</i></h4>
+                        <div> 
+                            {
+                                [insta, face, twitter, youtube]
+                                .map(
+                                    x => (
+                                        <img src={x} alt={x} key={x} height="40" width="40" className='grow'/>
+                                    )
+                                )
+                            }            
+                        </div>
                     </div>
                     <div style={{display : "flex", justifyContent : "center", alignItems : "center"}}>
                         

@@ -49,3 +49,25 @@ li{
     padding: 10px;
     text-align: center;
 }
+
+@media screen and (max-width : 780px) {
+    .footer {
+        flex-direction: column;
+        padding:  30px 30px 10px 30px;
+    }
+    .footer-section-1, .footer-section-2, .footer-section-3 {
+        width : 100%
+    }
+    .footer-section-2 {
+        flex-direction: column;
+        padding-top: 20px;
+    }
+
+    .reduce {
+        padding-top: 30px !important;
+    }
+
+    .footer-section-2 div {
+        width : 100% !important;
+    }
+}
