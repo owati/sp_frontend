@@ -8,11 +8,13 @@ import fave from '../assets/fave.png';
 import profile from '../assets/prof.png';
 import menu from '../assets/menu.png';
 import ProfilePic from './ProfilePic';
+import SideBar from './SideBar';
 
 
 function NavBar() {
     const navigate = useNavigate();
-    let [curr, setCurr] = useState("")
+    let [curr, setCurr] = useState("");
+    let [side, setSide] = useState(false);
     return (
         <>
             <nav className='nav'>
@@ -55,11 +57,21 @@ function NavBar() {
 
             </nav>
             <nav className='mobile-nav'>
-                <div style={{display :"flex"}}>
-                    <img src={menu} height="30" width="30"/>
+                <div style={{ display: "flex" }}>
+                    <img src={menu} height="30" width="30" className='grow'
+                    onClick={ () => {
+                        setSide(true)
+                    }}
+                     />
                     <ProfilePic />
                 </div>
+
+                <div>
+                    <img src={fave} height="25" width="25" className='nav-img grow' />
+                    <img src={cart} height="25" width="25" className='nav-img grow' />
+                </div>
             </nav>
+            <SideBar show={side} close={() => {setSide(false)}}/>
         </>
     )
 }

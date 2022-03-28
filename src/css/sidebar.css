@@ -1,0 +1,13 @@
+.sidebar {
+    display: flex;
+    width : 0px;
+    height: 100vh;
+    background-color: blue;
+    transition: all 1.2s ease;
+}
+
+@media screen and (min-width : 780px) {
+    .no-mode {
+        display: none;
+    }
+}

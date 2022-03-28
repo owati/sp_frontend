@@ -5,4 +5,27 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position : fixed;
+    z-index: 2;
+    top: 0px;
+}
+
+.center {
+    justify-content: center;
+    align-items: center;
+}
+
+.left {
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.top {
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.bottom {
+    justify-content: center;
+    align-items: flex-end;
 }
