@@ -1,11 +1,12 @@
 
 
-function ProfilePic ({ link }) {
+function ProfilePic ({ link, size }) {
+    let length = size === "small" ? "30px" : size === "medium" ? "50px" : "80px"
     return (
         <div style={{
-            width : "30px",
-            height : "30px",
-            borderRadius :"20px",
+            width : length,
+            height : length,
+            borderRadius :"100px",
             overflow : "hidden",
             backgroundColor : "black",
             marginLeft : "10px"

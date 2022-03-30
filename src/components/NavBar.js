@@ -63,12 +63,12 @@ function NavBar() {
                         setSide(true)
                     }}
                      />
-                    <ProfilePic />
+                    <ProfilePic size="small"/>
                 </div>
 
                 <div>
-                    <img src={fave} height="25" width="25" className='nav-img grow' />
                     <img src={cart} height="25" width="25" className='nav-img grow' />
+                    <img src={search} height="25" width="25" className='nav-img grow' />
                 </div>
             </nav>
             <SideBar show={side} close={() => {setSide(false)}}/>
