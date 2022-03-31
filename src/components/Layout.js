@@ -2,7 +2,8 @@ import { Routes, Route } from 'react-router-dom';
 import TopHead from './TopHead';
 import NavBar from './NavBar';
 import Footer from './Footer';
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
+import {toast} from 'react-toastify'
 
 function Layout() {
     return (

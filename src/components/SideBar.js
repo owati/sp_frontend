@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import '../css/sidebar.css';
 import Modal from '../components/Modal';
-
+import { Link } from 'react-router-dom';
 import Vector from '../assets/Vector.png';
 import ProfilePic from './ProfilePic';
 import close from '../assets/close.png';
@@ -10,7 +10,6 @@ import { useSelector } from 'react-redux';
 function SideBar({ show, closed }) {
 
     const user = useSelector(state => state.user.info);
-    console.log(user)
 
     useEffect(() => {
         if (show) {
@@ -50,8 +49,8 @@ function SideBar({ show, closed }) {
                                 justifyContent: "center",
                                 paddingBottom: "5px"
                             }}>
-                                <button className='sidebar-but'>signup</button>
-                                <button className='sidebar-but'>login</button>
+                                <Link to="/signup"><button className='sidebar-but'>signup</button></Link>
+                                <Link to="/login"><button className='sidebar-but'>login</button></Link>
                             </div>
                         </>
                 }
