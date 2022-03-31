@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Formik } from "formik";
-import { toast, ToastContainer } from "react-toast";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import "../css/signup.css"
 import Modal from "./Modal";
@@ -13,7 +13,9 @@ const SignupModal = ({ show }) => {
     const navigate = useNavigate();
     useEffect(() => {
         setTimeout( () => {
-            toast.info("fill the form below to sign up ");
+            toast.info("fill the form to sign up ",{
+                icon : false
+            });
         }, 1000)
     }, [])
 
@@ -113,7 +115,6 @@ const SignupModal = ({ show }) => {
                 </Formik>
                 <h4>already registered? <Link to="/login">sign in</Link></h4>
             </div>
-            <ToastContainer position="top-center" delay={2000} />
         </Modal>
     )
 

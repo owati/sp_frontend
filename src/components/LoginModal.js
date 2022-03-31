@@ -1,20 +1,26 @@
 import { useEffect } from "react";
 import {Link} from 'react-router-dom';
 import { Formik } from "formik";
-import { toast, ToastContainer } from "react-toast";
+import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from "react-redux";
+import { setUser } from '../redux/slicers/userSlicer'
 import "../css/signup.css"
 import Modal from "./Modal";
 import SignupInput from "./inputs/SignupInput";
 import logo from '../assets/logo1.png';
 import { postRequest } from "../functions/api";
+import { login } from '../functions/auth';
 
 const LoginModal = ({ show }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch()
 
     useEffect(() => {
         setTimeout( () => {
-            toast.info("fill the form below to log in ");
+            toast.info("fill the form to login ",{
+                icon : false
+            });
         }, 1000)
     }, [])
 
@@ -40,8 +46,10 @@ const LoginModal = ({ show }) => {
                                 .then(response => {
                                     if(response.status === 200){
                                         toast.success(response.data.message);
+                                        login(response.data.userInfo.token);
+                                        dispatch(setUser(response.data.userInfo));
                                         setTimeout(() => {
-                                            navigate('/login')
+                                            navigate('/')
                                         }, 1000)
                                     } else {
                                         toast.error(response.data.message)
@@ -94,7 +102,6 @@ const LoginModal = ({ show }) => {
                 </Formik>
                 <h4>Haven't registered? <Link to='/signup'>Sign up</Link></h4>
             </div>
-            <ToastContainer position="top-center" delay={2000} />
         </Modal>
     )
 

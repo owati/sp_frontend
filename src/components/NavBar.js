@@ -71,7 +71,7 @@ function NavBar() {
                     <img src={search} height="25" width="25" className='nav-img grow' />
                 </div>
             </nav>
-            <SideBar show={side} close={() => {setSide(false)}}/>
+            <SideBar show={side} closed={() => {setSide(false)}}/>
         </>
     )
 }

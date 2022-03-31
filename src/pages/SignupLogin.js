@@ -1,9 +1,9 @@
 import SignupModal from "../components/SignupModal";
 import back from '../assets/back.png'
 import LoginModal from "../components/LoginModal";
+import NavBar from "../components/NavBar";
 
 function SignupLogin ({login}) {
-    console.log(process.env)
     return (
         <div style={{
             width : "100%",
