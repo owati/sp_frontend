@@ -9,8 +9,10 @@ import { getRequest } from './functions/api';
 import { setUser } from './redux/slicers/userSlicer';
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import AOS from 'aos';
 
 function App() {
+  AOS.init()
   const dispatch = useDispatch()
   useEffect(
     async () => {

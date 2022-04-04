@@ -2,8 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import TopHead from './TopHead';
 import NavBar from './NavBar';
 import Footer from './Footer';
-import { useSelector } from 'react-redux';
-import {toast} from 'react-toastify'
+import Home from '../pages/Home';
 
 function Layout() {
     return (
@@ -20,9 +19,6 @@ function Layout() {
     )
 }
 
-function Home() {
-    return <h2>Home</h2>
-}
 
 function NotFound () {
     return (
