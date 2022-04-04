@@ -5,6 +5,7 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: 100vw 35vh;
+    margin-bottom : 40px
 }
 
 .home-bg-2 {
@@ -14,6 +15,7 @@
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
+    position : absolute;
 }
 
 .home-shop-butt {
@@ -25,6 +27,25 @@
     border-radius: 10px;
     font-weight: bolder;
     position: absolute;
-    bottom: 0px;
-    right : 150px
+    bottom: 15vh;
+    right : 15vw
+}
+
+@media screen and (max-width : 780px) {
+    .home-bg, .home-bg-2 {
+        height: 400px;
+        background-size: contain;
+    }
+    .home-bg-2 {
+        background-size : auto 100%;
+    }
+
+    .home-shop-butt {
+        bottom : 40px;
+        right : 40px;
+        width : 100px;
+        height: 30px;
+        border-radius:5px;
+        font-size : small
+    }
 }

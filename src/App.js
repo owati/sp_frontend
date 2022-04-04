@@ -10,15 +10,19 @@ import { setUser } from './redux/slicers/userSlicer';
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 function App() {
-  AOS.init()
   const dispatch = useDispatch()
+  let fetchUser = async () => {
+    let response = await getRequest('account/info');
+    if (response.status === 200) dispatch(setUser(response.data.userInfo));
+  }
   useEffect(
-    async () => {
-      let response = await getRequest('account/info');
-      if (response.status === 200) dispatch(setUser(response.data.userInfo));
-    }, []
+    () => {
+      AOS.init();
+      fetchUser();
+    }
   )
   return (
     <Router>
