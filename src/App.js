@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { getToken } from './functions/auth';
 import { getRequest } from './functions/api';
 import { setUser } from './redux/slicers/userSlicer';
-import { ToastContainer } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -16,7 +16,12 @@ function App() {
   const dispatch = useDispatch()
   let fetchUser = async () => {
     let response = await getRequest('account/info');
-    if (response.status === 200) dispatch(setUser(response.data.userInfo));
+    if (response.status === 200) {
+      dispatch(setUser(response.data.userInfo));
+      toast.info(`welcome back ${response.data.userInfo.first_name}`, {
+        icon : false
+      })
+    }
   }
   useEffect(
     () => {

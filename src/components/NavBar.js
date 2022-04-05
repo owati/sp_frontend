@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import '../css/navbar.css';
 import logo from '../assets/logo2.png';
 import search from '../assets/search.png';
@@ -12,6 +13,7 @@ import SideBar from './SideBar';
 
 
 function NavBar() {
+    const user = useSelector(state => state.user.info)
     const navigate = useNavigate();
     let [curr, setCurr] = useState("");
     let [side, setSide] = useState(false);
@@ -50,9 +52,9 @@ function NavBar() {
                 </div>
                 <div style={{ width: "20%", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
                     <SearchBut />
-                    <img src={fave} height="25" width="25" className='nav-img grow' />
-                    <img src={cart} height="25" width="25" className='nav-img grow' />
-                    <img src={profile} height="25" width="25" className='nav-img grow' />
+                    <img src={fave} alt="favourite" height="25" width="25" className='nav-img grow' />
+                    <img src={cart} alt="cart" height="25" width="25" className='nav-img grow' />
+                    <img src={profile} alt="profile" height="25" width="25" className='nav-img grow' />
                 </div>
 
             </nav>
@@ -63,7 +65,10 @@ function NavBar() {
                         setSide(true)
                     }}
                      />
-                    <ProfilePic size="small"/>
+                    { user ?
+                        <ProfilePic size="small"/>
+                        : <></>
+                    }
                 </div>
 
                 <div>
