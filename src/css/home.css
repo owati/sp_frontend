@@ -33,13 +33,93 @@
 
 .home-collection {
     margin : 50px 20px;
-    width : calc(100% - 40px);
-    height: 400px;
+    width  : calc(100% - 40px);
+    height : 400px;
     background-image: linear-gradient(321deg, #357edd, #edb2e8);
     border-radius: 10px;
     position : relative;
 }
 
+.home-collection-image-holder {
+    width: 100%;
+    display : flex;
+    align-items: center;
+    justify-content: flex-end;
+    position: absolute;
+    top: 0px;
+}
+
+.home-collection-text {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 30%;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding : 30px 10px
+}
+
+.home-collection-text h1 {
+    font-size: 50px;
+    font-weight: bolder;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+.home-butt {
+    background-image: linear-gradient(180deg,rgba(156, 176, 249, 1),  rgba(41, 64, 148, 1) );
+    border-style: none;
+    width : 150px;
+    height : 60px;
+    border-radius: 8px;
+    font-weight: bolder;
+    font-style: italic;
+    color: white;
+}
+
+.home-collage {
+    position: relative;
+}
+.home-collage div{
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 20px;
+}
+
+.home-category {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding : 20px 20vw
+}
+
+.home-category-section-1 {
+    height: 400px;
+    width: 50%;
+    padding-right : 30px
+}
+.home-category-section-2 {
+    padding-left : 30px;
+    height: 400px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.home-sub-category {
+    width : 100%;
+    height : 45%
+}
+@media screen  and (max-width : 900px) {
+    .home-category {
+        padding: 20px 15vw;
+    }
+}
 @media screen and (max-width : 780px) {
     .home-bg, .home-bg-2 {
         height: 400px;
@@ -48,7 +128,7 @@
     .home-bg-2 {
         background-size : auto 100%;
     }
-
+    
     .home-shop-butt {
         bottom : 40px;
         right : 40px;
@@ -56,5 +136,42 @@
         height: 30px;
         border-radius:5px;
         font-size : small
+    }
+    
+    .home-collection{
+        background-image: none;
+        margin: 50px 0px;
+        width: 100%;
+        position: static;
+        height: fit-content;
+    }
+
+    .home-collection-image-holder {
+        position: static;
+        justify-content: center;
+        background-image: linear-gradient(321deg, #357edd, #edb2e8);
+    }
+
+    .home-collection-text{
+        position: static;
+        padding : 30px;
+        width: 100%;
+    }
+
+    .home-collection-text h1 {
+        margin: 0px;
+        margin-bottom: 10px;
+    }
+
+    .home-category {
+        padding: 20px;
+    }
+    .home-category-section-1 {
+        height: 300px;
+        padding-right: 15px;
+    }
+
+    .home-category-section-2{
+        padding-left: 15px;
     }
 }
