@@ -4,8 +4,27 @@ import SkuCard from '../components/SkuCard';
 import SkuCardList from '../components/SkuCardList';
 import shirt from '../assets/shirt.png';
 import collage from '../assets/collage.png';
+import cap_cat from '../assets/cap-cat.png'
+import trous_cat from '../assets/trouser-cat.png'
+import shirt_cat from '../assets/shirt-cat.png'
+import never_miss from '../assets/never_miss.png'
 
 function Home() {
+
+    const category = {
+        trouser : {
+            image : trous_cat,
+            name : "Jeans"
+        },
+        shirt : {
+            image : shirt_cat,
+            name :'Tees'
+        },
+        cap  : {
+            image : cap_cat,
+            name : "Caps"
+        }
+    }
     return (
         <>
             <div className="home-bg">
@@ -59,14 +78,14 @@ function Home() {
             }}>Categories</h1>
             <div className='home-category'>
                 <div className='home-category-section-1' data-aos="fade-left">
-                    <CategoryBut />
+                    <CategoryBut category={category.shirt}/>
                 </div>
                 <div className='home-category-section-2'>
                     <div className='home-sub-category' data-aos="fade-up">
-                        <CategoryBut />
+                        <CategoryBut category={category.trouser}/>
                     </div>
                     <div className='home-sub-category' data-aos="fade-down">
-                        <CategoryBut />
+                        <CategoryBut category={category.cap}/>
                     </div>
 
                 </div>
@@ -75,16 +94,14 @@ function Home() {
             <div className='home-collage'>
                 <img src={collage} alt="collage-pic" />
                 <div>
-                    <button className='grow shadow-5 home-butt'
-                        style={{
-                            width: "140px",
-                            height: "35px",
-                        }}>
+                    <button className='grow shadow-5 home-butt'>
                         LEARN MORE
                     </button>
                 </div>
 
             </div>
+
+            <NotifyMe />
         </>
     )
 }
@@ -92,14 +109,31 @@ export default Home;
 
 
 function CategoryBut({ category }) {
+
+    
     return (
         <div style={{
             width: "100%",
             height: "100%",
             borderRadius: "10px",
-            backgroundImage: "linear-gradient(rgba(252, 231, 9, 1), rgba(217, 44, 39, 1)) "
+            backgroundImage: "linear-gradient(rgba(252, 231, 9, 1), rgba(217, 44, 39, 1)) ",
+            position : "relative",
+        }} className="grow">
+            <img className="home-cat-image" src={category?.image} alt="cat-image" />
+            <h1 className='home-cat-text'>{category?.name}</h1>
+        </div>
+    )
+}
 
-        }}>
+function NotifyMe() {
+    return (
+        <div className='div-notify'>
+            <img src={never_miss} alt="never-miss"/>
+            <h4>Get nofied on new promo, collections and much more.</h4>
+            <div className='notify-input'>
+                <input type="email" placeholder="Enter your email address"/>
+                <button className='grow'>Notify Me</button>
+            </div>
 
         </div>
     )

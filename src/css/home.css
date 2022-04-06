@@ -90,6 +90,12 @@
     padding-bottom: 20px;
 }
 
+.home-collage div button{
+    width : 200px;
+    height: 50px;
+    margin-bottom : 60px;
+}
+
 .home-category {
     display: flex;
     align-items: center;
@@ -115,9 +121,76 @@
     width : 100%;
     height : 45%
 }
+
+.home-cat-image {
+    position: absolute;
+    width : 65%;
+    top : -50px;
+    right: -30px;
+}
+.home-cat-text {
+    color: white;
+    position: absolute;
+    bottom: 0px;
+    font-style: italic;
+    padding-left: 20px;
+}
+
+.div-notify {
+    width: calc(100% - 40px);
+    margin : 40px 20px;
+    border-top: 2px solid rgba(0, 0, 0, 0.402);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.402);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 0px;
+}
+
+.div-notify h4 {
+    text-align: center;
+    font-weight: 400;
+    font-style: italic;
+}
+
+.notify-input {
+    display: flex;
+    border: 2px solid rgba(0, 0, 0, 0.402);
+    width: 60%;
+    border-radius: 10px;
+    height: 40px;
+    padding: 4px 7px; 
+}
+.notify-input input {
+    border: none;
+    width: 75%;
+    height: 100%;
+    background-color: transparent;
+}
+
+.notify-input input:focus {
+    outline: none;
+}
+
+.notify-input button {
+    border: none;
+    background-color: black;
+    color : white;
+    font-style: italic;
+    width: 25%;
+    height: 100%;
+    border-radius: 5px;
+    font-weight: bold;
+
+}
 @media screen  and (max-width : 900px) {
     .home-category {
         padding: 20px 15vw;
+    }
+    
+    .home-category-section-1 {
+        height: 300px;
     }
 }
 @media screen and (max-width : 780px) {
@@ -145,7 +218,7 @@
         position: static;
         height: fit-content;
     }
-
+    
     .home-collection-image-holder {
         position: static;
         justify-content: center;
@@ -162,7 +235,7 @@
         margin: 0px;
         margin-bottom: 10px;
     }
-
+    
     .home-category {
         padding: 20px;
     }
@@ -173,5 +246,37 @@
 
     .home-category-section-2{
         padding-left: 15px;
+    }
+
+    .home-cat-image {
+        right : 0px
+    }
+    .home-collage div button{
+        width : 150px;
+        height: 35px;
+        margin-bottom : 0%;
+    }
+    .notify-input {
+        width: 100%;
+    }
+    .notify-input input {
+        width: 60%;
+    }
+    .notify-input button {
+        width: 40%;
+    }
+}
+
+@media screen and (max-width : 520px) {
+    .home-category-section-1 {
+        height: 200px;
+    }
+    .home-category-section-2 {
+        height: 300px;
+    }
+    
+    .home-cat-image{
+        top : -22px;
+        width: 80%;
     }
 }
