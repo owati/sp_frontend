@@ -6,6 +6,7 @@
     height: 100vh;
     background-color: white;
     transition: all 1.2s ease;
+    overflow-y: scroll;
 }
 
 .sidebar-list {
@@ -27,6 +28,27 @@
     font-weight: 400;
     margin-right: 10px;
     margin-left: 10px;
+}
+
+.side-actions {
+    padding: 0px;
+    width : 100%;
+    margin: 30px 0px;
+}
+
+.side-actions li {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-bottom: 10px;
+    font-size: 25px;
+    font-weight: bold;
+}
+.side-actions li img {
+    width: 30px;
+    height: 30px;
+    margin:0px 10px;
 }
 
 .sidebar-but {

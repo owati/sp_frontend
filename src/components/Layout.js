@@ -3,6 +3,7 @@ import TopHead from './TopHead';
 import NavBar from './NavBar';
 import Footer from './Footer';
 import Home from '../pages/Home';
+import Trending from '../pages/Trending';
 
 function Layout() {
     return (
@@ -12,6 +13,7 @@ function Layout() {
             <Routes>
                 <Route path="" element={<Home />} />
                 <Route exact path="home" element={<Home />} />
+                <Route exact path="trending" element={<Trending/>} />
                 <Route path="*" element={<NotFound/>} />
             </Routes>
             <Footer />

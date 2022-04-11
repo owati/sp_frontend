@@ -125,7 +125,7 @@ function CategoryBut({ category }) {
     )
 }
 
-function NotifyMe() {
+export function NotifyMe() {
     return (
         <div className='div-notify'>
             <img src={never_miss} alt="never-miss"/>

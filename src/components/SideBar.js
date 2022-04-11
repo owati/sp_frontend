@@ -6,10 +6,30 @@ import Vector from '../assets/Vector.png';
 import ProfilePic from './ProfilePic';
 import close from '../assets/close.png';
 import { useSelector } from 'react-redux';
+import cart from '../assets/cart.png';
+import fave from '../assets/fave.png';
+import notify from '../assets/notify.png';
+import clock from '../assets/clock.png';
+import setings from '../assets/settings.png';
+import logout from '../assets/logout.png';
+import help from '../assets/help.png'
+
 
 function SideBar({ show, closed }) {
 
     const user = useSelector(state => state.user.info);
+
+    const sideActions = [
+        ["Bag"  ,cart],
+        ["Favourite" , fave],
+        ["Notifications" , notify],
+        ["Orders" , clock],
+        ["Settings" , setings],
+        ["Logout" , logout],
+        ["Help" , help]
+    ]
+
+    
 
     useEffect(() => {
         if (show) {
@@ -61,11 +81,40 @@ function SideBar({ show, closed }) {
                             ['New Releases', 'Trending', 'Collection', 'Men', 'Women']
                                 .map(
                                     link => (
-                                        <li className='grow' key={link}><h2>{link}</h2><img src={Vector} height="15" width="10" /></li>
+                                        <Link to={"/" +
+                                            (
+                                                (str) => {
+                                                    return str.toLowerCase()
+                                                              .replace(' ', '-')
+                                                }
+                                            )(link)
+                                        }><li className='grow' key={link}><h2>{link}</h2><img src={Vector} height="15" width="10" /></li></Link>
                                     )
                                 )
                         }
                     </ul>
+                </div>
+
+                <div>
+                    <ul className="side-actions">
+                        {
+                            sideActions
+                            .map(
+                                action => {
+                                    const [name , image ] = action
+                                    if (!user && ["Notifications", "Logout", "Settings", "Orders"].includes(name)) {
+                                        return <></>
+                                    }
+                                    return <li className='grow' key={name}>
+                                        <img src={image} alt={name} />
+                                        {name}
+                                    </li>
+                                }
+                            )
+
+                        }
+                    </ul>
+
                 </div>
 
             </div>
