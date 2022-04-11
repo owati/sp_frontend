@@ -99,5 +99,11 @@
         row-gap: 20px;
         column-gap: 20px;
     }
+}
 
+@media screen and (max-width : 453px) {
+    .sku-grid .sku-card {
+        width: 200px;
+        height: 270px;
+    }
 }

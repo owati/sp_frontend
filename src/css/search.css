@@ -1,0 +1,44 @@
+.search-modal {
+    width: 100%;
+    height: 300px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.search-modal-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.search-modal-close {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    border: none;
+    background-color: rgba(240, 240, 240, 1);
+}
+
+.search-modal-input {
+    width: 60%;
+    height: fit-content;
+    background-color: rgba(229, 229, 229, 1);
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 100px;
+}
+
+.search-modal-input input {
+    width : calc(100% - 20px);
+    border: none;
+    height: 100%;
+    background-color: transparent;
+    padding-left: 20px;
+}
+.search-modal-input input:focus {
+    outline: none;
+}

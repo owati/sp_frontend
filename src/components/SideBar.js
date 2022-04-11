@@ -88,7 +88,13 @@ function SideBar({ show, closed }) {
                                                               .replace(' ', '-')
                                                 }
                                             )(link)
-                                        }><li className='grow' key={link}><h2>{link}</h2><img src={Vector} height="15" width="10" /></li></Link>
+                                        }><li className='grow' key={link}
+                                            onClick = {
+                                                () => {
+                                                    closed()
+                                                }
+                                            }
+                                        ><h2>{link}</h2><img src={Vector} height="15" width="10" /></li></Link>
                                     )
                                 )
                         }
@@ -105,7 +111,14 @@ function SideBar({ show, closed }) {
                                     if (!user && ["Notifications", "Logout", "Settings", "Orders"].includes(name)) {
                                         return <></>
                                     }
-                                    return <li className='grow' key={name}>
+                                    return <li className='grow' key={name}
+                                        onClick = {
+                                            () => {
+                                                // the routing code...
+                                                closed()
+                                            }
+                                        }
+                                    >
                                         <img src={image} alt={name} />
                                         {name}
                                     </li>

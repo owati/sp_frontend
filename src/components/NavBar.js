@@ -33,15 +33,15 @@ function NavBar() {
                                             switch (link) {
                                                 case 'New Releases':
                                                     setCurr('New Releases');
-                                                    navigate('home');
+                                                    navigate('new-releases');
                                                     break;
                                                 case 'Trending':
                                                     setCurr('Trending');
-                                                    navigate('home');
+                                                    navigate('trending');
                                                     break;
                                                 case 'Collection':
                                                     setCurr('Collection');
-                                                    navigate('home');
+                                                    navigate('collection');
                                                     break;
                                             }
                                         }}

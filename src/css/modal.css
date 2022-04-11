@@ -20,7 +20,7 @@
     align-items: center;
 }
 
-.top {
+.modal-top{
     justify-content: center;
     align-items: flex-start;
 }
