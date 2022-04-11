@@ -1,11 +1,9 @@
-
+import '../css/sku.css'
 
 function SkuGrid({children}) {
 
     return (
-        <div style={{
-            display : "grid"
-        }}>
+        <div className='sku-grid'>
             {children}
         </div>
     )

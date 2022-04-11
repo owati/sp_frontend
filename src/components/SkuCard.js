@@ -4,7 +4,8 @@ import shirt from'../assets/shirt.png'
 import like from '../assets/like.png';
 import liked from '../assets/liked.png';
 
-function SkuCard() {
+function SkuCard({styles}) {
+
 
     const sku = {
         name : "Crazy top",
@@ -13,7 +14,7 @@ function SkuCard() {
         catergory : "men tops"
     }
     return (
-        <div className='sku-card shadow-5'>
+        <div className='sku-card shadow-5' style={{...styles}}>
             <div className='sku-card-header'>
                 <img src={shirt} alt={sku.name} style={{
                     width : "80%",

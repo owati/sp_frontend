@@ -72,6 +72,17 @@
     margin : 2px
 }
 
+.sku-grid {
+    
+    display: grid;
+    grid-template-columns: 27% 27% 27%;
+    row-gap: 50px;
+    column-gap: 50px;
+    align-items: space-evenly;
+    justify-content: center;
+}
+
+
 @media screen and (max-width : 780px) {
     .scroll-butt {
         width: 30px;
@@ -81,6 +92,12 @@
     .sku-card {
         width: 250px;
         height: 320px;
+    }
+
+    .sku-grid {
+        grid-template-columns: 50% 50%;
+        row-gap: 20px;
+        column-gap: 20px;
     }
 
 }
