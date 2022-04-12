@@ -1,5 +1,6 @@
-
-import '../css/home.css';
+import { useState } from 'react';
+import { postRequest } from '../functions/api';
+import { toast } from 'react-toastify';
 import SkuCard from '../components/SkuCard';
 import SkuCardList from '../components/SkuCardList';
 import shirt from '../assets/shirt.png';
@@ -8,6 +9,7 @@ import cap_cat from '../assets/cap-cat.png'
 import trous_cat from '../assets/trouser-cat.png'
 import shirt_cat from '../assets/shirt-cat.png'
 import never_miss from '../assets/never_miss.png'
+import '../css/home.css';
 
 function Home() {
 
@@ -126,13 +128,44 @@ function CategoryBut({ category }) {
 }
 
 export function NotifyMe() {
+    const [email, setEmail] = useState("")
+
+    async function handleSubmit() {
+        if(email) {
+            if (email.includes("@")) {
+                const res = await postRequest('notify', {email})
+                 
+                if (res.status === 201) {
+                    setEmail("");
+                    toast.info("your email address has been added", {
+                        icon : false
+                    })
+                } else {
+                    toast.error(res.data.message)
+                }
+            } else {
+                toast.error("the email should contain '@'")
+            }
+        } else {
+            toast.error("please fill the email field")
+        }
+    }
     return (
         <div className='div-notify'>
             <img src={never_miss} alt="never-miss"/>
             <h4>Get nofied on new promo, collections and much more.</h4>
             <div className='notify-input'>
-                <input type="email" placeholder="Enter your email address"/>
-                <button className='grow'>Notify Me</button>
+                <input type="email" placeholder="Enter your email address" 
+                    onChange={e => {
+                        setEmail(e.target.value)
+                    }}
+                    value={email}
+                />
+                <button className='grow'
+                    onClick={ () => {
+                        handleSubmit()
+                    }}
+                >Notify Me</button>
             </div>
 
         </div>

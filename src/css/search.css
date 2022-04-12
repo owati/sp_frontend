@@ -42,3 +42,25 @@
 .search-modal-input input:focus {
     outline: none;
 }
+
+.search-modal-result {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.popular-search {
+    
+}
+
+@media screen and (max-width : 780px) {
+    .search-modal {
+        height: 100vh;
+    }
+    .logo-search {
+        display: none;
+    }
+    .search-modal-input {
+        width : 80%
+    }
+}

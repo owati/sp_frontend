@@ -10,6 +10,7 @@ import profile from '../assets/prof.png';
 import menu from '../assets/menu.png';
 import ProfilePic from './ProfilePic';
 import SideBar from './SideBar';
+import SearchModal from './SearchModal';
 
 
 function NavBar() {
@@ -17,6 +18,7 @@ function NavBar() {
     const navigate = useNavigate();
     let [curr, setCurr] = useState("");
     let [side, setSide] = useState(false);
+    let [searchShow, setSearch] = useState(false)
     return (
         <>
             <nav className='nav'>
@@ -51,7 +53,7 @@ function NavBar() {
                     }
                 </div>
                 <div style={{ width: "20%", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
-                    <SearchBut />
+                    <SearchBut action={setSearch} />
                     <img src={fave} alt="favourite" height="25" width="25" className='nav-img grow' />
                     <img src={cart} alt="cart" height="25" width="25" className='nav-img grow' />
                     <img src={profile} alt="profile" height="25" width="25" className='nav-img grow' />
@@ -73,17 +75,30 @@ function NavBar() {
 
                 <div>
                     <img src={cart} height="25" width="25" className='nav-img grow' />
-                    <img src={search} height="25" width="25" className='nav-img grow' />
+                    <img src={search} height="25" width="25" className='nav-img grow'
+                        onClick={ 
+                            () => {
+                                setSearch(true)
+                            }
+                        }
+                     />
                 </div>
             </nav>
             <SideBar show={side} closed={() => {setSide(false)}}/>
+            <SearchModal show={searchShow} closed={ () => {setSearch(false)}}/>
         </>
     )
 }
 
-function SearchBut() {
+function SearchBut({ action }) {
     return (
-        <div className='search'>
+        <div className='search'
+            onClick={
+                () => {
+                    action(true)
+                }
+            }
+        >
             <img src={search} alt="search img" height="20" width="20" />
             <h5 className='search-text'>search</h5>
         </div>

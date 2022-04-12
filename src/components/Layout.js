@@ -4,7 +4,7 @@ import NavBar from './NavBar';
 import Footer from './Footer';
 import Home from '../pages/Home';
 import Trending from '../pages/Trending';
-import SearchModal from './SearchModal';
+
 
 function Layout() {
     return (
@@ -18,7 +18,7 @@ function Layout() {
                 <Route path="*" element={<NotFound/>} />
             </Routes>
             <Footer />
-            <SearchModal show={true}/>
+            
         </>
     )
 }
