@@ -1,4 +1,5 @@
-import { useRef } from "react";
+import { useState } from "react";
+import { getRequest } from "../functions/api";
 import Modal from "./Modal";
 import '../css/search.css'
 import logo from '../assets/logo2.png';
@@ -6,7 +7,15 @@ import close from '../assets/close.png';
 import search from '../assets/search.png';
 
 function SearchModal({show, closed}) {
+    const [sku, setSku] = useState([]);
+    const [searchWord, setWord] = useState("")
 
+    async function handleSearch() {
+        const res = await getRequest('sku/search?q=' + searchWord);
+        if (res.status === 200) {
+            setSku(res.data.data)
+        }
+    }
     return (
         <Modal show={show} direction={'modal-top'}>
             <div className="search-modal">
@@ -15,7 +24,14 @@ function SearchModal({show, closed}) {
 
                     <div className="search-modal-input">
                         <img src={search} width="20px" height="20px" />
-                        <input type="text" autoFocus/>
+                        <input type="text" placeholder="search" autoFocus
+                            value={searchWord}
+                            onChange={
+                                e => {
+                                    setWord(e.target.value)
+                                }
+                            }
+                        />
                     </div>
 
                     <button className="search-modal-close  grow"
