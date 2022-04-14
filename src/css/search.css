@@ -50,6 +50,9 @@
 }
 
 .popular-search {
+    width: 60%;
+    display : flex;
+    justify-content: flex-start;
     
 }
 
@@ -62,5 +65,9 @@
     }
     .search-modal-input {
         width : 80%
+    }
+
+    .popular-search {
+        width: 100%;
     }
 }
