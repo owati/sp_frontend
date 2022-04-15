@@ -4,6 +4,7 @@ import NavBar from './NavBar';
 import Footer from './Footer';
 import Home from '../pages/Home';
 import Trending from '../pages/Trending';
+import SearchResult from '../pages/SearchResult';
 
 
 function Layout() {
@@ -15,6 +16,7 @@ function Layout() {
                 <Route path="" element={<Home />} />
                 <Route exact path="home" element={<Home />} />
                 <Route exact path="trending" element={<Trending/>} />
+                <Route exact path="search/:name" element={<SearchResult />} />
                 <Route path="*" element={<NotFound/>} />
             </Routes>
             <Footer />

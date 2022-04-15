@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getRequest } from "../functions/api";
+import { useNavigate } from "react-router";
 import Modal from "./Modal";
 import '../css/search.css'
 import logo from '../assets/logo2.png';
@@ -7,6 +8,7 @@ import close from '../assets/close.png';
 import search from '../assets/search.png';
 
 function SearchModal({show, closed}) {
+    const navigate = useNavigate()
     const [sku, setSku] = useState({
         firstLoad : true, 
         list : []
@@ -71,18 +73,32 @@ function SearchModal({show, closed}) {
 
                 <div className="search-modal-result">
                     {
-                        sku.firstLoad ? 
+                        !searchWord ? 
                         <div className="popular-search">
                             <h3>Popular Searches</h3>
                         </div> : 
                         <div className="popular-search">
-                            <h3>
+                            <h3 className="search-items"
+                                onClick={
+                                () => {
+                                    navigate('/search/' + searchWord);
+                                    closed();
+                                }
+                            }
+                            >
                                 "{searchWord}"
                             </h3> 
                             {
                                 sku.list.map(
                                     item => {
-                                        return <h3>{item}</h3>
+                                        return <h3 className="search-items" key={item}
+                                            onClick={
+                                                () => {
+                                                    navigate('/search/' + item);
+                                                    closed();
+                                                }
+                                            }
+                                        >{item}</h3>
                                     }
                                 )
                             }
