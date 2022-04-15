@@ -15,18 +15,30 @@ function SearchModal({show, closed}) {
 
     async function handleSearch() {
         const res = await getRequest('sku/search/suggest?q=' + searchWord);
+        console.log(res)
         if (res.status === 200) {
             setSku(
                 {
-                    ...sku,
                     firstLoad : false,
                     list : res.data.data
                 }
             )
+        } else if (res.status === 404) {
+            setSku({
+                firstLoad : false,
+                list : []
+            })
         }
     }
     useEffect(() => {
-        handleSearch();
+        if (searchWord) {
+            handleSearch();
+        } else {
+            setSku( {
+                ...sku,
+                firstLoad : true
+            })
+        }
     }, [searchWord])
     return (
         <Modal show={show} direction={'modal-top'}>
@@ -58,10 +70,24 @@ function SearchModal({show, closed}) {
                 </div>
 
                 <div className="search-modal-result">
-                    <div className="popular-search">
-                        <h3>Popular Searches</h3>
-
-                    </div>
+                    {
+                        sku.firstLoad ? 
+                        <div className="popular-search">
+                            <h3>Popular Searches</h3>
+                        </div> : 
+                        <div className="popular-search">
+                            <h3>
+                                "{searchWord}"
+                            </h3> 
+                            {
+                                sku.list.map(
+                                    item => {
+                                        return <h3>{item}</h3>
+                                    }
+                                )
+                            }
+                        </div>
+                    }
                 </div>
 
             </div>
