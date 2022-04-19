@@ -5,6 +5,7 @@ import Footer from './Footer';
 import Home from '../pages/Home';
 import Trending from '../pages/Trending';
 import SearchResult from '../pages/SearchResult';
+import Product from '../pages/Product';
 
 
 function Layout() {
@@ -17,6 +18,7 @@ function Layout() {
                 <Route exact path="home" element={<Home />} />
                 <Route exact path="trending" element={<Trending/>} />
                 <Route exact path="search/:name" element={<SearchResult />} />
+                <Route exact path="product/:id" element={<Product />}/>
                 <Route path="*" element={<NotFound/>} />
             </Routes>
             <Footer />
