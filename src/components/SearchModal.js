@@ -17,7 +17,6 @@ function SearchModal({show, closed}) {
 
     async function handleSearch() {
         const res = await getRequest('sku/search/suggest?q=' + searchWord);
-        console.log(res)
         if (res.status === 200) {
             setSku(
                 {
@@ -32,6 +31,20 @@ function SearchModal({show, closed}) {
             })
         }
     }
+
+    useEffect(() => {
+        const enterEvent = e => {
+            if(e.key === "Enter") {
+                navigate('/search/' + e.target.value);
+                closed();
+            }
+        }
+        if(show) {
+            let input = document.querySelector('#search-input');
+            input.addEventListener('keypress' , enterEvent)
+        }
+    }, [show])
+
     useEffect(() => {
         if (searchWord) {
             handleSearch();
@@ -42,6 +55,8 @@ function SearchModal({show, closed}) {
             })
         }
     }, [searchWord])
+
+
     return (
         <Modal show={show} direction={'modal-top'}>
             <div className="search-modal">
@@ -50,7 +65,7 @@ function SearchModal({show, closed}) {
 
                     <div className="search-modal-input">
                         <img src={search} width="20px" height="20px" />
-                        <input type="text" placeholder="search" autoFocus
+                        <input type="text" placeholder="search" id="search-input" autoFocus
                             value={searchWord}
                             onChange={
                                 e => {
@@ -78,7 +93,7 @@ function SearchModal({show, closed}) {
                             <h3>Popular Searches</h3>
                         </div> : 
                         <div className="popular-search">
-                            <h3 className="search-items"
+                            <h3 className="search-items-first"
                                 onClick={
                                 () => {
                                     navigate('/search/' + searchWord);

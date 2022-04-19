@@ -81,7 +81,7 @@ function SideBar({ show, closed }) {
                             ['New Releases', 'Trending', 'Collection', 'Men', 'Women']
                                 .map(
                                     link => (
-                                        <Link to={"/" +
+                                        <Link key={link} to={"/" +
                                             (
                                                 (str) => {
                                                     return str.toLowerCase()

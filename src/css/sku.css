@@ -74,12 +74,9 @@
 
 .sku-grid {
     
-    display: grid;
-    grid-template-columns: 27% 27% 27%;
-    row-gap: 50px;
-    column-gap: 50px;
-    align-items: space-evenly;
-    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
 }
 
 

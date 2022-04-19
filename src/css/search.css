@@ -62,8 +62,20 @@
     border-radius: 4px;
 }
 
+.search-items-first {
+    margin: 3px 0px;
+    padding: 4px 0px;
+    font-weight: 500;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.15);
+    border-left: rgba(0, 0, 0, 0.518) 5px solid;
+    padding-left: 10px;
+}
+
 .search-items:hover {
     background-color: rgba(0, 0, 0, 0.15);
+    border-left: rgba(0, 0, 0, 0.518) 5px solid;
+    padding-left: 10px;
 }
 
 

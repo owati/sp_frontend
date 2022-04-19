@@ -22,7 +22,8 @@ function Trending() {
                 }}>
 
                     <SkuCard styles={{
-                        margin : "0px"
+                        margin : "0px",
+                        marginBottom : "40px"
                     }} />
                 </div>
                 <div style={{
@@ -31,7 +32,8 @@ function Trending() {
                 }}>
 
                     <SkuCard styles={{
-                        margin : "0px"
+                        margin : "0px",
+                        marginBottom : "40px"
                     }} />
                 </div>
                 <div style={{
@@ -40,7 +42,8 @@ function Trending() {
                 }}>
 
                     <SkuCard styles={{
-                        margin : "0px"
+                        margin : "0px",
+                        marginBottom : "40px"
                     }} />
                 </div>
                 <div style={{
@@ -49,7 +52,8 @@ function Trending() {
                 }}>
 
                     <SkuCard styles={{
-                        margin : "0px"
+                        margin : "0px",
+                        marginBottom : "40px"
                     }} />
                 </div>
                 <div style={{
@@ -58,7 +62,8 @@ function Trending() {
                 }}>
 
                     <SkuCard styles={{
-                        margin : "0px"
+                        margin : "0px",
+                        marginBottom : "40px"
                     }} />
                 </div>
 
