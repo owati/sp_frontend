@@ -3,6 +3,7 @@ import '../css/product.css';
 import like from '../assets/like.png';
 import liked from '../assets/liked.png';
 import shirt from '../assets/shirt.png';
+import NumberInput from '../components/inputs/NumberInput';
 
 function Product() {
     const { id } = useParams();
@@ -37,9 +38,7 @@ function Product() {
                         <h2>&#8358;{data.price.toLocaleString()}</h2>
                         <h5>Please select a size</h5>
                         
-                        <div style={{
-                            display : "flex"
-                        }}>
+                        <div >
                             {
                                 data.sizes.map(
                                     size => {
@@ -48,7 +47,24 @@ function Product() {
                                 )
                             }
                         </div>
+
+                        <div>
+                            <div>
+                                <h4>Colors:</h4>
+                                <div>
+                                    <button className='product-size-butt'></button>
+                                    <button className='product-size-butt'></button>
+                                </div>
+                            </div>
+                            <div style={{
+                                width : "50%"
+                            }}>
+                                <NumberInput />
+
+                            </div>
+                        </div>
                     </div>
+
 
                 </div>
             </div>

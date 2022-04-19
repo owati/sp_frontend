@@ -1,0 +1,33 @@
+
+.number-input {
+    border: none;
+    width: 70%;
+    border-right: 2px solid black;
+    text-align: right;
+}
+
+.number-input:focus {
+    outline: none;
+}
+
+.direct-but {
+    background-color: transparent;
+    border: none;
+    height: 50%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
