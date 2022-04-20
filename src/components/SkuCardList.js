@@ -14,9 +14,7 @@ function SkuCardList({title, children}) {
         )
     }
     return (
-        <div style={{
-            padding : "20px"
-        }}>
+        <div>
             <div className='sku-card-list-header'>
                 <h1><i>{title}</i></h1>
                 <div style={{

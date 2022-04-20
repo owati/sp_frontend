@@ -86,3 +86,23 @@
     transition: all ease 0.8s;
     height: 0px;
 }
+
+@media screen and (max-width : 780px) {
+    .product-info{
+        flex-direction: column;
+    }
+
+    .product-info-side {
+        width: 100%;
+    }
+
+    .product-details {
+        height: fit-content;
+        padding-bottom: 20px;
+        padding-left: 0px;
+    }
+
+    .rating-div, .ratings-message {
+        margin-left: 0px;
+    }
+}

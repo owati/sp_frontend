@@ -37,6 +37,10 @@ function Home() {
                 </div>
             </div>
 
+            <div style={{
+                padding : "20px"
+            }}>
+
             <SkuCardList title="Hot 'n' Trending">
                 <SkuCard />
                 <SkuCard />
@@ -46,6 +50,8 @@ function Home() {
                 <SkuCard />
                 <SkuCard />
             </SkuCardList>
+            </div>
+
 
             <div className='home-collection'>
                 <div className='home-collection-image-holder'>
@@ -61,6 +67,9 @@ function Home() {
                 </div>
 
             </div>
+            <div style={{
+                padding:"20px"
+            }}>
 
             <SkuCardList title="Best Sellers">
                 <SkuCard />
@@ -71,6 +80,7 @@ function Home() {
                 <SkuCard />
                 <SkuCard />
             </SkuCardList>
+            </div>
 
             <h1 style={{
                 fontWeight: "400",

@@ -7,7 +7,7 @@ import like from '../assets/like.png';
 import liked from '../assets/liked.png';
 import shirt from '../assets/shirt.png';
 import NumberInput from '../components/inputs/NumberInput';
-import {ReactComponent as DropSvg} from '../assets/dropdown.svg';
+import drop from '../assets/drop.png';
 import {ReactComponent as VeriSvg} from '../assets/verified.svg';
 
 function Product() {
@@ -125,9 +125,11 @@ function Product() {
                                 }}
                                 
                             >
-                            <DropSvg style={{
-                                transition: "all ease 0.8s"
-                            }} 
+
+                            <img src={drop} alt=""
+                                style={{
+                                    transition : "ease all 0.8s"
+                                }}
                             />
 
                             </button>
@@ -174,7 +176,7 @@ function Product() {
                 </div>
             </div>
 
-            <SkuCardList>
+            <SkuCardList title="Similar Products">
                 <SkuCard/>
                 <SkuCard/>
                 <SkuCard/>
