@@ -5,6 +5,7 @@ import SkuGrid from '../components/SkuGrid';
 import { getRequest } from '../functions/api';
 
 
+
 function SearchResult() {
     const { name } = useParams()
     const [data, setData] = useState([]);
@@ -62,6 +63,7 @@ function SearchResult() {
                     <SkuCard />
                 </SkuGrid>
             }
+
         </div>
     )
 }

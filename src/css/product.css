@@ -90,6 +90,7 @@
 @media screen and (max-width : 780px) {
     .product-info{
         flex-direction: column;
+        margin-top: 20px;
     }
 
     .product-info-side {

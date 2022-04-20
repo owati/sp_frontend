@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Rating from '../components/CustomRating';
 import SkuCard from '../components/SkuCard';
 import SkuCardList from '../components/SkuCardList';
+import FaveModal from '../components/FaveModal';
 import '../css/product.css';
 import like from '../assets/like.png';
 import liked from '../assets/liked.png';
@@ -12,6 +14,7 @@ import {ReactComponent as VeriSvg} from '../assets/verified.svg';
 
 function Product() {
     const { id } = useParams();
+    const [showFave, setFave] = useState(false)
 
     const data = {
         name: "Galactic Ranger 2",
@@ -33,7 +36,13 @@ function Product() {
                 <div className='product-info-side'>
                     <div className='product-image'>
                         <img src={shirt} alt="product picture" />
-                        <img src={like} className="product-like" />
+                        <img src={like} className="product-like"
+                            onClick={
+                                () => {
+                                    setFave(!showFave)
+                                }
+                            }
+                         />
                     </div>
                     <div style={{
                         display : "flex",
@@ -184,6 +193,15 @@ function Product() {
                 <SkuCard/>
                 <SkuCard/>
             </SkuCardList>
+
+            <FaveModal 
+                show={showFave}
+                closed={
+                    () => {
+                        setFave(!showFave)
+                    }
+                }
+            />
 
         </div>
     )
