@@ -1,12 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userSlicer from "./slicers/userSlicer";
+import cartSlicer from "./slicers/cartSlicer";
 
 
-const initialState = {};
 
 const store = configureStore({
     reducer : {
-        user : userSlicer
+        user : userSlicer,
+        cart : cartSlicer
     }
 })
 

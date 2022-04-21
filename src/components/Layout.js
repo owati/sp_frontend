@@ -6,6 +6,7 @@ import Home from '../pages/Home';
 import Trending from '../pages/Trending';
 import SearchResult from '../pages/SearchResult';
 import Product from '../pages/Product';
+import Cart from '../pages/Cart';
 
 
 function Layout() {
@@ -19,6 +20,7 @@ function Layout() {
                 <Route exact path="trending" element={<Trending/>} />
                 <Route exact path="search/:name" element={<SearchResult />} />
                 <Route exact path="product/:id" element={<Product />}/>
+                <Route exact path="cart" element={<Cart />}/>
                 <Route path="*" element={<NotFound/>} />
             </Routes>
             <Footer />
