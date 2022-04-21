@@ -73,3 +73,13 @@
     border: none;
     border-radius: 5px;
 }
+
+.cart-view {
+    margin-top: 10px;
+    width: 47%;
+    height: 40px;
+    color: white;
+    background-color: black;
+    border: none;
+    border-radius: 5px;
+}

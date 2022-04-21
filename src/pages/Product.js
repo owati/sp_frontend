@@ -4,6 +4,7 @@ import Rating from '../components/CustomRating';
 import SkuCard from '../components/SkuCard';
 import SkuCardList from '../components/SkuCardList';
 import FaveModal from '../components/FaveModal';
+import CartModal from '../components/CartModal';
 import '../css/product.css';
 import like from '../assets/like.png';
 import liked from '../assets/liked.png';
@@ -14,7 +15,8 @@ import {ReactComponent as VeriSvg} from '../assets/verified.svg';
 
 function Product() {
     const { id } = useParams();
-    const [showFave, setFave] = useState(false)
+    const [showFave, setFave] = useState(false);
+    const [showCart, setCart] = useState(false);
 
     const data = {
         name: "Galactic Ranger 2",
@@ -104,7 +106,13 @@ function Product() {
                             </div>
                         </div>
 
-                        <button className='cart-button grow'>
+                        <button className='cart-button grow' 
+                            onClick={ 
+                                () => {
+                                    setCart(!showCart)
+                                }
+                            }
+                        >
                             ADD TO CART
                         </button>
                     </div>
@@ -199,6 +207,14 @@ function Product() {
                 closed={
                     () => {
                         setFave(!showFave)
+                    }
+                }
+            />
+            <CartModal 
+                show={showCart}
+                closed = {
+                    () => {
+                        setCart(!showCart)
                     }
                 }
             />

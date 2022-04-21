@@ -4,7 +4,7 @@ import close from '../assets/close.png';
 import shirt from '../assets/shirt.png';
 import {ReactComponent as TickSvg} from '../assets/tick.svg'
 
-function FaveModal({show=true, closed}) {
+function CartModal({show=true, closed}) {
     
     return (
         <Modal show={show} direction="modal-top">
@@ -28,7 +28,7 @@ function FaveModal({show=true, closed}) {
                         fontWeight : "1000",
                         fontStyle : "italic",
                         fontSize : "20px"
-                    }}>Item added to Favorite</h3>
+                    }}>Item added to Cart</h3>
                     </div>
                     <img src={close} onClick={
                         () => {
@@ -71,14 +71,26 @@ function FaveModal({show=true, closed}) {
                     </div>
                     <h3 style= {{margin : "3px 0px" , width : "100%", textAlign:"end"}}>&#8358;20,000</h3>
                 </div>
-
-                <button className='fave-view grow shadow-5'>
-                    View Favorites
+                <div style={{
+                    display :"flex",
+                    justifyContent : "space-between"
+                }} >
+                <button className='cart-view grow shadow-5' style={{
+                    border : "1px solid black",
+                    backgroundColor : "white",
+                    color : "black"
+                }}>
+                    View Cart
                 </button>
+                <button className='cart-view grow shadow-5'>
+                    Checkout
+                </button>
+
+                </div>
 
             </div>
         </Modal>
     )
 }
 
-export default FaveModal;
+export default CartModal;
