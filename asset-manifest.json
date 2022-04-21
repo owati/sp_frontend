@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/sp_frontend/static/css/main.03b8d490.css",
-    "main.js": "/sp_frontend/static/js/main.2ec8019b.js",
+    "main.css": "/sp_frontend/static/css/main.14856fe8.css",
+    "main.js": "/sp_frontend/static/js/main.5728d40b.js",
     "static/js/787.039527f0.chunk.js": "/sp_frontend/static/js/787.039527f0.chunk.js",
     "static/media/collage.png": "/sp_frontend/static/media/collage.782bd6638dbbbc90f55d.png",
     "static/media/back.png": "/sp_frontend/static/media/back.d33553b7cc222b6fa010.png",
@@ -21,12 +21,14 @@
     "static/media/redstar.svg": "/sp_frontend/static/media/redstar.710aae7799c032b422e1c3ca713614a3.svg",
     "static/media/verified.svg": "/sp_frontend/static/media/verified.b1a4eead9164b6d63d23007dc836e973.svg",
     "index.html": "/sp_frontend/index.html",
-    "main.03b8d490.css.map": "/sp_frontend/static/css/main.03b8d490.css.map",
-    "main.2ec8019b.js.map": "/sp_frontend/static/js/main.2ec8019b.js.map",
+    "static/media/carbon_delete.svg": "/sp_frontend/static/media/carbon_delete.b1eab5f6d1e71626e54eba0076c1b150.svg",
+    "static/media/carbon_edit.svg": "/sp_frontend/static/media/carbon_edit.e7dd0ae20e1a59bd95f105be3a72c937.svg",
+    "main.14856fe8.css.map": "/sp_frontend/static/css/main.14856fe8.css.map",
+    "main.5728d40b.js.map": "/sp_frontend/static/js/main.5728d40b.js.map",
     "787.039527f0.chunk.js.map": "/sp_frontend/static/js/787.039527f0.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.03b8d490.css",
-    "static/js/main.2ec8019b.js"
+    "static/css/main.14856fe8.css",
+    "static/js/main.5728d40b.js"
   ]
 }
