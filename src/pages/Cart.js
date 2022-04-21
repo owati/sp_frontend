@@ -1,5 +1,8 @@
 import '../css/cart.css';
 import shirt from '../assets/shirt.png'
+import {ReactComponent as Delete} from '../assets/carbon_delete.svg';
+import {ReactComponent as Edit} from '../assets/carbon_edit.svg';
+
 
 function Cart() {
     return (
@@ -26,17 +29,33 @@ function Cart() {
             <div className='cart-info'>
                 <div className='cart-details'>
                     <div style={{
-                        display : "flex"
+                        display : "flex",
+                        height: "fit-content"
                     }}>
                         <div className='image-holder'>
                             <img src={shirt} alt="pic" />
                         </div>
 
                         <div className='cart-details-info'>
-                            <h3>Galactic Rangers 2</h3>
+                            <h3 style={{margin : "0px"}}>Galactic Rangers 2</h3>
                             <h5>unisex summer shirt</h5>
                             <h5>Color : black</h5>
-                            
+                            <h5>Size : M</h5>
+
+                            <button style={{
+                                display : "flex",
+                                border : "none",
+                                backgroundColor : "transparent",
+                                alignItems : "center",
+                                position : "absolute",
+                                bottom : "0px"
+                            }}>
+                                <Edit />
+                                <h5 style={{
+                                    margin : "0px",
+
+                                }}>Edit details</h5>
+                            </button>
                         </div>
 
                     </div>

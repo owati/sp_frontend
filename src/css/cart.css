@@ -13,6 +13,7 @@
 
 .cart-details {
     width: 650px;
+    
 }
 
 .cart-checkout {
@@ -27,9 +28,11 @@
     background-color: rgba(240, 240, 240, 1);
     border:  rgba(229, 229, 229, 1) 2px solid;
     border-radius: 5px;
-    margin-top: 10px;
 }
 
 .cart-details-info {
-    width : 30%
+    width : 30%;
+    height: 220px;
+    position: relative;
+    padding-left: 10px;
 }
