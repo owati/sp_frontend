@@ -1,0 +1,38 @@
+
+
+.fave-header {
+    font-style: italic;
+    border-bottom: 2px solid black;
+}
+
+.fave-card {
+    width: 400px;
+    border-radius: 10px;
+    border: rgba(229, 229, 229, 1) solid 2px;
+    overflow: hidden;
+
+}
+
+.fave-image-holder {
+    background-color: rgba(229, 229, 229, 1);
+    width : 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.fave-details {
+    display: flex;
+    justify-content: space-between;
+    padding : 10px;
+}
+
+.fave-cart-butt {
+    width: 100%;
+    border : none;
+    background-image: linear-gradient(rgba(252, 231, 9, 1), rgba(217, 44, 39, 1));
+    height: 50px;
+    border-radius: 5px;
+    color : white;
+    font-weight: bold;
+    font-style: italic;
+}

@@ -73,10 +73,12 @@
 }
 
 .sku-grid {
-    
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    row-gap: 30px;
+    column-gap: 10px;
+    justify-content: center;
+    align-content: center;
 }
 
 
