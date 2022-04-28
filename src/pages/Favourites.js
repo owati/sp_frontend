@@ -5,6 +5,7 @@ import shirt from '../assets/shirt.png';
 import { ReactComponent as Edit } from '../assets/carbon_edit.svg';
 import SkuCardList from '../components/SkuCardList';
 import SkuCard from '../components/SkuCard';
+import close from '../assets/close.png'
 
 function Favourites() {
     return (
@@ -20,7 +21,8 @@ function Favourites() {
             <div style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: 'space-between'
+                justifyContent: 'space-between',
+                marginBottom  : "20px"
             }}>
                 <button style={{
                     display: "flex",
@@ -108,6 +110,9 @@ export default Favourites
 function FaveSkuCard() {
     return (
         <div className='fave-card shadow-4'>
+            <button className='fave-close shadow-5 grow'>
+                <img src={close} alt="closed picture"/>
+            </button>
             <div className='fave-image-holder'>
                 <img src={shirt} />
             </div>
