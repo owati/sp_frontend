@@ -1,35 +1,38 @@
 import { useEffect, useState } from 'react';
-import {useLocation, Routes, Route} from 'react-router-dom';
+import {useLocation, useNavigate,Routes, Route} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import '../css/account.css';
-import profile from '../assets/prof.png';
-import fave from '../assets/fave.png';
-import notify from '../assets/notify.png';
-import clock from '../assets/clock.png';
-import logout from '../assets/logout.png';
+import Notification from '../pages/Notification';
+import { ReactComponent as Account} from '../assets/account.svg';
+import { ReactComponent as Logout} from '../assets/logout.svg';
+import { ReactComponent as Notify} from '../assets/notify.svg';
+import { ReactComponent as Heart} from '../assets/heart.svg';
+import { ReactComponent as Clock} from '../assets/clock.svg';
 import { ReactComponent as Address} from '../assets/address.svg';
 import { ReactComponent as Payment } from '../assets/payment.svg'
 
 function AccountLayout() {
-    const user = useSelector(state => state.user)
+    const user = useSelector(state => state.user);
+    const navigate = useNavigate();
     const location = useLocation();
     const [currPath, setPath] = useState(location.pathname.split('/')[2])
     
     useEffect(
         () => {
-            setPath(location.pathname.split('/')[2])
+            setPath(location.pathname.split('/')[2].replace('%20',' '))
         }, [location]
     )
 
     const sideActions = [
-        ['Account', <img className="account-icons" src={profile} />],
-        ['Orders', <img width="30" height="30" src={clock} />],
-        ['Notifications', <img width="34"  src={notify} />],
-        ['Wishlist', <img src={fave} />],
+        ['Account', <Account className="account-icons" />],
+        ['Orders', <Clock className="account-icons" />],
+        ['Notifications', <Notify className="account-icons" />],
+        ['Wishlist', <Heart className="account-icons" />],
         ['Payment Info', <Payment className="account-icons" />],
         ['Address Book', <Address className="account-icons"  />],
-        ['Logout', <img width="32" src={logout}  />]
+        ['Logout', <Logout className="account-icons" />]
     ]
+
     return (
         <>
             <header>
@@ -46,12 +49,13 @@ function AccountLayout() {
                                 const [name, image] = action
 
                                 return (
-                                    <div style={{
-                                        display : "flex",
-                                        width : "200px",
-                                        height : "40px",
-                                        alignItems : "center",
-                                    }} key={name}>
+                                    <div className={'account-actions grow ' + (name === currPath ? 'active' : '')} key={name}
+                                    onClick = {
+                                        () => {
+                                            navigate('./' + name)
+                                        }
+                                    }
+                                    >
                                         {image}
                                         <h3 style={{margin : "0px", paddingLeft:"5px", height : "fit-content"}}>{name}</h3>
 
@@ -62,7 +66,10 @@ function AccountLayout() {
                     }
 
                 </div>
-                <main>
+                <main className='account-main'>
+                    <Routes>
+                        <Route exact path='Notifications' element={<Notification />} />
+                    </Routes>
 
                 </main>
             </div>

@@ -21,7 +21,9 @@ header h1 {
     align-items: center;
     width: 300px;
 }
-
+.account-main {
+    width: calc(100vw - 300px);
+}
 .account-profile-pic {
     width: 150px;
     height: 150px;
@@ -31,8 +33,33 @@ header h1 {
 
 .account-icons {
     width: 40px;
+    fill: white;
+}
+.active svg path {
+    width: 40px;
+    fill: white;
 }
 
+
+.account-actions {
+    display: flex;
+    width: 200px;
+    height: 40px;
+    align-items: center;
+    margin-top: 10px;
+    padding-left: 20px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.active {
+    background-color: black;
+}
+
+.active h3 {
+    color: white;
+    border-bottom: 2px solid white;
+}
 
 @media screen and (max-width : 780px) {
     .account-side {
