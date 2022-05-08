@@ -67,6 +67,7 @@ header h1 {
     height: 600px;
     padding-top: 50px;
     padding-bottom: 40px;
+    overflow-y: scroll;
 }
 
 .notify-div {
@@ -79,13 +80,41 @@ header h1 {
 
 .notify-details {
     width: 100%;
-    height: 20px;
-    background-color: aqua;
+}
+
+.notify-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.notify-head h3 {
+    margin: 0px;
+    background-color: rgba(93, 95, 239, 1);
+    padding: 5px;
+    color: white;
+    font-weight: small;
+    font-style: italic;
+}
+
+.notify-head h5 {
+    margin: 0px;
+    display: flex;
+    align-items: center;
 }
 
 
 @media screen and (max-width : 780px) {
     .account-side {
         display: none;
+    }
+
+    .account-main {
+        width : 100%
+    }
+
+    /*Notification related styles*/
+    .notify-main {
+        margin: 20px;
     }
 }

@@ -36,15 +36,21 @@ function Notify () {
             </div>
 
             <div className='notify-details'>
-                <div>
+                <div className='notify-head'>
                     <h3>
                         Back in stock
                     </h3>
                     <h5>
+                        <TimeSvg style={{
+                            marginRight : "5px"
+                        }} />
                         4 min ago
                     </h5>
                 </div>
                 <div>
+                    <h4>
+                        {data.body}
+                    </h4>
 
                 </div>
             </div>
