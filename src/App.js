@@ -2,7 +2,7 @@ import 'tachyons';
 import SignupLogin from './pages/SignupLogin';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getToken } from './functions/auth';
 import { getRequest } from './functions/api';
@@ -11,8 +11,10 @@ import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import Loading from './components/Loading';
 
 function App() {
+  const loading = useSelector(state => state.load)
   const dispatch = useDispatch()
   let fetchUser = async () => {
     let response = await getRequest('account/info');
@@ -48,6 +50,7 @@ function App() {
         draggable
         pauseOnHover
       />
+      <Loading show={loading}/>
     </Router>
   );
 }
