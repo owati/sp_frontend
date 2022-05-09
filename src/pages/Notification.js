@@ -7,6 +7,14 @@ function Notification() {
     return  (
         <div className="notify-main">
             <Notify />
+            <Notify />
+            <Notify />
+            <Notify />
+            <Notify />
+            <Notify />
+            <Notify />
+            <Notify />
+            <Notify />
 
         </div>
     )
@@ -38,7 +46,7 @@ function Notify () {
             <div className='notify-details'>
                 <div className='notify-head'>
                     <h3>
-                        Back in stock
+                        {data.title}
                     </h3>
                     <h5>
                         <TimeSvg style={{
