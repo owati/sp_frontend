@@ -3,6 +3,7 @@ import {useLocation, useNavigate,Routes, Route} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import '../css/account.css';
 import Notification from '../pages/Notification';
+import AddressBook from '../pages/AddressBook';
 import { ReactComponent as Account} from '../assets/account.svg';
 import { ReactComponent as Logout} from '../assets/logout.svg';
 import { ReactComponent as Notify} from '../assets/notify.svg';
@@ -69,6 +70,7 @@ function AccountLayout() {
                 <main className='account-main'>
                     <Routes>
                         <Route exact path='Notifications' element={<Notification />} />
+                        <Route exact path='Address%20Book' element={<AddressBook/>}/>
                     </Routes>
 
                 </main>

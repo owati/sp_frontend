@@ -94,7 +94,7 @@ header h1 {
     background-color: rgba(93, 95, 239, 1);
     padding: 5px;
     color: white;
-    font-weight: small;
+    font-weight: lighter;
     font-style: italic;
 }
 
@@ -104,6 +104,64 @@ header h1 {
     align-items: center;
 }
 
+
+/*Addres book related styles*/
+.address-main {
+    padding-top: 50px;
+}
+
+.address-title {
+    margin : 0px;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.address-list {
+    margin: 20px 0px;
+    width : 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.address-card {
+    width : 700px;
+    height: 200px;
+    background-color:rgba(242, 242, 242, 1);
+    margin-bottom: 40px;
+    padding : 20px
+}
+
+.address-new-butt {
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    width: 120px;
+    height: 40px;
+}
+
+.address-default {
+    width: 750px;
+}
+
+.address-card-div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.address-card-actions {
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.address-default .address-card-actions {
+    justify-content: center;
+}
 
 @media screen and (max-width : 780px) {
     .account-side {
@@ -117,5 +175,10 @@ header h1 {
     /*Notification related styles*/
     .notify-main {
         margin: 20px;
+    }
+
+    /*Address related styles */
+    .address-card {
+        width: 100%;
     }
 }
