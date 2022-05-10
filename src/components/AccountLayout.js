@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import {useLocation, useNavigate,Routes, Route} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import '../css/account.css';
+import Loading from './Loading';
 import Notification from '../pages/Notification';
 import AddressBook from '../pages/AddressBook';
 import { ReactComponent as Account} from '../assets/account.svg';
@@ -16,6 +17,7 @@ function AccountLayout() {
     const user = useSelector(state => state.user);
     const navigate = useNavigate();
     const location = useLocation();
+    const [loading, setLoading] = useState(false)
     const [currPath, setPath] = useState(location.pathname.split('/')[2])
     
     useEffect(
@@ -70,11 +72,12 @@ function AccountLayout() {
                 <main className='account-main'>
                     <Routes>
                         <Route exact path='Notifications' element={<Notification />} />
-                        <Route exact path='Address%20Book' element={<AddressBook/>}/>
+                        <Route exact path='Address%20Book' element={<AddressBook loading={setLoading}/>}/>
                     </Routes>
 
                 </main>
             </div>
+            <Loading show={loading}/>
         </> 
     )
 }

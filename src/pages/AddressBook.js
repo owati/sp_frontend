@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getRequest, postRequest, putRequest, deleteRequest } from '../functions/api';
-import {toggle} from '../redux/slicers/loadSlicer';
 import { toast } from 'react-toastify';
 import Modal from '../components/Modal';
 import { ReactComponent as Edit } from '../assets/carbon_edit.svg';
 import { ReactComponent as Delete } from '../assets/carbon_delete.svg';
-import { toHaveDescription } from '@testing-library/jest-dom/dist/matchers';
+import close from '../assets/close.png';
 
-function AddressBook() {
-    const dispatch = useDispatch()
+function AddressBook({loading}) {
     const user = useSelector(state => state.user.info);
     const [address, setAddress] = useState(user?.address);
+    const [showAddrModal, setShow] = useState(false)
 
     useEffect( 
         () => {
@@ -19,10 +18,11 @@ function AddressBook() {
         }, [user]
     )
 
+
     async function addAddress (data) {
-        dispatch(toggle(true))
+        loading(true)
         const res = await postRequest('account/address', data)
-        dispatch(toggle(false))
+        loading(false)
         if(res.status === 201) {
             setAddress(res.data.data);
             toast.success('Address added successfully')
@@ -32,9 +32,9 @@ function AddressBook() {
     }
 
     async function updateAddress (data) {
-        dispatch(toggle(true))
+        loading(true)
         const res = await putRequest('account/address', data)
-        dispatch(toggle(false))
+        loading(false)
         if(res.status === 200) {
             setAddress(res.data.data);
             toast.success('Address updated successfully')
@@ -44,9 +44,9 @@ function AddressBook() {
     }
 
     async function deleteAddress (number) {
-        dispatch(toggle(true))
+        loading(true)
         const res = await deleteRequest('account/address?number=' + number)
-        dispatch(toggle(false))
+        loading(false)
         if(res.status === 200) {
             setAddress(res.data.data);
             toast.success('Address deleted successfully')
@@ -55,9 +55,9 @@ function AddressBook() {
         }
     }
     async function defaultAddress (number) {
-        dispatch(toggle(true))
+        loading(true)
         const res = await putRequest('account/address/default/' + number , {})
-        dispatch(toggle(false))
+        loading(false)
         if(res.status === 200) {
             setAddress(res.data.data);
             toast.success('default address has been changed')
@@ -85,17 +85,25 @@ function AddressBook() {
                         {
                             address.filter(addr => !addr.default)
                                 .map(
-                                    addr => {
-                                        console.log(addr);
-                                        return <AddressCard data={addr} name={user.first_name + ' ' + user.last_name} index={address.indexOf(addr)} />
-                                        
-                                    }
+                                    addr => (
+                                        <AddressCard data={addr} name={user.first_name + ' ' + user.last_name} index={address.indexOf(addr)} />
+                                    )
                                 )
                         }
 
-                        <button className='address-new-butt'>ADD NEW</button>
+                        <button className='address-new-butt' onClick={
+                            () =>{
+                                console.log('shoe', showAddrModal)
+                                setShow(true)
+                            }
+                        }>ADD NEW</button>
                     </div> : <></>
             }
+            <AddressEdit show={showAddrModal} toggle={setShow} actions={
+                (data) => {
+                    return data ? updateAddress : addAddress  
+                }
+            }/>
         </div>
     )
 }
@@ -137,14 +145,50 @@ function AddressCard({ isDefault = false, data, name, index }) {
 
                         </div>
                 }
-
-
             </div>
 
         </div>
     )
 }
 
-function AddressEdit () {
+function AddressEdit ({show=false, actions={}, data, toggle}) {
+    const [details, setDetails] = useState({...data});
+
+    function editDetail(e) {
+        setDetails({
+            ...details,
+            [e.target.name] : e.target.value
+        })
+    }
+    return (
+        <Modal show={show} direction='center'>
+            <div className='address-edit shadow-5' data-aos="fade-down">
+            <img src={close} className="address-close" onClick={() => toggle(false)} />
+                <h2 style={{
+                    margin : "0px",
+                    marginBottom : "10px"
+                }}>{
+                    data ? "Edit this address" : "Create a new address"
+                    }</h2>
+                <input autoFocus className="address-input" type='text' placeholder='Name' name='name' value={details?.name} 
+                 onChange={editDetail}></input>
+
+                <input  className="address-input"  type='tel' placeholder='Phone number' name="phone" value={details?.phone} 
+                onChange={editDetail}></input>
+
+                <textarea   className="address-input"  placeholder='addresss' name="address" value={details?.address} 
+                onChange={editDetail} />
+
+                <button className="grow" onClick={
+                    () => {
+                        actions(data)();
+                    }
+                }>{
+                    data  ? "Update" : "Create"
+                    }</button>
+
+            </div>
+        </Modal>
+    )
 
 }

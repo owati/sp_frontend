@@ -163,6 +163,50 @@ header h1 {
     justify-content: center;
 }
 
+.address-edit {
+    width: 500px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    padding: 20px
+}
+
+.address-close {
+    position: absolute;
+    top  : 5px;
+    right: 5px;
+}
+
+.address-input {
+    width: 70% !important;
+    margin-bottom: 20px;
+    min-height: 40px;
+}
+
+.address-input:focus {
+    outline: none;
+}
+
+textarea.address-input{
+    height:  200px;
+    min-height: 50px;
+}
+
+.address-edit button{
+    position: relative;
+    width: 100px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+}
+
 @media screen and (max-width : 780px) {
     .account-side {
         display: none;

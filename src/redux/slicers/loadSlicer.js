@@ -6,6 +6,7 @@ const loadSlicer = createSlice({
     reducers : {
         toggle : (state, action) => {
             state = action.payload
+            return action
         }
     }
 })
