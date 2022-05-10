@@ -54,7 +54,7 @@ export async function putRequest(path, data) {
 export async function deleteRequest(path) {
     try{
         let token = localStorage.getItem('token');
-        const response = await axios.delete(path,
+        const response = await axios.delete(API_URL + path,
             {
                 headers : {token}
             });

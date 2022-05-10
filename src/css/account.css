@@ -107,13 +107,14 @@ header h1 {
 
 /*Addres book related styles*/
 .address-main {
-    padding-top: 50px;
+    padding: 50px 20px
 }
 
 .address-title {
     margin : 0px;
-    font-weight: 500;
+    font-weight: 700;
     font-style: italic;
+
 }
 
 .address-list {
@@ -206,6 +207,22 @@ textarea.address-input{
     color: white;
     font-weight: bold;
 }
+.address-default-butt {
+    background-image: linear-gradient(rgba(156, 176, 249, 1), rgba(41, 64, 148, 1));
+    border: none;
+    width: 150px;
+    height: 40px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+}
+
+@media screen and (max-width : 1100px) {
+    .address-card {
+        width: 100%;
+    }
+}
+
 
 @media screen and (max-width : 780px) {
     .account-side {
@@ -222,7 +239,13 @@ textarea.address-input{
     }
 
     /*Address related styles */
-    .address-card {
-        width: 100%;
+    .address-edit {
+        width: 90%;
     }
+
+    .address-input {
+        width: 100% !important;
+    }
+
+
 }

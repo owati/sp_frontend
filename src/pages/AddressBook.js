@@ -7,23 +7,32 @@ import { ReactComponent as Edit } from '../assets/carbon_edit.svg';
 import { ReactComponent as Delete } from '../assets/carbon_delete.svg';
 import close from '../assets/close.png';
 
-function AddressBook({loading}) {
+function AddressBook({ loading }) {
     const user = useSelector(state => state.user.info);
-    const [address, setAddress] = useState(user?.address);
-    const [showAddrModal, setShow] = useState(false)
+    const [address, setAddress] = useState(null);
+    const [showAddrModal, setShow] = useState(false);
+    const [modalData, setData] = useState(null);
 
-    useEffect( 
+    useEffect(
         () => {
-            setAddress(user?.address)
-        }, [user]
+            getAddress()
+        }, []
     )
 
+    async function getAddress() {
+        loading(true);
+        const res = await getRequest('account/address');
+        loading(false);
+        if(res?.status == 200) {
+            setAddress(res.data.data);
+        }
+    }
 
-    async function addAddress (data) {
+    async function addAddress(data) {
         loading(true)
         const res = await postRequest('account/address', data)
         loading(false)
-        if(res.status === 201) {
+        if (res?.status === 201) {
             setAddress(res.data.data);
             toast.success('Address added successfully')
         } else {
@@ -31,11 +40,11 @@ function AddressBook({loading}) {
         }
     }
 
-    async function updateAddress (data) {
+    async function updateAddress(data) {
         loading(true)
         const res = await putRequest('account/address', data)
         loading(false)
-        if(res.status === 200) {
+        if (res?.status === 200) {
             setAddress(res.data.data);
             toast.success('Address updated successfully')
         } else {
@@ -43,22 +52,22 @@ function AddressBook({loading}) {
         }
     }
 
-    async function deleteAddress (number) {
+    async function deleteAddress(number) {
         loading(true)
         const res = await deleteRequest('account/address?number=' + number)
         loading(false)
-        if(res.status === 200) {
+        if (res?.status === 200) {
             setAddress(res.data.data);
             toast.success('Address deleted successfully')
         } else {
             toast.error(res.message ? res.message : res.data.message)
         }
     }
-    async function defaultAddress (number) {
+    async function defaultAddress(number) {
         loading(true)
-        const res = await putRequest('account/address/default/' + number , {})
+        const res = await putRequest('account/address/default/' + number, {})
         loading(false)
-        if(res.status === 200) {
+        if (res?.status === 200) {
             setAddress(res.data.data);
             toast.success('default address has been changed')
         } else {
@@ -66,9 +75,32 @@ function AddressBook({loading}) {
         }
     }
 
+    const addressActions = {
+        setDefault: defaultAddress,
+        deleteAdd: deleteAddress,
+        updateAdd: (data) => {
+            setShow(true)
+            setData(data)
+        }
+    }
+
     return (
         <div className='address-main'>
+            <div style={{
+                display : "flex",
+                alignItems  : "center",
+                justifyContent : 'space-between'
+            }}>
             <h3 className='address-title'>Available Addresses</h3>
+            <button className='address-new-butt' onClick={
+                () => {
+                    console.log('shoe', showAddrModal)
+                    setShow(true);
+                    setData(null);
+                }
+            }>ADD NEW</button>
+
+            </div>
 
             {
                 address && address.length > 0 ?
@@ -78,44 +110,45 @@ function AddressBook({loading}) {
                                 const defaultAddress = address.filter(addr => addr.default)[0]
                                 return <AddressCard isDefault
                                     data={defaultAddress}
-                                    name={user.first_name + ' ' + user.last_name}
-                                    index={address.indexOf(defaultAddress)} />
+                                    name={user?.first_name + ' ' + user?.last_name}
+                                    index={address.indexOf(defaultAddress)}
+                                    actions={addressActions} />
                             })()
                         }
                         {
                             address.filter(addr => !addr.default)
                                 .map(
                                     addr => (
-                                        <AddressCard data={addr} name={user.first_name + ' ' + user.last_name} index={address.indexOf(addr)} />
+                                        <AddressCard data={addr} name={user?.first_name + ' ' + user?.last_name} index={address.indexOf(addr)}
+                                            actions={addressActions} />
                                     )
                                 )
                         }
 
-                        <button className='address-new-butt' onClick={
-                            () =>{
-                                console.log('shoe', showAddrModal)
-                                setShow(true)
-                            }
-                        }>ADD NEW</button>
                     </div> : <></>
             }
-            <AddressEdit show={showAddrModal} toggle={setShow} actions={
+            <AddressEdit show={showAddrModal} toggle={setShow} data={modalData} actions={
                 (data) => {
-                    return data ? updateAddress : addAddress  
+                    return data ? updateAddress : addAddress
                 }
-            }/>
+            } name={user?.first_name + ' ' + user?.last_name} />
         </div>
     )
 }
 export default AddressBook;
 
-function AddressCard({ isDefault = false, data, name, index }) {
+function AddressCard({ isDefault = false, data, index, actions }) {
     return (
         <div className={'address-card shadow-5 ' + (isDefault ? "address-default" : "")}>
             <div className='address-card-div'>
                 <div className='address-card-details'>
+                    {
+                        isDefault ? <button className='address-default-butt'style={{
+                            marginBottom : "10px"}}>Default Address</button>
+                        : <></>
+                    }
                     <h4 style={{ marginTop: "0px" }}>
-                        {name}
+                        {data?.name}
                     </h4>
 
                     <h5 style={{ margin: "0px" }}>{data?.address}</h5>
@@ -125,23 +158,37 @@ function AddressCard({ isDefault = false, data, name, index }) {
                     <h5>{data?.phone}</h5>
 
                 </div>
-
                 {
                     isDefault ? <div className='address-card-actions'>
-                        <Edit />
+                        <Edit onClick={() => {
+                            actions.updateAdd({
+                                ...data,
+                                index
+                            })
+                        }} />
                     </div> :
                         <div className='address-card-actions'>
                             <div>
                                 <Edit style={{
                                     marginRight: "4px"
-                                }} />
+                                }} onClick={
+                                    () => {
+                                        actions.updateAdd({ ...data, index })
+                                    }
+                                } />
                                 <Delete style={{
                                     borderLeft: "2px solid black",
                                     paddingLeft: "4px"
-                                }} />
+                                }} onClick={
+                                    () => actions.deleteAdd(index)
+                                } />
                             </div>
 
-                            <button>make default</button>
+                            <button className='address-default-butt' onClick={
+                                () => {
+                                    actions.setDefault(index)
+                                }
+                            }>make default</button>
 
                         </div>
                 }
@@ -151,40 +198,71 @@ function AddressCard({ isDefault = false, data, name, index }) {
     )
 }
 
-function AddressEdit ({show=false, actions={}, data, toggle}) {
-    const [details, setDetails] = useState({...data});
+function AddressEdit({ show = false, actions = {}, data, toggle, name }) {
+
+    const [details, setDetails] = useState({ ...data });
+
+    useEffect(
+        () => {
+            if (data) setDetails({ ...data });
+            else {
+                setDetails({ name })
+            }
+        }, [data, name]
+    )
 
     function editDetail(e) {
         setDetails({
             ...details,
-            [e.target.name] : e.target.value
+            [e.target.name]: e.target.value
         })
     }
     return (
         <Modal show={show} direction='center'>
             <div className='address-edit shadow-5' data-aos="fade-down">
-            <img src={close} className="address-close" onClick={() => toggle(false)} />
+                <img src={close} className="address-close" onClick={() => toggle(false)} />
                 <h2 style={{
-                    margin : "0px",
-                    marginBottom : "10px"
+                    margin: "0px",
+                    marginBottom: "10px"
                 }}>{
-                    data ? "Edit this address" : "Create a new address"
+                        data ? "Edit this address" : "Create a new address"
                     }</h2>
-                <input autoFocus className="address-input" type='text' placeholder='Name' name='name' value={details?.name} 
-                 onChange={editDetail}></input>
+                <input autoFocus className="address-input" type='text' placeholder='Name' name='name' value={details?.name}
+                    onChange={editDetail}></input>
 
-                <input  className="address-input"  type='tel' placeholder='Phone number' name="phone" value={details?.phone} 
-                onChange={editDetail}></input>
+                <input className="address-input" type='tel' placeholder='Phone number' name="phone" value={details?.phone}
+                    onChange={editDetail}></input>
 
-                <textarea   className="address-input"  placeholder='addresss' name="address" value={details?.address} 
-                onChange={editDetail} />
+                <textarea className="address-input" placeholder='addresss' name="address" value={details?.address}
+                    onChange={editDetail} />
 
                 <button className="grow" onClick={
                     () => {
-                        actions(data)();
+                        if (!details?.name || !details?.phone || !details?.address) {
+                            toast.error('Please fill all the fields ')
+                        } else if (details?.name.length < 5) {
+                            toast.error('The name is too short, Try entering full name')
+                        } else if (details?.phone.length < 6) {
+                            toast.error('The phone number seems to small');
+                        } else if (details?.address.length < 10) {
+                            toast.error('The address is too short, Please try to make it as detailed as possibe')
+                        }
+                        else {
+                            actions(data)({
+                                address: {
+                                    ...details
+                                },
+                                number: data?.index
+                            }).then(
+                                () => {
+                                    setDetails({});
+                                    toggle(false)
+                                }
+                            )
+                        }
                     }
                 }>{
-                    data  ? "Update" : "Create"
+                        data ? "Update" : "Create"
                     }</button>
 
             </div>
