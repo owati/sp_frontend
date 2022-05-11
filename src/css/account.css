@@ -107,6 +107,7 @@ header h1 {
 
 /*Addres book related styles*/
 .address-main {
+    position: relative;
     padding: 50px 20px
 }
 
@@ -230,15 +231,25 @@ textarea.address-input{
     }
 
     .account-main {
-        width : 100%
+        width : 100%;
     }
-
+    
     /*Notification related styles*/
     .notify-main {
         margin: 20px;
     }
-
+    
     /*Address related styles */
+    .address-main {
+        padding: 0px;
+    }
+
+    .address-card {
+        width: 90%;
+    }
+    .address-default {
+        width: 100%;
+    }
     .address-edit {
         width: 90%;
     }
@@ -247,5 +258,20 @@ textarea.address-input{
         width: 100% !important;
     }
 
+    .address-header {
+        display: none !important;
+    }
+
+    .address-mobile-add {
+        display: block !important;
+        background-color: black;
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        width: 40px;
+        height: 40px;
+        border-radius: 20px;
+        box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.509);
+    }
 
 }

@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import Modal from '../components/Modal';
 import { ReactComponent as Edit } from '../assets/carbon_edit.svg';
 import { ReactComponent as Delete } from '../assets/carbon_delete.svg';
+import { ReactComponent as Plus } from '../assets/plus.svg';
 import close from '../assets/close.png';
 
 function AddressBook({ loading }) {
@@ -90,7 +91,7 @@ function AddressBook({ loading }) {
                 display : "flex",
                 alignItems  : "center",
                 justifyContent : 'space-between'
-            }}>
+            }} className="address-header">
             <h3 className='address-title'>Available Addresses</h3>
             <button className='address-new-butt' onClick={
                 () => {
@@ -119,7 +120,7 @@ function AddressBook({ loading }) {
                             address.filter(addr => !addr.default)
                                 .map(
                                     addr => (
-                                        <AddressCard data={addr} name={user?.first_name + ' ' + user?.last_name} index={address.indexOf(addr)}
+                                        <AddressCard key={address.indexOf(addr)} data={addr} name={user?.first_name + ' ' + user?.last_name} index={address.indexOf(addr)}
                                             actions={addressActions} />
                                     )
                                 )
@@ -132,6 +133,16 @@ function AddressBook({ loading }) {
                     return data ? updateAddress : addAddress
                 }
             } name={user?.first_name + ' ' + user?.last_name} />
+
+            <button className='address-mobile-add' style={{display : "none"}}  onClick={
+                () => {
+                    console.log('shoe', showAddrModal)
+                    setShow(true);
+                    setData(null);
+                }
+            }>
+                <Plus />
+            </button>
         </div>
     )
 }

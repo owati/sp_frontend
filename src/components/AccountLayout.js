@@ -5,6 +5,7 @@ import '../css/account.css';
 import Loading from './Loading';
 import Notification from '../pages/Notification';
 import AddressBook from '../pages/AddressBook';
+import AccountPage from '../pages/Account';
 import { ReactComponent as Account} from '../assets/account.svg';
 import { ReactComponent as Logout} from '../assets/logout.svg';
 import { ReactComponent as Notify} from '../assets/notify.svg';
@@ -73,6 +74,7 @@ function AccountLayout() {
                     <Routes>
                         <Route exact path='Notifications' element={<Notification />} />
                         <Route exact path='Address%20Book' element={<AddressBook loading={setLoading}/>}/>
+                        <Route exact path='Account' element={<AccountPage loading={setLoading}/>}/>
                     </Routes>
 
                 </main>
