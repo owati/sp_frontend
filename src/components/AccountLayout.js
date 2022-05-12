@@ -8,8 +8,8 @@ import AddressBook from '../pages/AddressBook';
 import AccountPage from '../pages/Account';
 import { ReactComponent as Account} from '../assets/account.svg';
 import { ReactComponent as Logout} from '../assets/logout.svg';
-import { ReactComponent as Notify} from '../assets/notify.svg';
 import { ReactComponent as Heart} from '../assets/heart.svg';
+import { ReactComponent as Notify} from '../assets/notify.svg';
 import { ReactComponent as Clock} from '../assets/clock.svg';
 import { ReactComponent as Address} from '../assets/address.svg';
 import { ReactComponent as Payment } from '../assets/payment.svg'
