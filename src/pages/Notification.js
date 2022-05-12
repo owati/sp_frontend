@@ -23,7 +23,7 @@ function Notification() {
 export default Notification;
 
 
-function Notify () {
+ export function Notify ({style={}}) {
     const data = {
         type : "stock",
         title : "Your order has been confirmed",
@@ -36,9 +36,9 @@ function Notify () {
     }
 
     return (
-        <div className="notify-div" >
+        <div className="notify-div" style={style} >
             <div style={{
-                paddingRight : "20px"
+                paddingRight : "20px",
             }}>
                 {selectTypeIcon[data.type]}
             </div>
