@@ -5,7 +5,7 @@ import '../css/account.css';
 import Loading from './Loading';
 import Notification from '../pages/Notification';
 import AddressBook from '../pages/AddressBook';
-import AccountPage from '../pages/Account';
+import AccountPage, {AccountEdit} from '../pages/Account';
 import { ReactComponent as Account} from '../assets/account.svg';
 import { ReactComponent as Logout} from '../assets/logout.svg';
 import { ReactComponent as Heart} from '../assets/heart.svg';
@@ -52,8 +52,10 @@ function AccountLayout() {
                             action => {
                                 const [name, image] = action
 
+                                const alsoAccount = (currPath === 'Account Edit') && (name === "Account")
+
                                 return (
-                                    <div className={'account-actions grow ' + (name === currPath ? 'active' : '')} key={name}
+                                    <div className={'account-actions grow ' + (((name === currPath) || alsoAccount) ? 'active' : '')} key={name}
                                     onClick = {
                                         () => {
                                             navigate('./' + name)
@@ -75,6 +77,7 @@ function AccountLayout() {
                         <Route exact path='Notifications' element={<Notification />} />
                         <Route exact path='Address%20Book' element={<AddressBook loading={setLoading}/>}/>
                         <Route exact path='Account' element={<AccountPage loading={setLoading}/>}/>
+                        <Route exact path='Account%20Edit' element={<AccountEdit loading={setLoading}/>}/>
                     </Routes>
 
                 </main>

@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getRequest } from '../functions/api';
+import { getRequest, putRequest } from '../functions/api';
+import { setUser } from '../redux/slicers/userSlicer';
+import { Formik } from 'formik';
+import { toast } from 'react-toastify';
 import { ReactComponent as Logout } from '../assets/logout.svg';
 import { ReactComponent as Heart } from '../assets/heart.svg';
 import { ReactComponent as NotifySvg } from '../assets/notify.svg';
 import { ReactComponent as Clock } from '../assets/clock.svg';
 import { ReactComponent as Edit } from '../assets/carbon_edit.svg';
 import { Notify } from './Notification';
+import AccountInput from '../components/inputs/AccountInput';
 
 function Account({ loading }) {
     const navigate = useNavigate();
@@ -19,6 +23,7 @@ function Account({ loading }) {
         const res = await getRequest('account/address')
         loading(false)
         if (res?.status === 200) {
+
             if (res.data.data.lenght !== 0) {
                 setAddr(
                     res.data.data.filter(addr => addr.default)[0]
@@ -28,7 +33,7 @@ function Account({ loading }) {
     }
     useEffect(
         () => {
-            getDefaultAddres()
+          getDefaultAddres()
         }, []
     )
 
@@ -45,8 +50,11 @@ function Account({ loading }) {
                 }}>
 
                     <div className='account-details'>
-                        <h4 className='account-details-header'>Account Details <Edit /></h4>
-
+                        <h4 className='account-details-header'>Account Details <Edit onClick={
+                            () => {
+                                navigate('../Account Edit')
+                            }
+                        } /></h4>
                         <h4>{user?.first_name + ' ' + user?.last_name}</h4>
                         <h5>{user?.email}</h5>
 
@@ -85,7 +93,7 @@ function Account({ loading }) {
                 <div style={{
                     display: "flex",
                     alignItems: "center",
-                    marginBottom : "20px"
+                    marginBottom: "20px"
                 }}>
                     <div className='account-profile-pic' style={{
                         width: "70px",
@@ -95,8 +103,8 @@ function Account({ loading }) {
 
                     </div>
                     <div>
-                        <h3 style={{margin : "0px"}}>{user?.first_name + ' ' + user?.last_name}</h3>
-                        <h4 style={{margin : "0px", color : "rgba(0,0,0,0.3)"}}>{user?.email}</h4>
+                        <h3 style={{ margin: "0px" }}>{user?.first_name + ' ' + user?.last_name}</h3>
+                        <h4 style={{ margin: "0px", color: "rgba(0,0,0,0.3)" }}>{user?.email}</h4>
                     </div>
                 </div>
 
@@ -111,10 +119,10 @@ function Account({ loading }) {
                                 }>
                                     {action[1]}
                                     <h3 style={{
-                                        border : "none",
-                                        margin : "10px 0px",
-                                        fontSize : "15px",
-                                        fontWeight : "400"
+                                        border: "none",
+                                        margin: "10px 0px",
+                                        fontSize: "15px",
+                                        fontWeight: "400"
                                     }}>{action[0]}</h3>
                                 </div>
                             }
@@ -125,21 +133,21 @@ function Account({ loading }) {
 
                 <h3>Account Settings</h3>
                 <div className='account-mobile-settings'>
-                    <Link to='../Notifications'><h4 className='account-mobile-settings-list'>Details</h4></Link>
+                    <Link to='../Account Edit'><h4 className='account-mobile-settings-list'>Details</h4></Link>
                     <Link to='../Address Book'><h4 className='account-mobile-settings-list'>Address Book</h4></Link>
                     <Link to='../Payment Info'><h4 className='account-mobile-settings-list'>Payment Info</h4></Link>
-                    <h4 className='account-mobile-settings-list' style={{border : "none"}}>Change Password</h4>
+                    <h4 className='account-mobile-settings-list' style={{ border: "none" }}>Change Password</h4>
                 </div>
-                <div style={{display : "flex", justifyContent : "center"}}>
-                <button style={{
-                    display : "flex",
-                    alignItems : "center",
-                    justifyContent : "center",
-                    border : "none",
-                    backgroundColor : "transparent"
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                    <button style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        border: "none",
+                        backgroundColor: "transparent"
 
-                }}
-                ><Logout style={{marginRight : "10px"}}/> <h4>Logout</h4></button>
+                    }}
+                    ><Logout style={{ marginRight: "10px" }} /> <h4>Logout</h4></button>
                 </div>
 
 
@@ -150,3 +158,122 @@ function Account({ loading }) {
 }
 
 export default Account;
+
+
+export function AccountEdit({ loading }) {
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const user = useSelector(state => state.user.info);
+
+    async function updateUserInfo(data) {
+        loading(true)
+        const res = await putRequest('account/info', data);
+        loading(false)
+        if(res?.status === 202) {
+            console.log(res)
+            dispatch(setUser(res.data.userInfo));
+            toast.success('user info has been updated')
+            navigate('../Account')
+        } else {
+            toast.error(res?.data?.message)
+        }
+    }
+
+    function getInputDetail(name) {
+        const name_array = name.split('_')
+        let capitalized = ''
+        name_array.forEach(
+            el => {
+                let el_new = el[0].toUpperCase() + el.slice(1);
+                capitalized = capitalized.concat(el_new + ' ');
+            }
+        )
+
+
+        return {
+            new_name : name_array.includes('birth') ? 'Date of Birth' : capitalized,
+            type : name_array.includes('birth') ? 'date' : name_array.includes('email') ? 'email'
+                        : name_array.includes('phone') ? 'tel' : 'text'
+        }
+    }
+
+    return <div style={{
+        display: "flex",
+        justifyContent : "center"
+    }}>
+        <Formik
+            initialValues={
+                {
+                    first_name: user?.first_name,
+                    last_name: user?.last_name,
+                    email:user?.email,
+                    confirm_email : user?.email,
+                    phone_no: user?.phone_no,
+                    birth_date: user?.birth_date
+                }
+            }
+
+            onSubmit={
+                (values) => {
+                    const {first_name, last_name, email, 
+                        confirm_email, phone_no, birth_date} = values
+                    
+                    if(!first_name || !last_name || !email || 
+                        !confirm_email || !phone_no) {
+                            toast.error('Pleas fill all the fields')
+                        }
+                    else if(first_name?.lenght < 2) {
+                        toast.error('first name is too short')
+                    }
+                    else if(last_name?.lenght < 2) {
+                        toast.error('last name is too short')
+                    }
+                    else if(first_name?.lenght > 20) {
+                        toast.error('first name is too long')
+                    }
+                    else if(last_name?.lenght > 20) {
+                        toast.error('last name is too long')
+                    } else if(email !== confirm_email) {
+                        toast.error('emails do not match')
+                    } else if(phone_no.lenght < 8) {
+                        toast.error('phone number not valid')
+                    } else {
+                        updateUserInfo({...values})
+                    }
+
+                }
+            }
+        >
+            {
+                ({ values,
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                }) => {
+                    return <form onSubmit={e => handleSubmit(e)} className="account-edit">
+
+                        {
+                            Object.entries(values)
+                                .map(
+                                    ([name, value]) => {
+                                        const {new_name, type} = getInputDetail(name)
+                                        return (
+                                            <AccountInput label={new_name} name={name} value={value} type={type} onChange={handleChange}/>
+                                        )
+                                    }
+                                )
+                        }
+                        <div></div>
+                        <div className='account-edit-butt'>
+                        <button type='submit'>UPDATE</button>
+
+                        </div>
+                    </form>
+                }
+            }
+
+        </Formik>
+    </div>
+}
+
+ 

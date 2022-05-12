@@ -142,6 +142,37 @@ header h1 {
     border-bottom: 1px solid rgba(0, 0, 0, 0.281);
 }
 
+.account-edit {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 10px;
+    column-gap: 10px;
+    width: 100%;
+    max-width: 900px;
+}
+
+.account-edit-butt{
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 60px;
+}
+
+.account-edit-div {
+    
+}
+
+.account-edit-butt button{
+    position: relative;
+    width: 100px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+}
+
 /*Notification page designs...*/
 .notify-main {
     width: calc(100% - 50px);
@@ -379,6 +410,32 @@ textarea.address-input{
     
     .account-mobile-view {
         display: block;
+    }
+
+    .account-edit {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .account-edit-div label h3 {
+        margin: 10px 0px 5px 0px;
+        font-style: italic;
+        color: rgba(0, 0, 0, 0.6);
+    }
+
+    .account-edit-div div , .account-edit-div input {
+        border : none !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.323) !important;
+    }
+    .account-edit-butt {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .account-edit-butt button {
+        width: 90%;
+        height: 70px;
     }
     
 
