@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getRequest, putRequest } from '../functions/api';
+import { getRequest, postRequest, putRequest } from '../functions/api';
 import { setUser } from '../redux/slicers/userSlicer';
 import { Formik } from 'formik';
 import { toast } from 'react-toastify';
@@ -10,13 +10,16 @@ import { ReactComponent as Heart } from '../assets/heart.svg';
 import { ReactComponent as NotifySvg } from '../assets/notify.svg';
 import { ReactComponent as Clock } from '../assets/clock.svg';
 import { ReactComponent as Edit } from '../assets/carbon_edit.svg';
+import Modal from '../components/Modal';
 import { Notify } from './Notification';
 import AccountInput from '../components/inputs/AccountInput';
+import close from '../assets/close.png'
 
 function Account({ loading }) {
     const navigate = useNavigate();
     const user = useSelector(state => state.user.info);
     const [defAddress, setAddr] = useState(null);
+    const [changePass, showPass] = useState(false);
 
     async function getDefaultAddres() {
         loading(true);
@@ -33,7 +36,7 @@ function Account({ loading }) {
     }
     useEffect(
         () => {
-          getDefaultAddres()
+            getDefaultAddres()
         }, []
     )
 
@@ -62,7 +65,11 @@ function Account({ loading }) {
                             border: "none",
                             backgroundColor: "transparent",
                             color: "red"
-                        }}> Channge Password</button>
+                        }} onClick={
+                            () => {
+                                showPass(true)
+                            }
+                        }> Channge Password</button>
 
                     </div>
                     <div className='account-details' style={{ marginLeft: '100px' }}>
@@ -136,7 +143,11 @@ function Account({ loading }) {
                     <Link to='../Account Edit'><h4 className='account-mobile-settings-list'>Details</h4></Link>
                     <Link to='../Address Book'><h4 className='account-mobile-settings-list'>Address Book</h4></Link>
                     <Link to='../Payment Info'><h4 className='account-mobile-settings-list'>Payment Info</h4></Link>
-                    <h4 className='account-mobile-settings-list' style={{ border: "none" }}>Change Password</h4>
+                    <h4 className='account-mobile-settings-list' style={{ border: "none" }} onClick={
+                        () => {
+                            showPass(true)
+                        }
+                    }>Change Password</h4>
                 </div>
                 <div style={{ display: "flex", justifyContent: "center" }}>
                     <button style={{
@@ -152,7 +163,7 @@ function Account({ loading }) {
 
 
             </div>
-
+            <ChangePassword toggle={showPass} show={changePass} loading={loading} />
         </div>
     )
 }
@@ -169,7 +180,7 @@ export function AccountEdit({ loading }) {
         loading(true)
         const res = await putRequest('account/info', data);
         loading(false)
-        if(res?.status === 202) {
+        if (res?.status === 202) {
             console.log(res)
             dispatch(setUser(res.data.userInfo));
             toast.success('user info has been updated')
@@ -191,23 +202,23 @@ export function AccountEdit({ loading }) {
 
 
         return {
-            new_name : name_array.includes('birth') ? 'Date of Birth' : capitalized,
-            type : name_array.includes('birth') ? 'date' : name_array.includes('email') ? 'email'
-                        : name_array.includes('phone') ? 'tel' : 'text'
+            new_name: name_array.includes('birth') ? 'Date of Birth' : capitalized,
+            type: name_array.includes('birth') ? 'date' : name_array.includes('email') ? 'email'
+                : name_array.includes('phone') ? 'tel' : 'text'
         }
     }
 
     return <div style={{
         display: "flex",
-        justifyContent : "center"
+        justifyContent: "center"
     }}>
         <Formik
             initialValues={
                 {
                     first_name: user?.first_name,
                     last_name: user?.last_name,
-                    email:user?.email,
-                    confirm_email : user?.email,
+                    email: user?.email,
+                    confirm_email: user?.email,
                     phone_no: user?.phone_no,
                     birth_date: user?.birth_date
                 }
@@ -215,30 +226,30 @@ export function AccountEdit({ loading }) {
 
             onSubmit={
                 (values) => {
-                    const {first_name, last_name, email, 
-                        confirm_email, phone_no, birth_date} = values
-                    
-                    if(!first_name || !last_name || !email || 
+                    const { first_name, last_name, email,
+                        confirm_email, phone_no, birth_date } = values
+
+                    if (!first_name || !last_name || !email ||
                         !confirm_email || !phone_no) {
-                            toast.error('Pleas fill all the fields')
-                        }
-                    else if(first_name?.lenght < 2) {
+                        toast.error('Pleas fill all the fields')
+                    }
+                    else if (first_name?.lenght < 2) {
                         toast.error('first name is too short')
                     }
-                    else if(last_name?.lenght < 2) {
+                    else if (last_name?.lenght < 2) {
                         toast.error('last name is too short')
                     }
-                    else if(first_name?.lenght > 20) {
+                    else if (first_name?.lenght > 20) {
                         toast.error('first name is too long')
                     }
-                    else if(last_name?.lenght > 20) {
+                    else if (last_name?.lenght > 20) {
                         toast.error('last name is too long')
-                    } else if(email !== confirm_email) {
+                    } else if (email !== confirm_email) {
                         toast.error('emails do not match')
-                    } else if(phone_no.lenght < 8) {
+                    } else if (phone_no.lenght < 8) {
                         toast.error('phone number not valid')
                     } else {
-                        updateUserInfo({...values})
+                        updateUserInfo({ ...values })
                     }
 
                 }
@@ -256,16 +267,16 @@ export function AccountEdit({ loading }) {
                             Object.entries(values)
                                 .map(
                                     ([name, value]) => {
-                                        const {new_name, type} = getInputDetail(name)
+                                        const { new_name, type } = getInputDetail(name)
                                         return (
-                                            <AccountInput label={new_name} name={name} value={value} type={type} onChange={handleChange}/>
+                                            <AccountInput label={new_name} name={name} value={value} type={type} onChange={handleChange} />
                                         )
                                     }
                                 )
                         }
                         <div></div>
                         <div className='account-edit-butt'>
-                        <button type='submit'>UPDATE</button>
+                            <button type='submit'>UPDATE</button>
 
                         </div>
                     </form>
@@ -276,4 +287,86 @@ export function AccountEdit({ loading }) {
     </div>
 }
 
- 
+function ChangePassword({ show = false, toggle, loading }) {
+
+    const [details, setDetails] = useState({
+        old: '',
+        new_pass: '',
+        confirm_new_pass: ''
+    });
+
+
+    const edit = e => {
+        setDetails({
+            ...details,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    async function postPassword(data) {
+        loading(true);
+        const res = await postRequest('account/info', data)
+        loading(false)
+        if (res?.status === 202) {
+            toast.success('password changed successfully')
+            toggle(false);
+            setDetails({
+                old : '',
+                new_pass: '',
+                confirm_new_pass: ''
+            })
+        } else {
+            toast.error(res.data.message)
+        }
+    }
+
+    return (
+        <Modal show={show} direction='center'>
+            <div className='address-edit shadow-5' data-aos="fade-down" style={{
+                height: "500px"
+            }}>
+                <img src={close} className="address-close" onClick={() => {
+                    toggle(false)
+                    setDetails({
+                        old : '',
+                        new_pass: '',
+                        confirm_new_pass: ''
+                    })
+                } }/>
+                <h2 style={{
+                    margin: "0px",
+                    marginBottom: "10px"
+                }}>Confirm Password</h2>
+
+                <AccountInput label='Old password' value={details.old} type="password" name="old" onChange={edit} />
+                <AccountInput label='New password' value={details.new_pass} type="password" name="new_pass" onChange={edit} />
+                <AccountInput label='Confirm password' value={details.confirm_new_pass} type="password" name="confirm_new_pass" onChange={edit} />
+
+                <button className="grow" onClick={
+                    () => {
+                        const { old, new_pass, confirm_new_pass } = details
+                        if (!new_pass || !old || !confirm_new_pass) {
+                            toast.error("Please fill all the fields")
+                        }
+                        else if (new_pass.length < 6) {
+                            toast.error('password is too short')
+                        } else if (new_pass.length > 20) {
+                            toast.error('password is too long')
+                        } else if (new_pass !== confirm_new_pass) {
+                            toast.error('password and confirm password not the same')
+                        } else {
+                            postPassword({ password: { ...details } })
+                        }
+
+                    }
+                } style={{
+                    width: "200px",
+                    marginTop: "20px",
+                    height: "50px",
+                    borderRadius: "10px"
+                }}>Change password</button>
+
+            </div>
+        </Modal>
+    )
+}

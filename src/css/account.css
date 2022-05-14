@@ -142,6 +142,7 @@ header h1 {
     border-bottom: 1px solid rgba(0, 0, 0, 0.281);
 }
 
+
 .account-edit {
     padding: 20px;
     display: grid;
@@ -158,8 +159,8 @@ header h1 {
     padding-top: 60px;
 }
 
-.account-edit-div {
-    
+.account-edit-div input:focus {
+    outline: none;
 }
 
 .account-edit-butt button{
