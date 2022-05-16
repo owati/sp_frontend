@@ -305,7 +305,7 @@ function ChangePassword({ show = false, toggle, loading }) {
 
     async function postPassword(data) {
         loading(true);
-        const res = await postRequest('account/info', data)
+        const res = await putRequest('account/info', data)
         loading(false)
         if (res?.status === 202) {
             toast.success('password changed successfully')
