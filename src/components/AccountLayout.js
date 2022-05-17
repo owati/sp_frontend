@@ -13,6 +13,7 @@ import { ReactComponent as Notify} from '../assets/notify.svg';
 import { ReactComponent as Clock} from '../assets/clock.svg';
 import { ReactComponent as Address} from '../assets/address.svg';
 import { ReactComponent as Payment } from '../assets/payment.svg'
+import PaymentInfo from '../pages/PaymentInfo';
 
 function AccountLayout() {
     const user = useSelector(state => state.user);
@@ -78,8 +79,8 @@ function AccountLayout() {
                         <Route exact path='Address%20Book' element={<AddressBook loading={setLoading}/>}/>
                         <Route exact path='Account' element={<AccountPage loading={setLoading}/>}/>
                         <Route exact path='Account%20Edit' element={<AccountEdit loading={setLoading}/>}/>
+                        <Route exact path='Payment%20Info' element={<PaymentInfo loading={setLoading}/>}/>
                     </Routes>
-
                 </main>
             </div>
             <Loading show={loading}/>
