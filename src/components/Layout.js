@@ -16,17 +16,22 @@ function Layout() {
         <>
             <TopHead />
             <NavBar />
-            <Routes>
-                <Route path="" element={<Home />} />
-                <Route exact path="home" element={<Home />} />
-                <Route exact path="trending" element={<Trending/>} />
-                <Route exact path="search/:name" element={<SearchResult />} />
-                <Route exact path="product/:id" element={<Product />}/>
-                <Route exact path="cart" element={<Cart />}/>
-                <Route exact path="favourites" element={<Favourites />}/>
-                <Route exact path="account/*" element={<AccountLayout />} />
-                <Route path="*" element={<NotFound/>} />
-            </Routes>
+            <div style={{display : "flex"}}>
+                <div style={{margin : "auto", width : "100%", maxWidth : "1400px"}}>
+                <Routes>
+                    <Route path="" element={<Home />} />
+                    <Route exact path="home" element={<Home />} />
+                    <Route exact path="trending" element={<Trending/>} />
+                    <Route exact path="search/:name" element={<SearchResult />} />
+                    <Route exact path="product/:id" element={<Product />}/>
+                    <Route exact path="cart" element={<Cart />}/>
+                    <Route exact path="favourites" element={<Favourites />}/>
+                    <Route exact path="account/*" element={<AccountLayout />} />
+                    <Route path="*" element={<NotFound/>} />
+                </Routes>
+
+                </div>
+            </div>
             <Footer />
             
         </>

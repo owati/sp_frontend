@@ -452,6 +452,9 @@ textarea.address-input{
 
 
 @media screen and (max-width : 780px) {
+    header h1 {
+        text-align: center    ;
+    }
     .account-side {
         display: none;
     }

@@ -19,7 +19,7 @@ function App() {
     if (response.status === 200) {
       dispatch(setUser(response.data.userInfo));
       toast.info(`welcome back ${response.data.userInfo.first_name}`, {
-        icon : false
+        icon: false
       })
     }
   }
@@ -30,6 +30,7 @@ function App() {
     }
   )
   return (
+
     <Router>
       <Routes>
         <Route path="/signup" element={<SignupLogin login={false} />} />
@@ -48,8 +49,9 @@ function App() {
         draggable
         pauseOnHover
       />
-      
+
     </Router>
+
   );
 }
 

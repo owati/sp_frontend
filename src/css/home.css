@@ -5,7 +5,8 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: 100vw 35vh;
-    margin-bottom : 40px
+    margin-bottom : 40px;
+    max-width : 1400px
 }
 
 .home-bg-2 {
@@ -16,6 +17,8 @@
     background-size: contain;
     background-repeat: no-repeat;
     position : absolute;
+    max-width : 1400px
+    
 }
 
 .home-shop-butt {
