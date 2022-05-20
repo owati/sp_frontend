@@ -427,6 +427,57 @@ textarea.address-input{
     background: linear-gradient(rgba(156, 176, 249, 1), rgba(41, 64, 148, 1));
 }
 
+/* Order relaeted styles*/
+.order-div {
+    margin-top: 40px;
+    width: 80%;
+    background-color: rgba(238, 238, 238, 0.5);
+    border-radius : 10px;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 1fr;
+    align-items: center;
+    height: 100px;
+}
+
+.order-div:hover {
+    background-color: black;
+    color: white;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.471);
+}
+
+.order-image-holder {
+    display: flex;
+    height: inherit;
+}
+
+.order-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+
+.order-image {
+    margin: auto;
+    background-color: rgba(229, 229, 229, 1);
+    width : 70%;
+    border: 1px solid black;
+    border-radius: 10px;
+    object-fit: cover;
+    height: 70%;
+}
+
+.order-div:hover img { 
+    border: 3px solid rgba(229, 229, 229, 1);
+}
+.order-details{
+    display: flex;
+    flex-direction: column;
+    height: inherit;
+    justify-content: space-around;
+}
+
 @media screen and (max-width : 1100px) {
     .address-card {
         width: 100%;
