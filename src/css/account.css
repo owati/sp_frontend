@@ -457,11 +457,10 @@ textarea.address-input{
 .order-image {
     margin: auto;
     background-color: rgba(229, 229, 229, 1);
-    width : 70%;
-    border: 1px solid black;
+    width : 130px;
     border-radius: 10px;
     object-fit: cover;
-    height: 70%;
+    height: 150px;
 }
 
 .order-div:hover img { 
@@ -478,6 +477,44 @@ textarea.address-input{
     flex-direction: column;
     align-items: center;
 }
+
+.order-details-main {
+    padding: 20px;
+}
+
+.order-status-line {
+    border-bottom: 2px solid black;
+}
+.order-status {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    top : -15px
+}
+
+.order-status-div {
+    width : 45px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+}
+
+.order-status-div h5{
+    text-align: center;
+}
+
+.order-detail-div {
+    background-color: rgba(238, 238, 238, 0.5);
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    border-radius: 15px;
+    padding: 20px;
+    width: 700px;
+    margin-top: 30px;
+}
+
 
 @media screen and (max-width : 1100px) {
     .address-card {
@@ -606,5 +643,11 @@ textarea.address-input{
     .payment-add-butt button {
         width: 100%;
     }
+
+    /*Order related styles */
+    .order-detail-div{
+        width: 100%;
+    }
+
 
 }

@@ -15,6 +15,7 @@ import { ReactComponent as Address} from '../assets/address.svg';
 import { ReactComponent as Payment } from '../assets/payment.svg'
 import PaymentInfo from '../pages/PaymentInfo';
 import Order from '../pages/Order';
+import OrderDetails from '../pages/OrderDetails';
 
 function AccountLayout() {
     const user = useSelector(state => state.user);
@@ -82,6 +83,7 @@ function AccountLayout() {
                         <Route exact path='Account%20Edit' element={<AccountEdit loading={setLoading}/>}/>
                         <Route exact path='Payment%20Info' element={<PaymentInfo loading={setLoading}/>}/>
                         <Route exact path='Orders' element={<Order loading={setLoading}/>}/>
+                        <Route exact path='Orders/:orderId' element={<OrderDetails loading={setLoading}/>}/>
                     </Routes>
                 </main>
             </div>
