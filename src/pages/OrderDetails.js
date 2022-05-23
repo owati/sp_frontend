@@ -1,11 +1,25 @@
-import {useParams} from 'react-router-dom'
+import {useParams, useNavigate} from 'react-router-dom'
 import {ReactComponent as Status} from '../assets/status.svg'
 import shirt from '../assets/shirt.png';
+import goback from '../assets/goback.png';
 
 function OrderDetails() {
+    const params = useParams();
+    const navigate = useNavigate();
     return (
         <div className='order-details-main'>
-            <h5>Total: 5</h5>
+            <div className='order-details-header'>
+                <button className='order-details-back grow'
+                onClick={
+                    () => {
+                        navigate('../Orders')
+                    }
+                }>
+                    <img src={goback}/>
+                </button>
+                <h1 style={{margin : 0}}>Order #{params.orderId}</h1>
+                <h5 style={{margin : 0}}>Total: 5</h5>
+            </div>
             <OrderStatus />
 
             <div>
