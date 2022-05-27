@@ -7,7 +7,8 @@ import {ReactComponent as Check} from '../assets/check.svg'
 import {ReactComponent as NoCheck} from '../assets/nocheck.svg'
 
 function Reviews() {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const {id} = useParams();
     return (
         <div className='review-div'>
             <button className='review-close grow'
@@ -21,7 +22,11 @@ function Reviews() {
             <div className='review-header'>
                 <h1>Galaxy's Reviews</h1>
                 <CustomRating initial={4} readonly/>
-                <button className='review-butt grow'>
+                <button className='review-butt grow' onClick={
+                    () => {
+                        navigate('../../writereview/pass')
+                    }
+                }>
                     Write a review on this product
                 </button>
                 
@@ -91,9 +96,43 @@ function ReviewCard() {
 }
 
 export function CreateReview() {
+    const {id} = useParams();
+    const navigate = useNavigate();
     return (
-        <div>
-            <h1>Create Review</h1>
+        <div className='review-div' style={{padding : "20px 0px"}}>
+            <button className='review-close grow'
+            onClick={
+                () => {
+                    navigate(-1);
+                }
+            }>
+                <img src={close} alt="close" />
+            </button>
+            
+            <div className='review-header' style={{
+                borderBottom : "1px solid black"
+            }}>
+                <h1>Write A Review</h1>
+                <h4>Tell us how you feel about our product </h4>
+            </div>
+
+            <div className='review-create-main'>
+                <h3>Tap to Rate</h3>
+                <CustomRating onChange={
+                    e => {
+                        console.log(e)
+                    }
+                }/>
+
+                <h3>Review headline</h3>
+                <textarea  className='review-header-input' placeholder='Give our product a unique description'/>
+
+                <h3>My Overall Review {'(optional)'}</h3>
+                <textarea  className='review-header-input' placeholder='Type exactly how you feel about this product. It must be atleast 50 characters long.'/>
+                
+            </div>
+
+
         </div>
     )
 }

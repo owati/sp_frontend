@@ -21,6 +21,11 @@
     background-color: transparent;
 }
 
+.review-header h4{
+    margin : 10px;
+    color: rgba(0, 0, 0, 0.297);
+}
+
 .review-header h1 {
     margin: 0px 0px 10px 0px;
     font-style: italic;
@@ -110,4 +115,19 @@
     align-items: center;
     border: none;
     background-color: transparent;
+}
+
+.review-create-main {
+    padding: 20px 30px;
+}
+
+.review-header-input {
+    width : 100% !important;
+    height : 70px !important;
+    resize: none;
+    border-color: rgba(93, 95, 239, 1);
+} 
+
+.review-header-input:focus {
+    outline: none;
 }
