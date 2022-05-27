@@ -2,6 +2,7 @@ import 'tachyons';
 import SignupLogin from './pages/SignupLogin';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
+import Reviews, {CreateReview} from './pages/Reviews';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getRequest } from './functions/api';
@@ -35,6 +36,8 @@ function App() {
       <Routes>
         <Route path="/signup" element={<SignupLogin login={false} />} />
         <Route path="/login" element={<SignupLogin login={true} />} />
+        <Route exact path="reviews/:id" element={<Reviews />}/>
+        <Route exact path="writereview/:id" element={<CreateReview/>}/>
         <Route path="/*" element={<Layout />} />
       </Routes>
       <ToastContainer

@@ -1,4 +1,4 @@
-.result-div {
+.review-div {
     position : fixed;
     top : 0px;
     left : 0px;
@@ -8,22 +8,106 @@
     padding: 20px;
 }
 
-.result-header {
+.review-header {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.result-close {
+.review-close {
     position: absolute;
     top: 20px; left : 20px;
     border : none;
     background-color: transparent;
 }
 
-.result-header h1 {
+.review-header h1 {
     margin: 0px 0px 10px 0px;
     font-style: italic;
     border-bottom: 2px solid black;
     text-align: center;
+}
+
+.review-butt {
+    margin-top: 10px;
+    padding: 10px;
+    border : none;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+}
+
+.review-card {
+    display : flex;
+    padding: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.263);
+}
+
+.profile-pic {
+    width: 30px; height: 30px;
+    background-color: black;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 10px 10px;
+}
+
+.review-details {
+    width : 100%
+}
+
+.review-content {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.review-content h4, .review-content h3{
+    margin: 10px 0px;
+}
+
+.review-story {
+    margin-top: 10px;
+    color: rgba(0, 0, 0, 0.475);
+}
+
+.review-metrics {
+    margin-top: 15px;
+    display : grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.review-metrics-content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.review-metrics-content h4 {
+    margin: 0;
+}
+
+.review-metrics-content h5 {
+    margin: 0;
+    padding-left: 5px;
+    color: rgba(0, 0, 0, 0.475);
+}
+
+.review-card-base {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.review-verified {
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.review-butt-2 {
+    display: inline-flex;
+    align-items: center;
+    border: none;
+    background-color: transparent;
 }
