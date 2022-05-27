@@ -128,8 +128,48 @@ export function CreateReview() {
                 <textarea  className='review-header-input' placeholder='Give our product a unique description'/>
 
                 <h3>My Overall Review {'(optional)'}</h3>
-                <textarea  className='review-header-input' placeholder='Type exactly how you feel about this product. It must be atleast 50 characters long.'/>
+                <textarea  className='review-header-input-2' placeholder='Type exactly how you feel about this product. It must be atleast 50 characters long.'/>
                 
+                <h3>Size</h3>
+                <input type='range' min={0} max={100}/>
+                <div style={{
+                    display : "flex",
+                    alignItems : "center",
+                    justifyContent : "space-between"
+                }}>
+                    <h5 className='review-range-text'>Small</h5>
+                    <h5 className='review-range-text'>Accurate</h5>
+                    <h5 className='review-range-text'>Big</h5>
+                </div>
+
+                <h3>Comfort</h3>
+                <input type='range' min={0} max={100} />
+                <div style={{
+                    display : "flex",
+                    alignItems : "center",
+                    justifyContent : "space-between"
+                }}>
+                    <h5 className='review-range-text'>Not Comfortable</h5>
+                    <h5 className='review-range-text'>Average</h5>
+                    <h5 className='review-range-text'>Very Comfortable</h5>
+                </div>
+
+                <h3>Durability</h3>
+                <input type='range' min={0} max={100}/>
+                <div style={{
+                    display : "flex",
+                    alignItems : "center",
+                    justifyContent : "space-between"
+                }}>
+                    <h5 className='review-range-text'>Not Durable</h5>
+                    <h5 className='review-range-text'>Average</h5>
+                    <h5 className='review-range-text'>Very Durable</h5>
+                </div>
+
+
+                <div style={{display : "flex", marginBottom : "40px", marginTop : "20px"}}>
+                    <button className='review-post-butt shadow-5 grow'>Post Review</button>
+                </div>
             </div>
 
 

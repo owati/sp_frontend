@@ -119,6 +119,8 @@
 
 .review-create-main {
     padding: 20px 30px;
+    height: calc(100vh - 90px);
+    overflow-y: scroll;
 }
 
 .review-header-input {
@@ -128,6 +130,61 @@
     border-color: rgba(93, 95, 239, 1);
 } 
 
+.review-header-input-2 {
+    width : 100% !important;
+    height : 100px;
+    resize: vertical;
+    border-color: rgba(93, 95, 239, 1);
+} 
+
 .review-header-input:focus {
     outline: none;
+}
+[type='range'] {
+    width: 100%;
+    background-color: blueviolet;
+}
+
+.review-post-butt {
+    margin: auto;
+    background-image: linear-gradient(rgba(156, 176, 249, 1), rgba(41, 64, 148, 1) );
+    width: 150px;
+    height: 60px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.review-range-text {
+    margin : 5px 0px;
+    color: rgba(0, 0, 0, 0.292);
+}
+
+@media screen and (max-width : 780px){
+    .review-card {
+        flex-direction: column;
+        padding: 10px;
+    }
+    .review-div {
+        padding: 5px;
+    }
+
+    .review-metrics-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .review-card-base {
+        flex-direction: column;
+    }
+
+    .review-verified {
+        width: 100%;
+        justify-content: flex-end;
+        margin-top: 10px;
+    }
+
+    .review-content div {
+        padding-right: 10px;
+    }
 }
