@@ -9,7 +9,7 @@ import Product from '../pages/Product';
 import Cart from '../pages/Cart';
 import Favourites from '../pages/Favourites';
 import AccountLayout from './AccountLayout';
-import Reviews, {CreateReview} from '../pages/Reviews';
+import Help from '../pages/Help';
 
 
 function Layout() {
@@ -27,6 +27,7 @@ function Layout() {
                     <Route exact path="product/:id" element={<Product />}/>
                     <Route exact path="cart" element={<Cart />}/>
                     <Route exact path="favourites" element={<Favourites />}/>
+                    <Route exact path='help' element={<Help />}/>
                     <Route exact path="account/*" element={<AccountLayout />} />
                     <Route path="*" element={<NotFound/>} />
                 </Routes>
