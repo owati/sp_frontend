@@ -24,6 +24,17 @@
     justify-content: space-between;
 }
 
+.help-actions button {
+    border: none;
+    background-color: transparent;
+}
+
+.help-disp {
+    height: 60px;
+    overflow: hidden;
+    transition: all ease 0.8s;
+}
+
 .help-contact {
     display: flex;
     flex-direction: column;
@@ -42,4 +53,14 @@
     width: 100%;
     align-items: center;
     justify-content: center;
+}
+
+.help-details {
+    padding: 0px 100px;
+}
+
+@media screen and (max-width : 780px) {
+    .help-details {
+        padding : 0px 
+    }
 }
