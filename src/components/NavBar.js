@@ -30,7 +30,7 @@ function NavBar() {
                         ['New Releases', 'Trending', 'Collection']
                             .map(
                                 link => (
-                                    <h4 key={link} className={`links grow ${link === curr ? 'active' : ""}`}
+                                    <h4 key={link} className={`links grow ${link === curr ? 'active-nav' : ""}`}
                                         onClick={() => {
                                             switch (link) {
                                                 case 'New Releases':
@@ -54,9 +54,9 @@ function NavBar() {
                 </div>
                 <div style={{ width: "20%", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
                     <SearchBut action={setSearch} />
-                    <img src={fave} alt="favourite" height="25" width="25" className='nav-img grow' />
-                    <img src={cart} alt="cart" height="25" width="25" className='nav-img grow' />
-                    <img src={profile} alt="profile" height="25" width="25" className='nav-img grow' />
+                    <img src={fave} alt="favourite" height="25" width="25" className='nav-img grow'  onClick={() => navigate('/favourites')} />
+                    <img src={cart} alt="cart" height="25" width="25" className='nav-img grow'  onClick={() => navigate('/cart')}/>
+                    <img src={profile} alt="profile" height="25" width="25" className='nav-img grow' onClick={() => navigate('/account/Account')} />
                 </div>
 
             </nav>
