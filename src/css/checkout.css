@@ -28,3 +28,17 @@
     width: 20px;
     height: 20px;
 }
+
+.checkout-delivery {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border: rgba(0, 0, 0, 0.344) 2px solid;
+    border-radius: 5px;
+    height: 50px;
+}
+
+.selected {
+    background-color: rgba(0, 61, 255, 0.12);
+    border-color: rgba(0, 61, 255, 1);
+}

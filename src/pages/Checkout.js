@@ -1,8 +1,10 @@
 import { AddCardInput } from './PaymentInfo';
 import { ReactComponent as Cart } from '../assets/checkout.svg';
 import '../css/checkout.css';
+import { useState } from 'react';
 
 function Checkout() {
+    const [delivery, setDelivery] = useState(true)
     return (
         <div>
             <header style={{
@@ -51,31 +53,30 @@ function Checkout() {
                             }}>
                                 <h4 style={{ margin: 'auto' }}>2</h4>
                             </div>
+                            <h5 style={{ margin: 0 }}>SHIPPING DETAILS</h5>
                         </div>
                         <div className='checkout-address'>
-                            <h4 style={{margin : 0, gridColumn : '1 / -1'}}>Shipping Address</h4>
-                            <div style={{gridColumn : '1 / -1'}}>
-                                <AddCardInput label='Street address' label_style={{backgroundColor : 'white'}}/>
+                            <h4 style={{ margin: 0, gridColumn: '1 / -1' }}>Shipping Address</h4>
+                            <div style={{ gridColumn: '1 / -1' }}>
+                                <AddCardInput label='Street address' label_style={{ backgroundColor: 'white' }} />
                             </div>
-                            <AddCardInput label='Zip Code' label_style={{backgroundColor : 'white'}}/>
-                            <AddCardInput label='City' label_style={{backgroundColor : 'white'}}/>
-                            <AddCardInput label='Country' label_style={{backgroundColor : 'white'}}/>
+                            <AddCardInput label='Zip Code' label_style={{ backgroundColor: 'white' }} />
+                            <AddCardInput label='City' label_style={{ backgroundColor: 'white' }} />
+                            <AddCardInput label='Country' label_style={{ backgroundColor: 'white' }} />
 
-                            <button>+ Add a new address</button>
-                            
-                            <h4 style={{margin : 0, gridColumn : '1/-1'}}> Shipping Method</h4>
+                            <h4 style={{ margin: 0, gridColumn: '1/-1' }}> Shipping Method</h4>
 
-                            <div className='checkout-delivery'>
-                                <h4 style={{margin : 0}}>Door delivery</h4>
-                                <input type='radio' name='delivery'/>
+                            <div className={'checkout-delivery' + (delivery ? ' selected' : '')}>
+                                <h4 style={{ margin: 0 }}>Door delivery</h4>
+                                <input type='radio' name='delivery'  checked={delivery} onClick={() => setDelivery(true)}/>
                             </div>
 
-                            <div className='checkout-delivery'>
-                                <h4 style={{margin : 0}}>Pick up</h4>
-                                <input type='radio' name='delivery'/>
+                            <div className={'checkout-delivery' + (!delivery ? ' selected' : '')}>
+                                <h4 style={{ margin: 0 }}>Pick up</h4>
+                                <input type='radio' name='delivery' checked={!delivery} onClick={() => setDelivery(false)}/>
                             </div>
 
-            
+
                         </div>
 
                     </div>
@@ -92,9 +93,10 @@ function Checkout() {
                             }}>
                                 <h4 style={{ margin: 'auto' }}>3</h4>
                             </div>
+                            <h5 style={{ margin: 0 }}>PAYMENT METHOD</h5>
                         </div>
                         <div className='checkout-form'>
-
+                            
                         </div>
 
                     </div>
