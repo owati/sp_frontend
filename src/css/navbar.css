@@ -42,9 +42,9 @@
 }
 .search-text {
     margin: 0px 3px;
-    color: rgba(0, 0, 0, 0.166);
-    
+    color: rgba(0, 0, 0, 0.166);   
 }
+
 .active-nav {
     color: black;
 }

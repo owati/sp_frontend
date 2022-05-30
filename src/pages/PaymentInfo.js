@@ -124,14 +124,6 @@ function CardsDisplay({ cards, rem }) {
 }
 
 function AddCard({ addNew }) {
-    function AddCardInput({ type, onChange, label, name }) {
-        return (
-            <div className='payment-input-div'>
-                <h5>{label}</h5>
-                <input className='payment-input' type={type} name={name} onChange={onChange} />
-            </div>
-        )
-    }
     return (
         <div className='payment-add'>
             <div className='payment-add-info'>
@@ -150,13 +142,21 @@ function AddCard({ addNew }) {
                                 const { name, value } = field;
                                 data[name] = value;
                             });
-                        addNew({
+                            addNew({
                             card : data
                         })
                     }
-
+                    
                 } > ADD CARD </button>
             </div>
+        </div>
+    )
+}
+export function AddCardInput({ type, onChange, label, name, label_style={}}) {
+    return (
+        <div className='payment-input-div'>
+            <h5 style={{...label_style}}>{label}</h5>
+            <input className='payment-input' type={type} name={name} onChange={onChange} />
         </div>
     )
 }

@@ -1,10 +1,11 @@
 import 'tachyons';
 import SignupLogin from './pages/SignupLogin';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import Loading from './components/Loading';
 import Layout from './components/Layout';
-import Reviews, {CreateReview} from './pages/Reviews';
+import Reviews, { CreateReview } from './pages/Reviews';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getRequest } from './functions/api';
 import { setUser } from './redux/slicers/userSlicer';
 import { toast, ToastContainer } from 'react-toastify'
@@ -28,16 +29,15 @@ function App() {
     () => {
       AOS.init();
       fetchUser();
-    }
+    }, []
   )
   return (
-
     <Router>
       <Routes>
         <Route path="/signup" element={<SignupLogin login={false} />} />
         <Route path="/login" element={<SignupLogin login={true} />} />
-        <Route exact path="reviews/:id" element={<Reviews />}/>
-        <Route exact path="writereview/:id" element={<CreateReview/>}/>
+        <Route exact path="reviews/:id" element={<Reviews />} />
+        <Route exact path="writereview/:id" element={<CreateReview />} />
         <Route path="/*" element={<Layout />} />
       </Routes>
       <ToastContainer
@@ -54,8 +54,9 @@ function App() {
       />
 
     </Router>
-
   );
+
+
 }
 
 
