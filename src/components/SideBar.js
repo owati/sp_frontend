@@ -74,60 +74,61 @@ function SideBar({ show, closed }) {
                             </div>
                         </>
                 }
-
-                <div>
-                    <ul className='sidebar-list'>
-                        {
-                            ['New Releases', 'Trending', 'Collection', 'Men', 'Women']
-                                .map(
-                                    link => (
-                                        <Link key={link} to={"/" +
-                                            (
-                                                (str) => {
-                                                    return str.toLowerCase()
-                                                              .replace(' ', '-')
+                <div style={{height : '100%', overflowY : 'scroll'}}>
+                    <div>
+                        <ul className='sidebar-list'>
+                            {
+                                ['New Releases', 'Trending', 'Collection', 'Men', 'Women']
+                                    .map(
+                                        link => (
+                                            <Link key={link} to={"/" +
+                                                (
+                                                    (str) => {
+                                                        return str.toLowerCase()
+                                                                .replace(' ', '-')
+                                                    }
+                                                )(link)
+                                            }><li className='grow' key={link}
+                                                onClick = {
+                                                    () => {
+                                                        closed()
+                                                    }
                                                 }
-                                            )(link)
-                                        }><li className='grow' key={link}
+                                            ><h2>{link}</h2><img src={Vector} height="15" width="10" /></li></Link>
+                                        )
+                                    )
+                            }
+                        </ul>
+                    </div>
+
+                    <div>
+                        <ul className="side-actions">
+                            {
+                                sideActions
+                                .map(
+                                    action => {
+                                        const [name , image ] = action
+                                        if (!user && ["Notifications", "Logout", "Settings", "Orders"].includes(name)) {
+                                            return <></>
+                                        }
+                                        return <li className='grow' key={name}
                                             onClick = {
                                                 () => {
+                                                    // the routing code...
                                                     closed()
                                                 }
                                             }
-                                        ><h2>{link}</h2><img src={Vector} height="15" width="10" /></li></Link>
-                                    )
-                                )
-                        }
-                    </ul>
-                </div>
-
-                <div>
-                    <ul className="side-actions">
-                        {
-                            sideActions
-                            .map(
-                                action => {
-                                    const [name , image ] = action
-                                    if (!user && ["Notifications", "Logout", "Settings", "Orders"].includes(name)) {
-                                        return <></>
+                                        >
+                                            <img src={image} alt={name} />
+                                            {name}
+                                        </li>
                                     }
-                                    return <li className='grow' key={name}
-                                        onClick = {
-                                            () => {
-                                                // the routing code...
-                                                closed()
-                                            }
-                                        }
-                                    >
-                                        <img src={image} alt={name} />
-                                        {name}
-                                    </li>
-                                }
-                            )
+                                )
 
-                        }
-                    </ul>
+                            }
+                        </ul>
 
+                    </div>
                 </div>
 
             </div>

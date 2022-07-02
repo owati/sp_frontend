@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { postRequest } from '../functions/api';
+import { useState, useEffect} from 'react';
+import { getRequest, postRequest } from '../functions/api';
 import { toast } from 'react-toastify';
 import SkuCard from '../components/SkuCard';
 import SkuCardList from '../components/SkuCardList';
@@ -12,6 +12,31 @@ import never_miss from '../assets/never_miss.png'
 import '../css/home.css';
 
 function Home() {
+    const [loading, setLoading] = useState(false);
+
+    const [bestseller, setBest] = useState([]);
+    const [trending, setTrending] = useState([]);
+
+    async function getDetails() {
+        setLoading(true);
+        const responses = await Promise.all([
+            getRequest('trending'),
+            getRequest('sku/bestseller')
+        ])
+        setLoading(false);
+
+        const [best, trend] = responses;
+
+        if (trend?.status === 200) setTrending(trend.data.data)
+        if(best?.status === 200) setBest(best.data.data)
+
+    }
+
+    useEffect(
+        () => {
+            getDetails()
+        }, []
+    )
 
     const category = {
         trouser : {
@@ -41,15 +66,18 @@ function Home() {
                 padding : "20px"
             }}>
 
-            <SkuCardList title="Hot 'n' Trending">
-                <SkuCard />
-                <SkuCard />
-                <SkuCard />
-                <SkuCard />
-                <SkuCard />
-                <SkuCard />
-                <SkuCard />
-            </SkuCardList>
+            {
+                trending.length > 0 ? 
+                    <SkuCardList title="Hot 'n' Trending" id='hot-trend'>
+                        {
+                            trending.map(
+                                (sku, id) => <SkuCard key={'trending' + id} sku={sku}/>
+                            )
+                        }
+                    </SkuCardList>
+                : <></>
+            }
+
             </div>
 
 
@@ -70,16 +98,17 @@ function Home() {
             <div style={{
                 padding:"20px"
             }}>
-
-            <SkuCardList title="Best Sellers">
-                <SkuCard />
-                <SkuCard />
-                <SkuCard />
-                <SkuCard />
-                <SkuCard />
-                <SkuCard />
-                <SkuCard />
-            </SkuCardList>
+            {
+                bestseller.length > 0 ? 
+                    <SkuCardList title="Best Sellers" id='best'>
+                        {
+                            bestseller.map(
+                                (sku, id) => <SkuCard key={'trending' + id} sku={sku}/>
+                            )
+                        }
+                    </SkuCardList>
+                : <></>
+            }
             </div>
 
             <h1 style={{

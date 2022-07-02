@@ -1,8 +1,20 @@
+import { useEffect, useState } from 'react';
 import { NotifyMe } from './Home';
 import SkuGrid from '../components/SkuGrid';
 import SkuCard from '../components/SkuCard';
+import { getRequest } from '../functions/api';
 
 function Trending() {
+    const [loading , setLoading ] = useState(false);
+
+    async function getProducts() {
+        setLoading(true);
+        const response = await getRequest('trending')
+        setLoading(false);
+        if (response?.status === 200) {
+
+        }
+    }
     return (
         <div style={{
             padding: "0px 25px",

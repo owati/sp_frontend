@@ -34,6 +34,7 @@ export async function getRequest(...path) {
         }))
         return response;
     } catch (e) {
+        console.log(e)
         return e.response;
     }
 }

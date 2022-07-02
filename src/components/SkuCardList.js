@@ -1,11 +1,10 @@
-
 import '../css/sku.css';
 import right from '../assets/Vector3.png';
 import left from '../assets/Vector2.png';
 
-function SkuCardList({title, children}) {
+function SkuCardList({title, children, id}) {
     function handleScrolling(right) {
-        let div = document.getElementById("sku-list");
+        let div = document.getElementById(id);
         div.scrollTo(
             {
                 left : div.scrollLeft + (right ? 500 : -500),
@@ -42,7 +41,7 @@ function SkuCardList({title, children}) {
 
                 </div>
             </div>
-            <div className='sku-card-list' id="sku-list">
+            <div className='sku-card-list' id={id}>
                 {children}
             </div>
         </div>

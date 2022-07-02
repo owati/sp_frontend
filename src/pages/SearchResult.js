@@ -15,7 +15,7 @@ function SearchResult() {
         if (response.status === 200) {
             setData(response.data.data);
         } else {
-            setData([])
+            console.log(response)
         }
     }
 
