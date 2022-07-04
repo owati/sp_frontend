@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Rating from '../components/CustomRating';
 import SkuCard from '../components/SkuCard';
@@ -12,11 +12,16 @@ import shirt from '../assets/shirt.png';
 import NumberInput from '../components/inputs/NumberInput';
 import drop from '../assets/drop.png';
 import {ReactComponent as VeriSvg} from '../assets/verified.svg';
+import { getRequest } from '../functions/api';
 
 function Product() {
     const { id } = useParams();
+
+    const [sku, setSku] = useState(null);
+
     const [showFave, setFave] = useState(false);
     const [showCart, setCart] = useState(false);
+    const [loading, setLoading] = useState(false)
 
     const data = {
         name: "Galactic Ranger 2",
@@ -29,6 +34,19 @@ function Product() {
         sizes: ['S', 'M', 'L', 'XL', 'XXL'],
         review : 3
     }
+
+    async function getProduct() {
+        setLoading(false);
+        const res = await getRequest('sku/units/'+id)
+        setLoading(true);
+        if (res?.status === 200){
+            setSku(res.data.data)
+        }
+        
+    }
+
+    useEffect(() => {getProduct()},[])
+
     return (
         <div style={{
             padding: "0px 25px",
@@ -37,7 +55,7 @@ function Product() {
             <div className='product-info'>
                 <div className='product-info-side'>
                     <div className='product-image'>
-                        <img src={shirt} alt="product picture" />
+                        <img src={sku?.images[0]} alt="product picture" />
                         <img src={like} className="product-like"
                             onClick={
                                 () => {
@@ -54,30 +72,27 @@ function Product() {
                         
                     }}>
                         <div className='product-other-image'>
-                            <img src={shirt} alt="other image"/>
+                            <img src={sku?.images[1]} alt="other image"/>
                         </div>
                         <div className='product-other-image'>
-                            <img src={shirt} alt="other image"/>
+                            <img src={sku?.images[2]} alt="other image"/>
                         </div>
                         <div className='product-other-image'>
-                            <img src={shirt} alt="other image"/>
-                        </div>
-                        <div className='product-other-image'>
-                            <img src={shirt} alt="other image"/>
+                            <img src={sku?.images[3]} alt="other image"/>
                         </div>
                     </div>
                 </div>
                 <div className='product-info-side'>
                     <div className='product-details'>
-                        <h2>{data.name}</h2>
-                        <h4>{data.category.detail}</h4>
+                        <h2>{sku?.name}</h2>
+                        <h4>{sku?.headline}</h4>
                         <h5>{data.description}</h5>
-                        <h2>&#8358;{data.price.toLocaleString()}</h2>
+                        <h2>&#8358;{sku?.price?.toLocaleString()}</h2>
                         <h5>Please select a size</h5>
 
                         <div >
                             {
-                                data.sizes.map(
+                                sku?.sizes.map(
                                     size => {
                                         return <button id={size} className="product-size-butt">{size}</button>
                                     }

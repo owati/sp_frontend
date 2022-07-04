@@ -1,14 +1,18 @@
-import {useState} from 'react';
+import { useNavigate } from 'react-router';
 import '../css/sku.css';
-import shirt from'../assets/shirt.png'
 import like from '../assets/like.png';
 import liked from '../assets/liked.png';
 
 function SkuCard({styles, sku}) {
+    const navigate = useNavigate()
     return (
-        <div className='sku-card shadow-5' style={{...styles}}>
+        <div className='sku-card shadow-5' style={{...styles}} onClick={
+            () => {
+                navigate('/product/' + sku._id)
+            }
+        }>
             <div className='sku-card-header'>
-                <img src={shirt} alt={sku?.name} style={{
+                <img src={sku?.images[0]} alt={sku?.name} style={{
                     width : "80%",
                     height : "80%",
                     position : "absolute",

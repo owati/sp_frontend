@@ -4,13 +4,13 @@ import SkuGrid from '../components/SkuGrid';
 import SkuCard from '../components/SkuCard';
 import { getRequest } from '../functions/api';
 
-function Trending() {
+function NewReleases() {
     const [loading, setLoading] = useState(false);
     const [products, setProducts] = useState([]);
 
     async function getProducts() {
         setLoading(true);
-        const response = await getRequest('trending')
+        const response = await getRequest('NewReleases')
         setLoading(false);
         if (response?.status === 200) {
             setProducts(response?.data.data)
@@ -28,7 +28,7 @@ function Trending() {
             <h1 style={{
                 fontStyle: "italic",
                 fontWeight: "1000"
-            }}>Trending</h1>
+            }}>New Releases</h1>
             <SkuGrid>
                 {
                     products.map((sku, id) => <div key={'sku' + id} style={{
@@ -49,4 +49,4 @@ function Trending() {
     )
 }
 
-export default Trending;
+export default NewReleases;

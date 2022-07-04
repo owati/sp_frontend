@@ -27,41 +27,39 @@ function SearchResult() {
 
     return (
         <div style={{
-            padding : '0px 25px'
+            padding: '0px 25px'
         }}>
-            <h4 style={{fontWeight : "400"}}>Search result for</h4>
+            <h4 style={{ fontWeight: "400" }}>Search result for</h4>
             <h1 style={{
-                fontStyle : "italic",
-                fontWeight : "1000"
+                fontStyle: "italic",
+                fontWeight: "1000"
             }}>"{name}"</h1>
 
             {
                 data.length === 0 ?
-                <div style={{
-                    marginBottom : "40px"
-                }}>
-                    <h1 style={{textAlign : "center"}}>No Item could fit your match</h1>
-                    <h3 style={{textAlign : "center", margin: "0px"}}>This means that we find anything that could</h3>
-                    <h3 style={{textAlign : "center", margin: "0px"}}>fit your searchword.</h3>
+                    <div style={{
+                        marginBottom: "40px"
+                    }}>
+                        <h1 style={{ textAlign: "center" }}>No Item could fit your match</h1>
+                        <h3 style={{ textAlign: "center", margin: "0px" }}>This means that we find anything that could</h3>
+                        <h3 style={{ textAlign: "center", margin: "0px" }}>fit your searchword.</h3>
 
-                </div> : 
-                <SkuGrid>
-                    {/* {
-                        data.map( sku => {
-                            return <SkuCard />
-                        })
-                    } */}
+                    </div> :
+                    <SkuGrid>
 
-                    <SkuCard />
-                    <SkuCard />
-                    <SkuCard />
-                    <SkuCard />
-                    <SkuCard />
-                    <SkuCard />
-                    <SkuCard />
-                    <SkuCard />
-                    <SkuCard />
-                </SkuGrid>
+                        {
+                            data.map((sku, id) =><div key={'sku' + id} style={{
+                            display: "flex",
+                            justifyContent: "center"
+                        }}>
+
+                            <SkuCard sku={sku} styles={{
+                                margin: "0px",
+                                marginBottom: "40px"
+                            }} />
+                        </div>)
+}
+                    </SkuGrid>
             }
 
         </div>

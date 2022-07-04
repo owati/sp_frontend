@@ -11,6 +11,7 @@ import Favourites from '../pages/Favourites';
 import AccountLayout from './AccountLayout';
 import Help, {HelpDetail} from '../pages/Help';
 import Checkout from '../pages/Checkout';
+import NewReleases from '../pages/NewReleases';
 
 
 function Layout() {
@@ -24,6 +25,7 @@ function Layout() {
                     <Route path="" element={<Home />} />
                     <Route exact path="home" element={<Home />} />
                     <Route exact path="trending" element={<Trending/>} />
+                    <Route exact path="new-releases" element={<NewReleases/>} />
                     <Route exact path="search/:name" element={<SearchResult />} />
                     <Route exact path="product/:id" element={<Product />}/>
                     <Route exact path="cart" element={<Cart />}/>
