@@ -4,6 +4,7 @@ import Rating from '../components/CustomRating';
 import SkuCard from '../components/SkuCard';
 import SkuCardList from '../components/SkuCardList';
 import FaveModal from '../components/FaveModal';
+import draftToHtml from "draftjs-to-html";
 import CartModal from '../components/CartModal';
 import '../css/product.css';
 import like from '../assets/like.png';
@@ -31,9 +32,19 @@ function Product() {
 
         description: "This is very good trouser of high quality which will be able to blend in with an environment colour. You are surely going to feel like a king if this is purchased. Place your order now and dont miss out on this opportunity.",
         price: 10000,
-        sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+        sizes: ['S', 'M', 'L', 'XL', 'XL'],
         review : 3
     }
+
+    
+    const sizeMap = {
+        small : 'S',
+        medium : 'M',
+        large : 'L',
+        xlarge : 'XL'
+    }
+
+
 
     async function getProduct() {
         setLoading(false);
@@ -86,7 +97,7 @@ function Product() {
                     <div className='product-details'>
                         <h2>{sku?.name}</h2>
                         <h4>{sku?.headline}</h4>
-                        <h5>{data.description}</h5>
+                        <h5 className='description-tag' dangerouslySetInnerHTML={{__html : sku?.description && draftToHtml(JSON.parse(sku?.description))}}></h5>
                         <h2>&#8358;{sku?.price?.toLocaleString()}</h2>
                         <h5>Please select a size</h5>
 
@@ -94,7 +105,7 @@ function Product() {
                             {
                                 sku?.sizes.map(
                                     size => {
-                                        return <button id={size} className="product-size-butt">{size}</button>
+                                        return <button key={size} id={size} className="product-size-butt">{sizeMap[size]}</button>
                                     }
                                 )
                             }
@@ -109,8 +120,12 @@ function Product() {
                             }}>
                                 <h4>Colors:</h4>
                                 <div>
-                                    <button className='product-size-butt'></button>
-                                    <button className='product-size-butt'></button>
+                                    {
+                                        sku?.colors.map(
+                                            color => 
+                                            <button className='product-size-butt' key={color} style={{backgroundColor : color}}></button>
+                                        )
+                                    }
                                 </div>
                             </div>
                             <div style={{
