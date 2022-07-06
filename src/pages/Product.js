@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Rating from '../components/CustomRating';
 import SkuCard from '../components/SkuCard';
 import SkuCardList from '../components/SkuCardList';
@@ -14,9 +15,13 @@ import NumberInput from '../components/inputs/NumberInput';
 import drop from '../assets/drop.png';
 import {ReactComponent as VeriSvg} from '../assets/verified.svg';
 import { getRequest } from '../functions/api';
+import Loading, {NoModalLoading} from '../components/Loading';
 
 function Product() {
     const { id } = useParams();
+    const user = useSelector(state => state.user.info);
+
+    console.log(user)
 
     const [sku, setSku] = useState(null);
 
@@ -47,18 +52,22 @@ function Product() {
 
 
     async function getProduct() {
-        setLoading(false);
         const res = await getRequest('sku/units/'+id)
-        setLoading(true);
         if (res?.status === 200){
             setSku(res.data.data)
         }
         
     }
 
+    async function addToFave() {
+        if(user) {
+            
+        }
+    }
+
     useEffect(() => {getProduct()},[])
 
-    return (
+    return sku ? (
         <div style={{
             padding: "0px 25px",
             marginBottom: "40px"
@@ -249,6 +258,10 @@ function Product() {
                 }
             />
 
+        </div>
+    ) : (
+        <div style={{height : '80vh'}}>
+            <NoModalLoading />
         </div>
     )
 }

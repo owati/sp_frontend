@@ -11,3 +11,18 @@ function Loading({show=false}) {
 }
 
 export default Loading;
+
+
+export function NoModalLoading() {
+    return (
+        <div style={{
+            display : 'flex',
+            justifyContent  :'center',
+            alignItems : 'center',
+            width : '100%',
+            height : '100%'
+        }}>
+            <ReactLoading type='bars' color='rgb(208,40,38)' />
+        </div>
+    )
+}
