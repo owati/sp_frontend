@@ -1,10 +1,17 @@
+import { memo } from 'react';
 import { useNavigate } from 'react-router';
 import '../css/sku.css';
+import { getFave } from '../functions/storage';
 import like from '../assets/like.png';
 import liked from '../assets/liked.png';
 
 function SkuCard({styles, sku}) {
     const navigate = useNavigate()
+
+    const is_liked = (function (){
+        const faves = getFave()
+        faves.includes(sku._id) ? liked : like
+    })()
     return (
         <div className='sku-card shadow-5' style={{...styles}} onClick={
             () => {
@@ -21,7 +28,7 @@ function SkuCard({styles, sku}) {
                     objectFit : 'cover'
                 }}/>
 
-                <img src={like} alt="like" 
+                <img src={is_liked} alt="like" 
                     className='grow'
                     style={{
                         position : "absolute",
@@ -45,4 +52,4 @@ function SkuCard({styles, sku}) {
     )
 }
 
-export default SkuCard;
+export default memo(SkuCard);

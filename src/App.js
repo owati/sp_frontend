@@ -12,6 +12,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { mergeFaves } from './functions/storage';
 
 
 function App() {
@@ -23,7 +24,9 @@ function App() {
       toast.info(`welcome back ${response.data.userInfo.first_name}`, {
         icon: false
       })
+
     }
+    mergeFaves(response?.data?.userInfo?.favourites || []) // fetches and updates the local storage
   }
   useEffect(
     () => {

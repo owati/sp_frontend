@@ -14,8 +14,9 @@ import shirt from '../assets/shirt.png';
 import NumberInput from '../components/inputs/NumberInput';
 import drop from '../assets/drop.png';
 import {ReactComponent as VeriSvg} from '../assets/verified.svg';
-import { getRequest } from '../functions/api';
+import { getRequest, putRequest } from '../functions/api';
 import Loading, {NoModalLoading} from '../components/Loading';
+import {addFave} from '../functions/storage'
 
 function Product() {
     const { id } = useParams();
@@ -60,8 +61,15 @@ function Product() {
     }
 
     async function addToFave() {
-        if(user) {
-            
+        const faves = addFave(id);
+        if (user) {
+            const res = await putRequest('pref/faves', {faves});
+            if (res?.status) {
+                setFave(true)
+            } else {
+            }
+        } else {
+            setFave(true)
         }
     }
 
@@ -79,7 +87,7 @@ function Product() {
                         <img src={like} className="product-like"
                             onClick={
                                 () => {
-                                    setFave(!showFave)
+                                    addToFave()
                                 }
                             }
                          />

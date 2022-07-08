@@ -1,4 +1,16 @@
 //----favourite functions--------
+export function mergeFaves(fetchedFaves) {
+    const faves = localStorage.getItem('faves') || [];
+    for (const fave in fetchedFaves) {
+        if (!faves.includes(fave)) {
+            faves.push(fave)
+        }
+    }
+
+    localStorage.setItem('faves', JSON.stringify(faves));
+
+    return faves;
+}
 export function getFave() {
     const faves = localStorage.getItem('faves')
     return JSON.parse(faves)
@@ -8,10 +20,11 @@ export function addFave(id) {
     let new_list = [];
     const faves = JSON.parse(localStorage.getItem('faves'));
     if (faves) {
-        new_list = [...faves, id]
+        if (faves.includes(id)) new_list = faves
+        else new_list = [...faves, id]
     } else new_list.push(id);
 
-    localStorage.setItem(JSON.stringify(new_list));
+    localStorage.setItem('faves',JSON.stringify(new_list));
 
     return new_list;
 }
@@ -38,7 +51,7 @@ export function addCart(sku) {
         new_list = [...cart, sku]
     } else new_list.push(sku);
 
-    localStorage.setItem(JSON.stringify(new_list));
+    localStorage.setItem('cart',JSON.stringify(new_list));
 
     return new_list;
 }
