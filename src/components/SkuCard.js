@@ -10,7 +10,7 @@ function SkuCard({styles, sku}) {
 
     const is_liked = (function (){
         const faves = getFave()
-        faves.includes(sku._id) ? liked : like
+        return faves.includes(sku?._id) ? liked : like
     })()
     return (
         <div className='sku-card shadow-5' style={{...styles}} onClick={
