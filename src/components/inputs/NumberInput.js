@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../../css/numberinput.css';
 import arrow_up from '../../assets/arrow-up.png';
 import arrow_down from '../../assets/arrow-down.png'
 
 function NumberInput({ onChange, min = 1, max = 10}) {
     const [number, setNumber] = useState(1)
+
+    useEffect(() => {
+        onChange(number)
+    },[number])
     return (
         <div style={{
             display: "flex",
@@ -14,6 +18,7 @@ function NumberInput({ onChange, min = 1, max = 10}) {
             height: "40px"
         }}>
             <input type="number" className='number-input' value={number} 
+            min={min} max={max}
                 onChange={
                     e => {
                         setNumber(e.target.value)

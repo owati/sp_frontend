@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Rating from '../components/CustomRating';
@@ -16,15 +16,30 @@ import drop from '../assets/drop.png';
 import {ReactComponent as VeriSvg} from '../assets/verified.svg';
 import { getRequest, putRequest } from '../functions/api';
 import Loading, {NoModalLoading} from '../components/Loading';
-import {addFave} from '../functions/storage'
+import {addFave, getFave} from '../functions/storage'
 
 function Product() {
     const { id } = useParams();
     const user = useSelector(state => state.user.info);
 
-    console.log(user)
-
     const [sku, setSku] = useState(null);
+
+    const [cartPref, setCartPref] = useState({
+        id,
+        data : {}
+    })
+
+    function editCartRef(type, value) {
+        setCartPref(
+            cart => ({
+                ...cart,
+                data : {
+                    ...cart.data,
+                    [type] : value
+                }
+            })
+        )
+    }
 
     const [showFave, setFave] = useState(false);
     const [showCart, setCart] = useState(false);
@@ -56,9 +71,25 @@ function Product() {
         const res = await getRequest('sku/units/'+id)
         if (res?.status === 200){
             setSku(res.data.data)
+            setCartPref({
+                ...cartPref,
+                data : {
+                    quantity : 1,
+                    color : res.data.data.colors[0],
+                    size : res.data.data.sizes[0]
+                }
+            })
         }
         
     }
+
+    const is_liked = useMemo(
+        () => {
+            const faves = getFave();
+            console.log(faves, id)
+            return faves.includes(id) ? liked : like
+        },[id,showFave]
+    )
 
     async function addToFave() {
         const faves = addFave(id);
@@ -75,6 +106,8 @@ function Product() {
 
     useEffect(() => {getProduct()},[])
 
+    const {quantity, color, size} = cartPref.data;
+
     return sku ? (
         <div style={{
             padding: "0px 25px",
@@ -84,10 +117,10 @@ function Product() {
                 <div className='product-info-side'>
                     <div className='product-image'>
                         <img src={sku?.images[0]} alt="product picture" />
-                        <img src={like} className="product-like"
+                        <img src={is_liked} className="product-like"
                             onClick={
                                 () => {
-                                    addToFave()
+                                    if (is_liked == like) addToFave()
                                 }
                             }
                          />
@@ -121,8 +154,10 @@ function Product() {
                         <div >
                             {
                                 sku?.sizes.map(
-                                    size => {
-                                        return <button key={size} id={size} className="product-size-butt">{sizeMap[size]}</button>
+                                    size_ => {
+                                        return <button key={size_} id={size_} className={`product-size-butt ${size === size_ ? 'selected' : ''}`}
+                                            onClick={() => editCartRef('size', size_)}
+                                        >{sizeMap[size_]}</button>
                                     }
                                 )
                             }
@@ -139,8 +174,10 @@ function Product() {
                                 <div>
                                     {
                                         sku?.colors.map(
-                                            color => 
-                                            <button className='product-size-butt' key={color} style={{backgroundColor : color}}></button>
+                                            col => 
+                                            <button className={`product-size-butt ${color === col ? 'selected' : ''}`} key={col}  style={{backgroundColor : col}}
+                                                onClick={() => editCartRef('color', col)}
+                                            ></button>
                                         )
                                     }
                                 </div>
@@ -149,7 +186,7 @@ function Product() {
                                 width: "30%"
                             }}>
                                 <h4>Qty</h4>
-                                <NumberInput />
+                                <NumberInput onChange={e => editCartRef('quantity', e )}/>
                             </div>
                         </div>
 
@@ -256,7 +293,9 @@ function Product() {
                         setFave(!showFave)
                     }
                 }
-            />
+                data={cartPref.data}
+                sku={sku}
+                />
             <CartModal 
                 show={showCart}
                 closed = {
@@ -264,6 +303,8 @@ function Product() {
                         setCart(!showCart)
                     }
                 }
+                data={cartPref.data}
+                sku={sku}
             />
 
         </div>

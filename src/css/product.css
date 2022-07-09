@@ -91,6 +91,10 @@
     height: 0px;
 }
 
+.selected {
+    border : 2px solid rgba(0, 0, 0, 0.478)
+}
+
 @media screen and (max-width : 780px) {
     .product-info{
         flex-direction: column;

@@ -1,7 +1,7 @@
 //----favourite functions--------
 export function mergeFaves(fetchedFaves) {
-    const faves = localStorage.getItem('faves') || [];
-    for (const fave in fetchedFaves) {
+    const faves = JSON.parse(localStorage.getItem('faves')) || [];
+    for (const fave of fetchedFaves) {
         if (!faves.includes(fave)) {
             faves.push(fave)
         }
@@ -12,7 +12,7 @@ export function mergeFaves(fetchedFaves) {
     return faves;
 }
 export function getFave() {
-    const faves = localStorage.getItem('faves')
+    const faves = localStorage.getItem('faves');
     return JSON.parse(faves)
 }
 
@@ -39,6 +39,15 @@ export function removerFave(id) {
 }
 
 //----cart functions---------
+export function mergeCart(fetchedCart) {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    for (const item of fetchedCart ) {
+        if (!cart.map(item_ => item_.id).includes(item.id)){
+            cart.push(item)
+        }
+    }
+    return cart;
+}
 export function getCart() {
     const cart = localStorage.getItem('cart')
     return JSON.parse(cart)
