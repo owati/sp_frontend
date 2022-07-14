@@ -16,7 +16,8 @@ import drop from '../assets/drop.png';
 import {ReactComponent as VeriSvg} from '../assets/verified.svg';
 import { getRequest, putRequest } from '../functions/api';
 import Loading, {NoModalLoading} from '../components/Loading';
-import {addFave, getFave} from '../functions/storage'
+import {addFave, getFave, addCart} from '../functions/storage'
+import { toast } from 'react-toastify';
 
 function Product() {
     const { id } = useParams();
@@ -86,7 +87,7 @@ function Product() {
     const is_liked = useMemo(
         () => {
             const faves = getFave();
-            console.log(faves, id)
+            console.log(faves)
             return faves.includes(id) ? liked : like
         },[id,showFave]
     )
@@ -95,12 +96,32 @@ function Product() {
         const faves = addFave(id);
         if (user) {
             const res = await putRequest('pref/faves', {faves});
-            if (res?.status) {
+            if (res?.status === 200) {
                 setFave(true)
             } else {
+                toast.error(res.data.message)
             }
         } else {
             setFave(true)
+        }
+    }
+
+    async function addToCart() {
+        const cart_data = addCart(cartPref);
+
+        if (cart_data) {
+            if (user) {
+                const res = await putRequest('pref/cart', {cart_data});
+                if (res?.status === 200) {
+                    setCart(true)
+                } else {
+                    toast.error(res.data.message)
+                }
+            } else {
+                setCart(true)
+            }
+        } else {
+            toast.info('The item is already in the cart')
         }
     }
 
@@ -193,7 +214,7 @@ function Product() {
                         <button className='cart-button grow' 
                             onClick={ 
                                 () => {
-                                    setCart(!showCart)
+                                    addToCart()
                                 }
                             }
                         >
@@ -293,7 +314,6 @@ function Product() {
                         setFave(!showFave)
                     }
                 }
-                data={cartPref.data}
                 sku={sku}
                 />
             <CartModal 

@@ -16,7 +16,9 @@ import { mergeFaves } from './functions/storage';
 
 
 function App() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
+  const [storage, setStorage] = useState({}); //helps rerenders the page when the localstorage cages
   let fetchUser = async () => {
     let response = await getRequest('account/info');
     if (response.status === 200) {
@@ -32,8 +34,16 @@ function App() {
     () => {
       AOS.init();
       fetchUser();
+
+      window.addEventListener('storage', e => {
+        //console.log('updated ');
+        
+        setStorage({})
+      })
     }, []
   )
+
+  useEffect(() => console.log('updated', localStorage.getItem('faves')), storage)
   return (
     <Router>
       <Routes>

@@ -98,7 +98,7 @@ function Cart() {
                                 <div style={{
                                     width: "100px"
                                 }}>
-                                    <NumberInput />
+                                    <NumberInput onChange={() => {}}/>
                                 </div>
 
                                 <button style={{

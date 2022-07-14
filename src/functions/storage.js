@@ -8,9 +8,11 @@ export function mergeFaves(fetchedFaves) {
     }
 
     localStorage.setItem('faves', JSON.stringify(faves));
+    dispatchEvent(new Event('storage'))
 
     return faves;
 }
+
 export function getFave() {
     const faves = localStorage.getItem('faves');
     return JSON.parse(faves)
@@ -65,10 +67,10 @@ export function addCart(sku) {
     return new_list;
 }
 
-export function removeCart(id) {
+export function removeCart(sku) {
     const cart = JSON.parse(localStorage.getItem('cart'));
 
-    const new_list =  cart.filter(sku => sku.id !== id)
+    const new_list =  cart.filter(_sku => _sku.id !== sku.id)
 
     localStorage.setItem('cart', JSON.stringify(new_list))
     return new_list;

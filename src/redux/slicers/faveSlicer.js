@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const cartSlicer = createSlice(
+export const faveSlicer = createSlice(
     {
-        name : "cart",
+        name : "faves",
         initialState : {
             items : []
         },
@@ -20,6 +20,6 @@ export const cartSlicer = createSlice(
 )
 
 
-export const {addItem} = cartSlicer.actions;
+export const {updateItem} = faveSlicer.actions;
 
-export default cartSlicer.reducer
+export default faveSlicer.reducer
