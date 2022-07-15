@@ -12,8 +12,6 @@ export const faveSlicer = createSlice(
                 state.items = [
                     ...action.payload
                 ]
-
-                console.log(state.items)
             }
         }
     }

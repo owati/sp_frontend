@@ -12,14 +12,12 @@ export const cartSlicer = createSlice(
                 state.items = [
                     ...action.payload
                 ]
-
-                console.log(state.items)
             }
         }
     }
 )
 
 
-export const {addItem} = cartSlicer.actions;
+export const {updateItem} = cartSlicer.actions;
 
 export default cartSlicer.reducer

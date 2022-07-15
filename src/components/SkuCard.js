@@ -1,15 +1,18 @@
 import { memo } from 'react';
 import { useNavigate } from 'react-router';
+import { useSelector } from 'react-redux';
 import '../css/sku.css';
 import { getFave } from '../functions/storage';
 import like from '../assets/like.png';
 import liked from '../assets/liked.png';
 
 function SkuCard({styles, sku}) {
+
+    const faves = useSelector(state => state.fave.items);
+
     const navigate = useNavigate()
 
     const is_liked = (function (){
-        const faves = getFave()
         return faves.includes(sku?._id) ? liked : like
     })()
     return (

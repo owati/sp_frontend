@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Modal from './Modal';
 import '../css/modal.css';
 import close from '../assets/close.png';
@@ -5,17 +7,24 @@ import shirt from '../assets/shirt.png';
 import NumberInput from './inputs/NumberInput';
 
 function CartChangeModal({ show, closed }) {
-    const data = {
-        name: "Galactic Ranger 2",
-        category: {
-            detail: "Unisex Summer Shirt"
-        },
+    const [cartItem, setItem] = useState({})
+    const {_id, data, sku} = cartItem;
 
-        description: "This is very good trouser of high quality which will be able to blend in with an environment colour. You are surely going to feel like a king if this is purchased. Place your order now and dont miss out on this opportunity.",
-        price: 10000,
-        sizes: ['S', 'M', 'L', 'XL', 'XXL'],
-        review : 3
+    useEffect(() => {
+        if (show) {
+            console.log(show)
+            setItem(show)
+        }
+    }, [show])
+
+        
+    const sizeMap = {
+        small : 'S',
+        medium : 'M',
+        large : 'L',
+        xlarge : 'XL'
     }
+
     return (
         <Modal show={show} direction="modal-top">
             <div className='cart-modal' data-aos="fade-down" >
@@ -39,18 +48,21 @@ function CartChangeModal({ show, closed }) {
                         borderRadius: "10px",
                         marginRight: "10px"
                     }} className="cart-modal-info-2">
-                        <img src={shirt} />
+                        <img style={{
+                            height : '100%',
+                            objectFit : 'contain'
+                        }} src={sku?.images[0]} />
                     </div>
                     <div className='cart-modal-info-1'>
-                        <h4 style={{ margin: "3px 0px" }}>Galactic Ranger 2</h4>
-                        <h5 style={{ margin: "6px 0px" }}>Unisex Summer Shirt</h5>
+                        <h4 style={{ margin: "3px 0px" }}>{sku?.name}</h4>
+                        <h5 style={{ margin: "6px 0px" }}>{sku?.headline}</h5>
                         <h5>Please select a size</h5>
 
                         <div >
                             {
-                                data.sizes.map(
+                                sku?.sizes.map(
                                     size => {
-                                        return <button id={size} className="product-size-butt">{size}</button>
+                                        return <button id={size} className="product-size-butt">{sizeMap[size]}</button>
                                     }
                                 )
                             }
@@ -65,15 +77,20 @@ function CartChangeModal({ show, closed }) {
                             }}>
                                 <h4>Colors:</h4>
                                 <div>
-                                    <button className='product-size-butt'></button>
-                                    <button className='product-size-butt'></button>
+                                    {
+                                        sku?.colors.map(
+                                            color => {
+                                                return <button className='product-size-butt' style={{backgroundColor : color}}></button>
+                                            }
+                                        )
+                                    }
                                 </div>
                             </div>
                             <div style={{
                                 width: "30%"
                             }}>
                                 <h4>Qty</h4>
-                                <NumberInput />
+                                <NumberInput onChange={() => {}}/>
                             </div>
                         </div>
                         <button className='cart-button grow' style={{

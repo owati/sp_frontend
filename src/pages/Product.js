@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import uuid from 'react-uuid'
 import Rating from '../components/CustomRating';
 import SkuCard from '../components/SkuCard';
 import SkuCardList from '../components/SkuCardList';
@@ -16,12 +17,18 @@ import drop from '../assets/drop.png';
 import {ReactComponent as VeriSvg} from '../assets/verified.svg';
 import { getRequest, putRequest } from '../functions/api';
 import Loading, {NoModalLoading} from '../components/Loading';
-import {addFave, getFave, addCart} from '../functions/storage'
+import {addFave, getFave, addCart} from '../functions/storage';
+import { updateItem } from '../redux/slicers/faveSlicer';
+import { updateItem as updateCart } from '../redux/slicers/cartSlicer';
 import { toast } from 'react-toastify';
 
 function Product() {
     const { id } = useParams();
+
+    const dispatch = useDispatch();
     const user = useSelector(state => state.user.info);
+
+    const faves = useSelector(state => state.fave.items)
 
     const [sku, setSku] = useState(null);
 
@@ -71,7 +78,7 @@ function Product() {
     async function getProduct() {
         const res = await getRequest('sku/units/'+id)
         if (res?.status === 200){
-            setSku(res.data.data)
+            setSku(res.data.data);
             setCartPref({
                 ...cartPref,
                 data : {
@@ -86,14 +93,13 @@ function Product() {
 
     const is_liked = useMemo(
         () => {
-            const faves = getFave();
-            console.log(faves)
             return faves.includes(id) ? liked : like
         },[id,showFave]
     )
 
     async function addToFave() {
         const faves = addFave(id);
+        dispatch(updateItem(faves));
         if (user) {
             const res = await putRequest('pref/faves', {faves});
             if (res?.status === 200) {
@@ -107,8 +113,11 @@ function Product() {
     }
 
     async function addToCart() {
-        const cart_data = addCart(cartPref);
-
+        const cart_data = addCart({
+            ...cartPref,
+            _id : uuid()
+        });
+        dispatch(updateCart(cart_data));
         if (cart_data) {
             if (user) {
                 const res = await putRequest('pref/cart', {cart_data});

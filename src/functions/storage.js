@@ -67,10 +67,10 @@ export function addCart(sku) {
     return new_list;
 }
 
-export function removeCart(sku) {
+export function removeCart(id) {
     const cart = JSON.parse(localStorage.getItem('cart'));
 
-    const new_list =  cart.filter(_sku => _sku.id !== sku.id)
+    const new_list =  cart.filter((_cart) => _cart._id !== id)
 
     localStorage.setItem('cart', JSON.stringify(new_list))
     return new_list;

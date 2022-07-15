@@ -11,12 +11,15 @@
     justify-content: center
 }
 
+.cart-list {
+    display: f;
+}
+
 .cart-details {
     width: 650px;
     height: fit-content;
     margin-right: 40px;
     padding-bottom: 40px;
-    ;
     
 }
 
@@ -32,7 +35,10 @@
     background-color: rgba(240, 240, 240, 1);
     border:  rgba(229, 229, 229, 1) 2px solid;
     border-radius: 5px;
-    height: fit-content;
+}
+.image-holder img {
+    height:  100%;
+    object-fit: contain;
 }
 
 .cart-details-info {
