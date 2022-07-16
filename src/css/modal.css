@@ -101,6 +101,10 @@
     border-radius: 5px;
 }
 
+.cart-selected {
+    border: 2px solid black !important;
+}
+
 @media screen and (max-width : 780px) {
     .cart-modal {
         height: 100vh;

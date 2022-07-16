@@ -3,8 +3,8 @@ import '../../css/numberinput.css';
 import arrow_up from '../../assets/arrow-up.png';
 import arrow_down from '../../assets/arrow-down.png'
 
-function NumberInput({ onChange, min = 1, max = 10}) {
-    const [number, setNumber] = useState(1)
+function NumberInput({ onChange, min = 1, max = 10, defaultValue=1}) {
+    const [number, setNumber] = useState(defaultValue)
 
     useEffect(() => {
         onChange(number)

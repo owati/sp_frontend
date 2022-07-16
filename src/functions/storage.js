@@ -67,6 +67,20 @@ export function addCart(sku) {
     return new_list;
 }
 
+export function updateCart(id, data){
+    const cart = JSON.parse(localStorage.getItem('cart'));
+    for (let i = 0; i < cart.length; i++ ) {
+        if (cart[i]._id == id)  { 
+            cart[i].data = data;
+            break;
+        }
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    return cart;
+}
+
 export function removeCart(id) {
     const cart = JSON.parse(localStorage.getItem('cart'));
 

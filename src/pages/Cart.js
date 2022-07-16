@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import '../css/cart.css';
 import shirt from '../assets/shirt.png'
@@ -55,8 +55,31 @@ function Cart() {
         dispatch(updateItem(new_cart))
     }
     useEffect(() => {
+        console.log('cart updated')
         getProducts()
     }, [cart])
+
+    const sizeMap = {
+        small : 'S',
+        medium : 'M',
+        large : 'L',
+        xlarge : 'XL'
+    }
+
+
+    const totalCost = useMemo(
+        () => {
+            let total = 0;
+            if (productsList?.length) {
+                for (const item of productsList) {
+                    const cost = item.sku?.price * item.data?.quantity;
+                    total += cost
+                }
+            }
+
+            return total
+        },[productsList]
+    )
 
     
 
@@ -89,6 +112,8 @@ function Cart() {
                                     (product, index) => {
                                         const { sku, data, _id } = product;
 
+                                        const cost = sku?.price * data?.quantity;
+
                                         return <div className='cart-details' key={'cart '+index}>
                                             <div>
                                                 <div style={{
@@ -105,14 +130,19 @@ function Cart() {
                                                     <div className='cart-details-info'>
                                                         <h3 style={{ margin: "0px" }}>{sku.name}</h3>
                                                         <h5 style={{marginTop : '10px'}}>{sku.headline}</h5>
-                                                        <h5 style={{marginTop : '10px'}}>Color : black</h5>
-                                                        <h5 style={{marginTop : '10px'}}>Size : {sku.name}</h5>
+                                                        <h5 style={{marginTop : '10px'}}>Color : <span style={{
+                                                            width : '20px',
+                                                            height : '20px',
+                                                            backgroundColor : data.color,
+                                                            color : data.color,
+                                                        }}>.....</span></h5>
+                                                        <h5 style={{marginTop : '10px'}}>Size : {sizeMap[data.size]}</h5>
                                                         <h5 className='invert-none' style={
                                                             {
                                                                 marginTop: "10px",
                                                                 color: "black",
                                                             }
-                                                        }>&#8358;{sku.price.toLocaleString()}</h5>
+                                                        }>&#8358;{cost.toLocaleString()}</h5>
                                                         <h5 style={{
                                                             marginTop: "10px"
                                                         }}
@@ -150,7 +180,7 @@ function Cart() {
                                                     <div className='cart-details-info-2 none-mobile'>
                                                         <h3 style={{
                                                             margin: "0px"
-                                                        }}>&#8358;10,000</h3>
+                                                        }}>&#8358;{cost.toLocaleString()}</h3>
                                                         {/* <div style={{
                                                             width: "100px"
                                                         }}>
@@ -186,7 +216,7 @@ function Cart() {
                                 borderBottom: "2px solid rgba(0,0,0,0.4)"
                             }}>
                                 <h3>Sub Total: </h3>
-                                <h3>&#8358;10,000</h3>
+                                <h3>&#8358;{totalCost.toLocaleString()}</h3>
 
                             </div>
                             <div style={{
