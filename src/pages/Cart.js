@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
 import '../css/cart.css';
 import shirt from '../assets/shirt.png'
 import { ReactComponent as Delete } from '../assets/carbon_delete.svg';
@@ -16,6 +17,7 @@ import { updateItem } from '../redux/slicers/cartSlicer';
 
 function Cart() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [showChange, setShow] = useState(null);
 
@@ -49,7 +51,7 @@ function Cart() {
     function removeFromCart(id) {
         const new_cart = removeCart(id)
         if (user) {
-            const res = putRequest('pref/cart', {cart_data : new_cart});
+            putRequest('pref/cart', {cart_data : new_cart});
         }
 
         dispatch(updateItem(new_cart))
@@ -129,22 +131,22 @@ function Cart() {
 
                                                     <div className='cart-details-info'>
                                                         <h3 style={{ margin: "0px" }}>{sku.name}</h3>
-                                                        <h5 style={{marginTop : '10px'}}>{sku.headline}</h5>
-                                                        <h5 style={{marginTop : '10px'}}>Color : <span style={{
+                                                        <h5 style={{marginTop : '10px', color : 'black'}}>{sku.headline}</h5>
+                                                        <h5 style={{marginTop : '14px'}}>Color : <span style={{
                                                             width : '20px',
                                                             height : '20px',
                                                             backgroundColor : data.color,
                                                             color : data.color,
                                                         }}>.....</span></h5>
-                                                        <h5 style={{marginTop : '10px'}}>Size : {sizeMap[data.size]}</h5>
+                                                        <h5 style={{marginTop : '7px'}}>Size : {sizeMap[data.size]}</h5>
                                                         <h5 className='invert-none' style={
                                                             {
-                                                                marginTop: "10px",
+                                                                marginTop: "7px",
                                                                 color: "black",
                                                             }
                                                         }>&#8358;{cost.toLocaleString()}</h5>
                                                         <h5 style={{
-                                                            marginTop: "10px"
+                                                            marginTop: "7px"
                                                         }}
                                                         >Quantity : {data.quantity}</h5>
 
@@ -227,7 +229,7 @@ function Cart() {
                                 borderBottom: "2px solid rgba(0,0,0,0.4)"
                             }}>
                                 <h3>Total: </h3>
-                                <h3>&#8358;10,000</h3>
+                                <h3>&#8358;{totalCost.toLocaleString()}</h3>
 
                             </div>
 
@@ -246,6 +248,11 @@ function Cart() {
                                         fontWeight: "bolder",
                                         borderRadius: "5px"
                                     }}
+                                    onClick={
+                                        () => {
+                                            navigate('/checkout')
+                                        }
+                                    }
                                 >Checkout</button>
 
                             </div>

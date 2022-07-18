@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router';
 import Modal from './Modal';
 import '../css/modal.css';
 import close from '../assets/close.png';
@@ -5,6 +6,8 @@ import shirt from '../assets/shirt.png';
 import {ReactComponent as TickSvg} from '../assets/tick.svg'
 
 function CartModal({show=true, closed, data, sku}) {
+    const navigate = useNavigate()
+
     const sizeMap = {
         small : 'S',
         medium : 'M',
@@ -93,10 +96,14 @@ function CartModal({show=true, closed, data, sku}) {
                     border : "1px solid black",
                     backgroundColor : "white",
                     color : "black"
-                }}>
+                }} onClick={
+                    () => navigate('/cart')
+                }>
                     View Cart
                 </button>
-                <button className='cart-view grow shadow-5'>
+                <button className='cart-view grow shadow-5'
+                    onClick={() => navigate('/checkout')}
+                >
                     Checkout
                 </button>
 

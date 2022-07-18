@@ -1,6 +1,7 @@
 import axios from "axios"
 
 const API_URL = "http://localhost:3001/";
+const STATES_API_URL = 'https://countriesnow.space/api/v0.1/countries/';
 
 
 export async function postRequest(path, data) {
@@ -62,5 +63,14 @@ export async function deleteRequest(path) {
         return response;
     } catch (e) {
         return e.response;
+    }
+}
+
+
+export async function getState(country) {
+    try {
+        const res = await getRequest(STATES_API_URL + 'states')
+    } catch {
+        
     }
 }
