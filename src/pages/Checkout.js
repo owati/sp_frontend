@@ -21,7 +21,18 @@ function Checkout() {
 
     const [checkoutData, setChekoutData] = useState({
         delivery: true,
-        payment_method: 'paystack'
+        user_id : null,
+        customer : {
+            first_name : '',
+            last_name : '',
+            email : '', 
+            phone : ''
+        },
+        shipping : {
+            address : '',
+            zip_code : '',
+            city : '', 
+        }
     })
 
     const {
