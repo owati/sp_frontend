@@ -7,7 +7,7 @@ function AccountInput({type="text",
     value,
     onChange,
     name,
-    label
+    label,
 }) {
     const [inputType, setInput] = useState(type);
     if (['text', 'email', 'tel'].includes(type)) {

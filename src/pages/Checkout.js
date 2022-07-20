@@ -26,7 +26,7 @@ function Checkout() {
             first_name : '',
             last_name : '',
             email : '', 
-            phone : ''
+            phone_no : ''
         },
         shipping : {
             address : '',
@@ -107,6 +107,33 @@ function Checkout() {
         },[productsList]
     )
 
+    function editCustomerData(field, value) {
+        setChekoutData({
+            ...checkoutData,
+            customer : {
+                ...checkoutData.customer,
+                [field] : value
+            }
+        })
+    }
+
+    useEffect( () => {
+        if (user) {
+            setChekoutData({
+                ...checkoutData,
+                user_id : user._id,
+                customer : {
+                    first_name : user.first_name,
+                    last_name : user.last_name,
+                    email : user.email,
+                    phone_no : user.phone_no
+                }
+            })
+        }
+    }, [user])
+
+    const {first_name, last_name, email, phone_no} = checkoutData.customer
+
     return productsList ? (
         <div>
             <header style={{
@@ -136,10 +163,10 @@ function Checkout() {
                                     <h5 style={{ margin: 0 }}>PERSONAL DETAILS</h5>
                                 </div>
                                 <div className='checkout-person'>
-                                    <AddCardInput label_style={{ backgroundColor: 'white' }} label='First name' />
-                                    <AddCardInput label_style={{ backgroundColor: 'white' }} label='Last name' />
-                                    <AddCardInput label_style={{ backgroundColor: 'white' }} label='Email' />
-                                    <AddCardInput label_style={{ backgroundColor: 'white' }} label='Phone no' />
+                                    <AddCardInput label_style={{ backgroundColor: 'white' }} value={first_name} onChange={e => editCustomerData('first_name', e)} label='First name' />
+                                    <AddCardInput label_style={{ backgroundColor: 'white' }} value={last_name} onChange={e => editCustomerData('last_name', e)} label='Last name' />
+                                    <AddCardInput label_style={{ backgroundColor: 'white' }} value={email} onChange={e => editCustomerData('email', e)} label='Email' />
+                                    <AddCardInput label_style={{ backgroundColor: 'white' }} value={phone_no} onChange={e => editCustomerData('phone_no', e)} label='Phone no' />
                                 </div>
 
                             </div>

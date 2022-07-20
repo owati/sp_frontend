@@ -152,11 +152,11 @@ function AddCard({ addNew }) {
         </div>
     )
 }
-export function AddCardInput({ type, onChange, label, name, label_style={}}) {
+export function AddCardInput({ type, onChange, label, value, name, label_style={}}) {
     return (
         <div className='payment-input-div'>
             <h5 style={{...label_style}}>{label}</h5>
-            <input className='payment-input' type={type} name={name} onChange={onChange} />
+            <input className='payment-input' type={type} name={name} value={value} onChange={onChange} />
         </div>
     )
 }
