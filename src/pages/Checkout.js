@@ -31,7 +31,8 @@ function Checkout() {
         shipping : {
             address : '',
             zip_code : '',
-            city : '', 
+            city : '',
+            country : ''
         }
     })
 
@@ -117,8 +118,20 @@ function Checkout() {
         })
     }
 
+    function editShippindData(field, value) {
+        setChekoutData({
+            ...checkoutData,
+            shipping : {
+                ...checkoutData.shipping,
+                [field] : value
+            }
+        })
+    }
+
     useEffect( () => {
         if (user) {
+            const address = user.address.filter(addr => addr.default)[0]
+            console.log('address', address)
             setChekoutData({
                 ...checkoutData,
                 user_id : user._id,
@@ -127,12 +140,19 @@ function Checkout() {
                     last_name : user.last_name,
                     email : user.email,
                     phone_no : user.phone_no
+                },
+                shipping : {
+                    ...checkoutData.shipping,
+                    address : address.address,
+                    country : address.country,
+                    state : address.state
                 }
             })
         }
     }, [user])
 
-    const {first_name, last_name, email, phone_no} = checkoutData.customer
+    const {first_name, last_name, email, phone_no} = checkoutData.customer;
+    const {address, zip_code, city, country} = checkoutData.shipping;
 
     return productsList ? (
         <div>
@@ -188,9 +208,11 @@ function Checkout() {
                                 <div className='checkout-address'>
                                     <h4 style={{ margin: 0, gridColumn: '1 / -1' }}>Shipping Address</h4>
                                     <div style={{ gridColumn: '1 / -1' }}>
-                                        <AddCardInput label='Street address' label_style={{ backgroundColor: 'white' }} />
+                                        <AddCardInput label='Street address' value={address} label_style={{ backgroundColor: 'white' }} 
+                                        onChange={e => editCustomerData('address', e)}/>
                                     </div>
-                                    <AddCardInput label='Zip Code' label_style={{ backgroundColor: 'white' }} />
+                                    <AddCardInput label='Zip Code' label_style={{ backgroundColor: 'white' }} value={zip_code}
+                                    onChange={e => editCustomerData('zip_code', e)}/>
                                     <AddCardInput label='City' label_style={{ backgroundColor: 'white' }} />
                                     <AddCardInput label='Country' label_style={{ backgroundColor: 'white' }} />
 
@@ -198,12 +220,12 @@ function Checkout() {
 
                                     <div className={'checkout-delivery' + (delivery ? ' selected' : '')}>
                                         <h4 style={{ margin: 0 }}>Door delivery</h4>
-                                        <input type='radio' name='delivery' checked={delivery} onClick={() => console.log(delivery)} />
+                                        <input type='radio' name='delivery' checked={delivery} onClick={() => setDelivery(true)} />
                                     </div>
 
                                     <div className={'checkout-delivery' + (!delivery ? ' selected' : '')}>
                                         <h4 style={{ margin: 0 }}>Pick up</h4>
-                                        <input type='radio' name='delivery' checked={!delivery} onClick={() => console.log(delivery)} />
+                                        <input type='radio' name='delivery' checked={!delivery} onClick={() => setDelivery(false)} />
                                     </div>
 
 

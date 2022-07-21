@@ -296,6 +296,12 @@ header h1 {
     right: 5px;
 }
 
+.address-edit-select {
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+}
+
 .address-input {
     width: 70% !important;
     margin-bottom: 20px;
@@ -307,14 +313,14 @@ header h1 {
 }
 
 textarea.address-input{
-    height:  200px;
+    height:  80px;
     min-height: 50px;
 }
 
 .address-edit button{
     position: relative;
     width: 100px;
-    height: 405px;
+    height: 40px;
     border: none;
     border-radius: 5px;
     background-color: black;
@@ -585,10 +591,17 @@ textarea.address-input{
     }
     .address-edit {
         width: 90%;
+        height: 500px;
     }
 
     .address-input {
         width: 100% !important;
+    }
+
+    .address-edit-select {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
     }
 
     .address-header {

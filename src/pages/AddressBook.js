@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getRequest, postRequest, putRequest, deleteRequest } from '../functions/api';
+import Select from 'react-select'
+import { getRequest, postRequest, putRequest, deleteRequest, getStates } from '../functions/api';
 import { toast } from 'react-toastify';
 import Modal from '../components/Modal';
 import { ReactComponent as Edit } from '../assets/carbon_edit.svg';
 import { ReactComponent as Delete } from '../assets/carbon_delete.svg';
 import { ReactComponent as Plus } from '../assets/plus.svg';
 import close from '../assets/close.png';
+import axios from 'axios';
 
 function AddressBook({ loading }) {
     const user = useSelector(state => state.user.info);
@@ -24,7 +26,8 @@ function AddressBook({ loading }) {
         loading(true);
         const res = await getRequest('account/address');
         loading(false);
-        if(res?.status == 200) {
+        if (res?.status == 200) {
+            console.log()
             setAddress(res.data.data);
         }
     }
@@ -88,18 +91,18 @@ function AddressBook({ loading }) {
     return (
         <div className='address-main'>
             <div style={{
-                display : "flex",
-                alignItems  : "center",
-                justifyContent : 'space-between'
+                display: "flex",
+                alignItems: "center",
+                justifyContent: 'space-between'
             }} className="address-header">
-            <h3 className='address-title'>Available Addresses</h3>
-            <button className='address-new-butt' onClick={
-                () => {
-                    console.log('shoe', showAddrModal)
-                    setShow(true);
-                    setData(null);
-                }
-            }>ADD NEW</button>
+                <h3 className='address-title'>Available Addresses</h3>
+                <button className='address-new-butt' onClick={
+                    () => {
+                        console.log('shoe', showAddrModal)
+                        setShow(true);
+                        setData(null);
+                    }
+                }>ADD NEW</button>
 
             </div>
 
@@ -134,7 +137,7 @@ function AddressBook({ loading }) {
                 }
             } name={user?.first_name + ' ' + user?.last_name} />
 
-            <button className='address-mobile-add' style={{display : "none"}}  onClick={
+            <button className='address-mobile-add' style={{ display: "none" }} onClick={
                 () => {
                     console.log('shoe', showAddrModal)
                     setShow(true);
@@ -154,17 +157,21 @@ function AddressCard({ isDefault = false, data, index, actions }) {
             <div className='address-card-div'>
                 <div className='address-card-details'>
                     {
-                        isDefault ? <button className='address-default-butt'style={{
-                            marginBottom : "10px"}}>Default Address</button>
-                        : <></>
+                        isDefault ? <button className='address-default-butt' style={{
+                            marginBottom: "10px"
+                        }}>Default Address</button>
+                            : <></>
                     }
                     <h4 style={{ marginTop: "0px" }}>
                         {data?.name}
                     </h4>
 
                     <h5 style={{ margin: "0px" }}>{data?.address}</h5>
+                    <h5 style={{margin : '5px'}}>{data?.state + ', '  + data?.country}</h5>
                     {/* <h5 style={{ margin: "0px" }}>3, police arena, avanuew</h5>
                     <h5 style={{ margin: "0px" }}>3, police arena, avanuew</h5> */}
+
+
 
                     <h5>{data?.phone}</h5>
 
@@ -211,6 +218,15 @@ function AddressCard({ isDefault = false, data, index, actions }) {
 
 function AddressEdit({ show = false, actions = {}, data, toggle, name }) {
 
+    const [states, setStates] = useState([])
+
+    async function fetchStates(country='Nigeria') {
+        const res = await getStates();
+        if(Array.isArray(res)) {
+            setStates(res)
+        }
+    }
+
     const [details, setDetails] = useState({ ...data });
 
     useEffect(
@@ -220,6 +236,12 @@ function AddressEdit({ show = false, actions = {}, data, toggle, name }) {
                 setDetails({ name })
             }
         }, [data, name]
+    )
+
+    useEffect(
+        () => {
+            fetchStates()
+        },[]
     )
 
     function editDetail(e) {
@@ -246,6 +268,20 @@ function AddressEdit({ show = false, actions = {}, data, toggle, name }) {
 
                 <textarea className="address-input" placeholder='addresss' name="address" value={details?.address}
                     onChange={editDetail} />
+
+                <div className='address-edit-select'>
+                    <div style={{width : '150px', marginBottom: '20px'}}>
+                        <Select placeholder="state"
+                            options={states}
+                            onChange={e => {e.target = {name : 'state', value : e.value}; editDetail(e) }}
+                        />
+                    </div>
+                    <div style={{width : '150px', marginBottom: '20px'}}>
+                        <Select placeholder="country" options={[{label : 'Nigeria', value : 'Nigeria'}]}
+                        onChange={e => {e.target = {name : 'country', value : e.value}; editDetail(e) }}/>
+
+                    </div>
+                </div>
 
                 <button className="grow" onClick={
                     () => {

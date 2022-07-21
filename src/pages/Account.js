@@ -81,6 +81,7 @@ function Account({ loading }) {
 
                         <h4>{defAddress?.name}</h4>
                         <h4>{defAddress?.address}</h4>
+                        <h5 style={{margin : '5px'}}>{defAddress?.state + ', '  + defAddress?.country}</h5>
                         <h4>{defAddress?.phone}</h4>
                     </div>
                 </div>

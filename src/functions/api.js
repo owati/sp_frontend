@@ -67,10 +67,22 @@ export async function deleteRequest(path) {
 }
 
 
-export async function getState(country) {
+export async function getStates(country='Nigeria') {
     try {
-        const res = await getRequest(STATES_API_URL + 'states')
-    } catch {
-        
+        const res = await axios.post('https://countriesnow.space/api/v0.1/countries/states', {country});
+        console.log(res)
+        if (res?.status === 200) {
+            return (res?.data?.data?.states
+                .map(state => {
+                    return {
+                        label : state.name,
+                        value : state.name
+                    }
+                }))
+        } else {
+    
+        }
+    } catch (e) {
+        return e.response
     }
 }

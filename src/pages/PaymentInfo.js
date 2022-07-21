@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Select from 'react-select';
 import { toast } from 'react-toastify';
 import { getRequest, postRequest, putRequest, deleteRequest } from '../functions/api';
 import { ReactComponent as Delete } from '../assets/carbon_delete.svg'
@@ -153,6 +154,15 @@ function AddCard({ addNew }) {
     )
 }
 export function AddCardInput({ type, onChange, label, value, name, label_style={}}) {
+    return (
+        <div className='payment-input-div'>
+            <h5 style={{...label_style}}>{label}</h5>
+            <input className='payment-input' type={type} name={name} value={value} onChange={onChange} />
+        </div>
+    )
+}
+
+export function AddCardSelect({ type, onChange, label, value, name, label_style={}}) {
     return (
         <div className='payment-input-div'>
             <h5 style={{...label_style}}>{label}</h5>
