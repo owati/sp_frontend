@@ -11,6 +11,8 @@ function PaymentInfo({ loading }) {
 
     const [cards, setCards] = useState([])
 
+    
+
     async function getCards() {
         loading(true);
         const res = await getRequest('account/cards')
@@ -19,6 +21,7 @@ function PaymentInfo({ loading }) {
             setCards(res.data.data)
         }
     }
+
 
     async function deleteCard(number) {
         loading(true);
@@ -45,8 +48,7 @@ function PaymentInfo({ loading }) {
     }
 
     useEffect(() => {
-        getCards()
-
+        getCards();
     }, [])
     return (
         <div className='payment-main'>
@@ -153,20 +155,42 @@ function AddCard({ addNew }) {
         </div>
     )
 }
-export function AddCardInput({ type, onChange, label, value, name, label_style={}}) {
+export function AddCardInput({ type, onChange, label, value, name, label_style={}, disabled=false}) {
     return (
         <div className='payment-input-div'>
             <h5 style={{...label_style}}>{label}</h5>
-            <input className='payment-input' type={type} name={name} value={value} onChange={onChange} />
+            <input className='payment-input' disabled={disabled} type={type} name={name} value={value} onChange={onChange} />
         </div>
     )
 }
 
-export function AddCardSelect({ type, onChange, label, value, name, label_style={}}) {
+export function AddCardSelect({ type, onChange, label, value, options, label_style={}}) {
+    const customStyles = {
+        control: (base, state) => ({
+          ...base,
+          boxShadow: "none",
+          border: 'none',
+          backgroundColor : 'transparent',
+          height : '100%'
+        }),
+    
+        menu : styles => (
+            {
+                ...styles,
+                width : '100%'
+            }
+        )
+      };
+      
     return (
-        <div className='payment-input-div'>
+        <div className='payment-input-div'  style={{height : 'fit-content'}}>
             <h5 style={{...label_style}}>{label}</h5>
-            <input className='payment-input' type={type} name={name} value={value} onChange={onChange} />
+
+            <Select styles={customStyles}
+            options={options}
+            onChange={e => onChange(e)}
+            value={value} />
+            {/* <input className='payment-input' type={type} name={name} value={value} onChange={onChange} /> */}
         </div>
     )
 }

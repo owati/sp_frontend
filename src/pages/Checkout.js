@@ -1,11 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { getRequest } from '../functions/api';
+import { getRequest, postRequest } from '../functions/api';
 import { toast } from 'react-toastify';
 import Select from 'react-select';
-import { AddCardInput } from './PaymentInfo';
+import { AddCardInput, AddCardSelect } from './PaymentInfo';
 import { ReactComponent as Cart } from '../assets/checkout.svg';
+import { getStates } from '../functions/api';
 import shirt from '../assets/shirt.png';
 import '../css/checkout.css';
 import { NoModalLoading } from '../components/Loading';
@@ -18,6 +19,32 @@ function Checkout() {
     const user = useSelector(state => state.user.info);
 
     const [productsList, setProducts] = useState(null);
+
+    const [states, setStates] = useState([]);
+
+    const [discountCode, setDiscountCode] = useState('')
+    const [discountData, setDiscountData] = useState(null)
+
+    async function getDiscountData() {
+        if(discountCode) {
+            const res = await postRequest('discount/use', {code : discountCode});
+            if (res?.status === 200) {
+                setDiscountData(res.data.data)
+            } else {
+                if (res?.status === 404) toast.error('The discount is invalid')
+                else toast.error(res?.data?.message)
+            }
+        } else {
+            toast.error('Fill add the discount code')
+        }
+    }
+
+    async function fetchStates(country='Nigeria') {
+        const res = await getStates();
+        if(Array.isArray(res)) {
+            setStates(res)
+        }
+    }
 
     const [checkoutData, setChekoutData] = useState({
         delivery: true,
@@ -108,6 +135,18 @@ function Checkout() {
         },[productsList]
     )
 
+    const shippingCost = useMemo(
+        () => {
+            return delivery ? 2000 : 0
+        }, [delivery]
+    )
+
+    const finalCost = useMemo(
+        () => {
+            return totalCost + shippingCost
+        }, [shippingCost, totalCost]
+    )
+
     function editCustomerData(field, value) {
         setChekoutData({
             ...checkoutData,
@@ -118,7 +157,7 @@ function Checkout() {
         })
     }
 
-    function editShippindData(field, value) {
+    function editShippingData(field, value) {
         setChekoutData({
             ...checkoutData,
             shipping : {
@@ -131,7 +170,6 @@ function Checkout() {
     useEffect( () => {
         if (user) {
             const address = user.address.filter(addr => addr.default)[0]
-            console.log('address', address)
             setChekoutData({
                 ...checkoutData,
                 user_id : user._id,
@@ -145,11 +183,29 @@ function Checkout() {
                     ...checkoutData.shipping,
                     address : address.address,
                     country : address.country,
-                    state : address.state
+                    city : address.state
                 }
             })
         }
     }, [user])
+
+    useEffect(() => {
+        const newProductList = productsList
+        if (discountData.application.type === 'all') {
+            for(const i = 0; i < newProductList.length; i++){
+                newProductList[i].sku.price -= discountData.fixed ? discountData.value : 
+                discountData.value/100 * newProductList[i].sku.price;
+            }
+        } else {
+            for(const i = 0; i < newProductList.length; i++){
+                if(discountData.application.type === 'products')
+                newProductList[i].sku.price -= discountData.fixed ? discountData.value : 
+                discountData.value/100 * newProductList[i].sku.price;
+            }
+        }
+    }, [discountData])
+
+    useEffect(() => {fetchStates()},[])
 
     const {first_name, last_name, email, phone_no} = checkoutData.customer;
     const {address, zip_code, city, country} = checkoutData.shipping;
@@ -183,10 +239,10 @@ function Checkout() {
                                     <h5 style={{ margin: 0 }}>PERSONAL DETAILS</h5>
                                 </div>
                                 <div className='checkout-person'>
-                                    <AddCardInput label_style={{ backgroundColor: 'white' }} value={first_name} onChange={e => editCustomerData('first_name', e)} label='First name' />
-                                    <AddCardInput label_style={{ backgroundColor: 'white' }} value={last_name} onChange={e => editCustomerData('last_name', e)} label='Last name' />
-                                    <AddCardInput label_style={{ backgroundColor: 'white' }} value={email} onChange={e => editCustomerData('email', e)} label='Email' />
-                                    <AddCardInput label_style={{ backgroundColor: 'white' }} value={phone_no} onChange={e => editCustomerData('phone_no', e)} label='Phone no' />
+                                    <AddCardInput label_style={{ backgroundColor: 'white' }} value={first_name} onChange={e => editCustomerData('first_name', e.target.value)} label='First name' />
+                                    <AddCardInput label_style={{ backgroundColor: 'white' }} value={last_name} onChange={e => editCustomerData('last_name', e.target.value)} label='Last name' />
+                                    <AddCardInput label_style={{ backgroundColor: 'white' }} value={email} onChange={e => editCustomerData('email', e.target.value)} label='Email' />
+                                    <AddCardInput label_style={{ backgroundColor: 'white' }} value={phone_no} onChange={e => editCustomerData('phone_no', e.target.value)} label='Phone no' />
                                 </div>
 
                             </div>
@@ -209,12 +265,17 @@ function Checkout() {
                                     <h4 style={{ margin: 0, gridColumn: '1 / -1' }}>Shipping Address</h4>
                                     <div style={{ gridColumn: '1 / -1' }}>
                                         <AddCardInput label='Street address' value={address} label_style={{ backgroundColor: 'white' }} 
-                                        onChange={e => editCustomerData('address', e)}/>
+                                        onChange={e => editShippingData('address', e.target.value)}/>
                                     </div>
                                     <AddCardInput label='Zip Code' label_style={{ backgroundColor: 'white' }} value={zip_code}
-                                    onChange={e => editCustomerData('zip_code', e)}/>
-                                    <AddCardInput label='City' label_style={{ backgroundColor: 'white' }} />
-                                    <AddCardInput label='Country' label_style={{ backgroundColor: 'white' }} />
+                                    onChange={e => editShippingData('zip_code', e.target.value)}/>
+
+                                    <AddCardSelect label='City' label_style={{ backgroundColor: 'white' }} 
+                                    options={states} value={{label : city, value : city}} onChange={e => editShippingData('city', e.value)}/>
+
+                                    <AddCardSelect label='Country' label_style={{ backgroundColor: 'white' }} 
+                                    options={[{label : 'Nigeria', value : 'Nigeria'}]} value={{label : country, value : country}} onChange={e => editShippingData('country', e.value)}/>
+                                
 
                                     <h4 style={{ margin: 0, gridColumn: '1/-1' }}> Shipping Method</h4>
 
@@ -307,7 +368,19 @@ function Checkout() {
                                     )
                                 }
 
-                                <AddCardInput label='discount code' label_style={{ backgroundColor: 'white' }} />
+                                <div style={{display : 'flex', width : '100%'}}>
+                                    <AddCardInput label='discount code' label_style={{ backgroundColor: 'white' }}
+                                    value={discountCode} onChange={e => setDiscountCode(e.target.value)} />
+
+                                    <button style={{
+                                        backgroundColor : "black",
+                                        color : 'white',
+                                        borderRadius: '5px',
+                                        padding: '0px 15px',
+                                        marginLeft : '20px'
+                                    }}>Apply</button>
+                                </div>
+
 
                                 <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                                     <h4 style={{ margin: '8px', color: 'rgba(0,0,0,0.3)' }}>Sub Total:</h4>
@@ -315,16 +388,16 @@ function Checkout() {
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                                     <h4 style={{ margin: '8px', color: 'rgba(0,0,0,0.3)' }}>Shipping Cost:</h4>
-                                    <h4 style={{ margin: '8px' }}>&#8358;22,000</h4>
+                                    <h4 style={{ margin: '8px' }}>&#8358;{shippingCost.toLocaleString()}</h4>
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                                    <h4 style={{ margin: '8px', color: 'rgba(0,0,0,0.3)' }}>Shipping Cost:</h4>
-                                    <h4 style={{ margin: '8px' }}>&#8358;22,000</h4>
+                                    <h4 style={{ margin: '8px', color: 'rgba(0,0,0,0.3)' }}>Discount:</h4>
+                                    <h4 style={{ margin: '8px' }}>&#8358;</h4>
                                 </div>
                                 <div style={{ width: '100%', borderBottom: '1px solid black' }}></div>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                                     <h4 style={{ margin: '8px', color: 'rgba(0,0,0,0.3)' }}>Total:</h4>
-                                    <h4 style={{ margin: '8px' }}>&#8358;22,000</h4>
+                                    <h4 style={{ margin: '8px' }}>&#8358;{finalCost.toLocaleString()}</h4>
                                 </div>
 
                                 <button className='grow shadow-5' style={{
