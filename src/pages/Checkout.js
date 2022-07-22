@@ -96,7 +96,8 @@ function Checkout() {
                     if (prod_data.availability) {
                         newCartList.push({
                             ...item,
-                            sku: prod_data
+                            sku: prod_data,
+                            discount_price : 0
                         })
                     }
                 }
@@ -124,9 +125,11 @@ function Checkout() {
     const totalCost = useMemo(
         () => {
             let total = 0;
+
             if (productsList?.length) {
+                console.log('recalculating')
                 for(const item of productsList) {
-                    const cost = item.data.quantity * item.sku.price;
+                    const cost = item.data.quantity * (item.discount_price || item.sku.price);
                     total += cost;
                 }
             }
@@ -190,20 +193,23 @@ function Checkout() {
     }, [user])
 
     useEffect(() => {
-        const newProductList = productsList
-        if (discountData.application.type === 'all') {
-            for(const i = 0; i < newProductList.length; i++){
-                newProductList[i].sku.price -= discountData.fixed ? discountData.value : 
-                discountData.value/100 * newProductList[i].sku.price;
+        if (productsList?.length) {
+            const {value, list, is_all, fixed } = discountData
+            const newProductList = productsList;
+
+            for (let i = 0; i < newProductList.length; i++) {
+                if (is_all || list.includes(newProductList[i].sku._id)) {
+                    newProductList[i].discount_price =  fixed ? 
+                    newProductList[i].sku.price - value : newProductList[i].sku.price * ((100 - value)/ 100)
+                }
             }
-        } else {
-            for(const i = 0; i < newProductList.length; i++){
-                if(discountData.application.type === 'products')
-                newProductList[i].sku.price -= discountData.fixed ? discountData.value : 
-                discountData.value/100 * newProductList[i].sku.price;
-            }
+            console.log([newProductList])
+            setProducts([...newProductList]);
+            toast.success('The discount has taken effect.' + (is_all ? '' : 'Note this discount is only for specific products'))
         }
     }, [discountData])
+
+    useEffect(() => {console.log('New list')}, [productsList])
 
     useEffect(() => {fetchStates()},[])
 
@@ -342,9 +348,10 @@ function Checkout() {
                                 {
                                     productsList.map(
                                         product => {
-                                            const {sku, data} = product
+                                            const {sku, data, discount_price} = product
 
                                             const cost = sku.price * data.quantity
+                            
                                             return (
                                                 <div className='checkout-sku'>
                                                     <div className='checkout-sku-img'>
@@ -361,6 +368,16 @@ function Checkout() {
                                                         <h5 style={{ margin: '3px', color: 'rgba(0,0,0,0.3)' }}>Size : {sizeMap[sku.size]}</h5>
                                                         <h5 style={{ margin: '3px', color: 'rgba(0,0,0,0.3)' }}>{data.quantity} Unit{data.quantity === 1 ? '' : 's'}</h5>
                                                         <h3 style={{ margin: '3px' }}>&#8358;{cost.toLocaleString()}</h3>
+                                                        {
+                                                            discount_price ? 
+                                                            <h3 style={{ margin: '3px', color : 'green' }}>&#8358;{(
+                                                                () => {
+                                                                    const discount_cost = discount_price * data.quantity;
+                                                                    return discount_cost.toLocaleString()
+                                                                }
+                                                            )()}</h3> :<></>
+                                                            
+                                                        }
                                                     </div>
                                                 </div>
                                             )
@@ -378,7 +395,11 @@ function Checkout() {
                                         borderRadius: '5px',
                                         padding: '0px 15px',
                                         marginLeft : '20px'
-                                    }}>Apply</button>
+                                    }} onClick = {
+                                        () => {
+                                            getDiscountData()
+                                        }
+                                    }>Apply</button>
                                 </div>
 
 
