@@ -127,7 +127,7 @@ function Checkout() {
             let total = 0;
 
             if (productsList?.length) {
-                console.log('recalculating')
+
                 for(const item of productsList) {
                     const cost = item.data.quantity * (item.discount_price || item.sku.price);
                     total += cost;
@@ -203,13 +203,12 @@ function Checkout() {
                     newProductList[i].sku.price - value : newProductList[i].sku.price * ((100 - value)/ 100)
                 }
             }
-            console.log([newProductList])
             setProducts([...newProductList]);
             toast.success('The discount has taken effect.' + (is_all ? '' : 'Note this discount is only for specific products'))
         }
     }, [discountData])
 
-    useEffect(() => {console.log('New list')}, [productsList])
+
 
     useEffect(() => {fetchStates()},[])
 
