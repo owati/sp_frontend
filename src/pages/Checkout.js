@@ -122,19 +122,23 @@ function Checkout() {
         xlarge : 'XL'
     }
 
-    const totalCost = useMemo(
+    const [totalCost, discountCost] = useMemo(
         () => {
             let total = 0;
-
+            let discounted = 0;
             if (productsList?.length) {
-
                 for(const item of productsList) {
-                    const cost = item.data.quantity * (item.discount_price || item.sku.price);
+    
+                    const cost = item.data.quantity * item.sku.price;
                     total += cost;
+
+                    if (item.discount_price) {
+                        discounted += item.data.quantity * item.discount_price;
+                    }
                 }
             }
 
-            return total
+            return [total, discounted]
         },[productsList]
     )
 
@@ -146,8 +150,8 @@ function Checkout() {
 
     const finalCost = useMemo(
         () => {
-            return totalCost + shippingCost
-        }, [shippingCost, totalCost]
+            return totalCost + shippingCost - discountCost
+        }, [shippingCost, totalCost, discountCost]
     )
 
     function editCustomerData(field, value) {
@@ -200,7 +204,7 @@ function Checkout() {
             for (let i = 0; i < newProductList.length; i++) {
                 if (is_all || list.includes(newProductList[i].sku._id)) {
                     newProductList[i].discount_price =  fixed ? 
-                    newProductList[i].sku.price - value : newProductList[i].sku.price * ((100 - value)/ 100)
+                    value : newProductList[i].sku.price * (value/ 100)
                 }
             }
             setProducts([...newProductList]);
@@ -208,12 +212,47 @@ function Checkout() {
         }
     }, [discountData])
 
-
-
+    
+    
+    
     useEffect(() => {fetchStates()},[])
-
+    
     const {first_name, last_name, email, phone_no} = checkoutData.customer;
     const {address, zip_code, city, country} = checkoutData.shipping;
+    
+    function handleCheckout() {
+        if (!first_name || !last_name || !email || !phone_no) {
+            toast.error('Please fill all the personal details fields');
+        } else if(!address || !zip_code || !city || !country) {
+            toast.error('Please fill all the shipping details fields')
+        } else {
+            const dataToSend = {
+                user : user._id,
+                personal_info : {
+                    first_name,
+                    last_name,
+                    email,
+                    phone_no
+                },
+                shipping_info : {
+                    address,
+                    zip_code,
+                    city,
+                    country,
+                },
+                order_list : productsList.map(
+                    product => ({
+                        data : product.data,
+                        id : product.sku._id,
+                    })
+                ),
+                delivery
+            }
+
+            console.log(dataToSend)
+        }
+    }
+
 
     return productsList ? (
         <div>
@@ -369,12 +408,12 @@ function Checkout() {
                                                         <h3 style={{ margin: '3px' }}>&#8358;{cost.toLocaleString()}</h3>
                                                         {
                                                             discount_price ? 
-                                                            <h3 style={{ margin: '3px', color : 'green' }}>&#8358;{(
+                                                            <h4 style={{ margin: '3px', color : 'green' }}>- &#8358;{(
                                                                 () => {
                                                                     const discount_cost = discount_price * data.quantity;
                                                                     return discount_cost.toLocaleString()
                                                                 }
-                                                            )()}</h3> :<></>
+                                                            )()}</h4> :<></>
                                                             
                                                         }
                                                     </div>
@@ -412,7 +451,7 @@ function Checkout() {
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                                     <h4 style={{ margin: '8px', color: 'rgba(0,0,0,0.3)' }}>Discount:</h4>
-                                    <h4 style={{ margin: '8px' }}>&#8358;</h4>
+                                    <h4 style={{ margin: '8px', color : 'green'}}>- &#8358;{discountCost.toLocaleString()}</h4>
                                 </div>
                                 <div style={{ width: '100%', borderBottom: '1px solid black' }}></div>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
@@ -420,7 +459,9 @@ function Checkout() {
                                     <h4 style={{ margin: '8px' }}>&#8358;{finalCost.toLocaleString()}</h4>
                                 </div>
 
-                                <button className='grow shadow-5' style={{
+                                <button className='grow shadow-5' 
+                                onClick={() => handleCheckout()}
+                                style={{
                                     backgroundColor: 'black',
                                     color: 'white',
                                     borderRadius: '5px',
