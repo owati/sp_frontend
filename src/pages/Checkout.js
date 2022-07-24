@@ -9,7 +9,7 @@ import { ReactComponent as Cart } from '../assets/checkout.svg';
 import { getStates } from '../functions/api';
 import shirt from '../assets/shirt.png';
 import '../css/checkout.css';
-import { NoModalLoading } from '../components/Loading';
+import Loading , { NoModalLoading } from '../components/Loading';
 
 function Checkout() {
     const navigate = useNavigate();
@@ -24,6 +24,8 @@ function Checkout() {
 
     const [discountCode, setDiscountCode] = useState('')
     const [discountData, setDiscountData] = useState(null)
+ 
+    const [loading, setLoading] = useState(false)
 
     async function getDiscountData() {
         if(discountCode) {
@@ -234,7 +236,7 @@ function Checkout() {
                     email,
                     phone_no
                 },
-                shipping_info : {
+                shipping_data : {
                     address,
                     zip_code,
                     city,
@@ -246,13 +248,27 @@ function Checkout() {
                         id : product.sku._id,
                     })
                 ),
-                delivery
+                delivery,
+                finalCost
             }
 
-            console.log(dataToSend)
+            // handle paystack payment
+
+            createOrder(dataToSend)
         }
     }
 
+    async function createOrder(data) {
+        setLoading(true)
+        const res = await postRequest('orders/user', data);
+        setLoading(false)
+        if (res?.status === 201) {
+            console.log(res)
+            toast.success('Order created successfully')
+        } else {
+            toast.error(res?.data?.message)
+        }
+    }
 
     return productsList ? (
         <div>
@@ -478,7 +494,7 @@ function Checkout() {
                             </div>
 
                         </div>
-
+                        <Loading  show={loading}/>
                     </div> : <></>
             }
 
