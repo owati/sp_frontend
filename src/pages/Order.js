@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import shirt from '../assets/shirt.png'
 import { NoModalLoading } from "../components/Loading";
@@ -14,7 +15,10 @@ const status = {
 
 
 function Order({ loading }) {
-    const [orders, setOrders] = useState(null)
+    const navigate = useNavigate();
+
+    const [orders, setOrders] = useState(null);
+
     async function getOrders () {
         const res = await getRequest('orders/user');
         console.log(res)
@@ -38,7 +42,6 @@ function Order({ loading }) {
                         {
                             orders.map(
                                 order => {
-                                    console.log(order);
                                     let totalCount = 0
                                     order.order_list.forEach(item => {totalCount += item.data.quantity});
 
@@ -47,14 +50,18 @@ function Order({ loading }) {
                                     const current_status = status[order.status[order.status.length - 1].status]
                                     
                                     return <div className="order-container">
-                                        <div className="order-div shadow-5 grow">
+                                        <div className="order-div shadow-5 grow" onClick={
+                                            () => {
+                                                navigate(order.id)
+                                            }
+                                        }>
                                             <div className="order-time">
                                                 <h3 style={{ margin: "0px" }}>{date_list[2]}</h3>
                                                 <h3 style={{ margin: "0px", fontWeight : "bolder" }}>{date_list[1]}</h3>
                                                 <h5 style={{ margin: "0px" }}>{date_list[3]}</h5>
                                             </div>
                                             <div className="order-details">
-                                                <h1 style={{ margin: 0 }}>#{order._id.slice(15)}</h1>
+                                                <h1 style={{ margin: 0 }}>#{order.id}</h1>
                                                 <h4 style={{ margin: 0 }}>{totalCount} Items</h4>
                                             </div>
                                             <div style={{
