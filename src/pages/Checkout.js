@@ -249,7 +249,10 @@ function Checkout() {
                     })
                 ),
                 delivery,
-                finalCost
+                finalCost, 
+                shippingCost,
+                discountCost,
+                totalCost,
             }
 
             // handle paystack payment
@@ -272,13 +275,6 @@ function Checkout() {
 
     return productsList ? (
         <div>
-            <header style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-            }}>
-                <Cart /> <h1 style={{ margin: 0, paddingLeft: '20px', fontSize: '35px' }}>CHECKOUT</h1>
-            </header>
             {
                 productsList.length ?
                     <div className='checkout-main'>
@@ -415,10 +411,10 @@ function Checkout() {
                                                         <h3 style={{ margin: '3px' }}>{sku.name}</h3>
                                                         <h5 style={{ margin: '3px', color: 'rgba(0,0,0,0.3)' }}>Color : <span style={{
                                                             width : '20px',
+                                                        }}>.....</span></h5>
                                                             height : '20px',
                                                             backgroundColor : data.color,
                                                             color : data.color,
-                                                        }}>.....</span></h5>
                                                         <h5 style={{ margin: '3px', color: 'rgba(0,0,0,0.3)' }}>Size : {sizeMap[sku.size]}</h5>
                                                         <h5 style={{ margin: '3px', color: 'rgba(0,0,0,0.3)' }}>{data.quantity} Unit{data.quantity === 1 ? '' : 's'}</h5>
                                                         <h3 style={{ margin: '3px' }}>&#8358;{cost.toLocaleString()}</h3>

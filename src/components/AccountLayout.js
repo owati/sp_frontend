@@ -17,6 +17,8 @@ import PaymentInfo from '../pages/PaymentInfo';
 import Order from '../pages/Order';
 import OrderDetails from '../pages/OrderDetails';
 
+
+
 function AccountLayout() {
     const user = useSelector(state => state.user);
     const navigate = useNavigate();
@@ -42,9 +44,6 @@ function AccountLayout() {
 
     return (
         <>
-            <header>
-                <h1>{currPath}</h1>
-            </header>
             <div className='account'>
                 <div className='account-side'>
                     <div className='account-profile-pic'>
