@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import uuid from 'react-uuid'
 import Rating from '../components/CustomRating';
@@ -14,36 +14,38 @@ import liked from '../assets/liked.png';
 import shirt from '../assets/shirt.png';
 import NumberInput from '../components/inputs/NumberInput';
 import drop from '../assets/drop.png';
-import {ReactComponent as VeriSvg} from '../assets/verified.svg';
+import { ReactComponent as VeriSvg } from '../assets/verified.svg';
 import { getRequest, putRequest } from '../functions/api';
-import Loading, {NoModalLoading} from '../components/Loading';
-import {addFave, getFave, addCart} from '../functions/storage';
+import Loading, { NoModalLoading } from '../components/Loading';
+import { addFave, getFave, addCart } from '../functions/storage';
 import { updateItem } from '../redux/slicers/faveSlicer';
 import { updateItem as updateCart } from '../redux/slicers/cartSlicer';
 import { toast } from 'react-toastify';
+import Scrollbars from 'react-custom-scrollbars';
 
 function Product() {
     const { id } = useParams();
-
+    const navigate = useNavigate()
     const dispatch = useDispatch();
     const user = useSelector(state => state.user.info);
 
     const faves = useSelector(state => state.fave.items)
 
     const [sku, setSku] = useState(null);
+    const [reviews, setReviews] = useState(null);
 
     const [cartPref, setCartPref] = useState({
         id,
-        data : {}
+        data: {}
     })
 
     function editCartRef(type, value) {
         setCartPref(
             cart => ({
                 ...cart,
-                data : {
+                data: {
                     ...cart.data,
-                    [type] : value
+                    [type]: value
                 }
             })
         )
@@ -62,46 +64,52 @@ function Product() {
         description: "This is very good trouser of high quality which will be able to blend in with an environment colour. You are surely going to feel like a king if this is purchased. Place your order now and dont miss out on this opportunity.",
         price: 10000,
         sizes: ['S', 'M', 'L', 'XL', 'XL'],
-        review : 3
+        review: 3
     }
 
-    
+
     const sizeMap = {
-        small : 'S',
-        medium : 'M',
-        large : 'L',
-        xlarge : 'XL'
+        small: 'S',
+        medium: 'M',
+        large: 'L',
+        xlarge: 'XL'
     }
 
 
 
     async function getProduct() {
-        const res = await getRequest('sku/units/'+id)
-        if (res?.status === 200){
+        const res = await getRequest('sku/units/' + id)
+        if (res?.status === 200) {
             setSku(res.data.data);
             setCartPref({
                 ...cartPref,
-                data : {
-                    quantity : 1,
-                    color : res.data.data.colors[0],
-                    size : res.data.data.sizes[0]
+                data: {
+                    quantity: 1,
+                    color: res.data.data.colors[0],
+                    size: res.data.data.sizes[0]
                 }
             })
+            const reviews_res = await getRequest('reviews/?sku=' + id);
+            if (reviews_res?.status === 200) {
+                setReviews(reviews_res?.data?.data?.reviews?.reverse()?.slice(0, 4))
+            }
         }
-        
+
     }
 
     const is_liked = useMemo(
         () => {
             return faves.includes(id) ? liked : like
-        },[id,showFave]
+        }, [id, showFave]
     )
+
+
 
     async function addToFave() {
         const faves = addFave(id);
         dispatch(updateItem(faves));
         if (user) {
-            const res = await putRequest('pref/faves', {faves});
+            const res = await putRequest('pref/faves', { faves });
             if (res?.status === 200) {
                 setFave(true)
             } else {
@@ -115,12 +123,12 @@ function Product() {
     async function addToCart() {
         const cart_data = addCart({
             ...cartPref,
-            _id : uuid()
+            _id: uuid()
         });
         dispatch(updateCart(cart_data));
         if (cart_data) {
             if (user) {
-                const res = await putRequest('pref/cart', {cart_data});
+                const res = await putRequest('pref/cart', { cart_data });
                 if (res?.status === 200) {
                     setCart(true)
                 } else {
@@ -134,9 +142,11 @@ function Product() {
         }
     }
 
-    useEffect(() => {getProduct()},[])
+    useEffect(() => { getProduct() }, [])
 
-    const {quantity, color, size} = cartPref.data;
+    const { quantity, color, size } = cartPref.data;
+
+    console.log(sku, reviews)
 
     return sku ? (
         <div style={{
@@ -153,23 +163,23 @@ function Product() {
                                     if (is_liked == like) addToFave()
                                 }
                             }
-                         />
+                        />
                     </div>
                     <div style={{
-                        display : "flex",
-                        flexWrap : "wrap",
-                        justifyContent : "space-between",
-                        marginTop : "20px"
-                        
+                        display: "flex",
+                        flexWrap: "wrap",
+                        justifyContent: "space-between",
+                        marginTop: "20px"
+
                     }}>
                         <div className='product-other-image'>
-                            <img src={sku?.images[1]} alt="other image"/>
+                            <img src={sku?.images[1]} alt="other image" />
                         </div>
                         <div className='product-other-image'>
-                            <img src={sku?.images[2]} alt="other image"/>
+                            <img src={sku?.images[2]} alt="other image" />
                         </div>
                         <div className='product-other-image'>
-                            <img src={sku?.images[3]} alt="other image"/>
+                            <img src={sku?.images[3]} alt="other image" />
                         </div>
                     </div>
                 </div>
@@ -177,7 +187,7 @@ function Product() {
                     <div className='product-details'>
                         <h2>{sku?.name}</h2>
                         <h4>{sku?.headline}</h4>
-                        <h5 className='description-tag' dangerouslySetInnerHTML={{__html : sku?.description && draftToHtml(JSON.parse(sku?.description))}}></h5>
+                        <h5 className='description-tag' dangerouslySetInnerHTML={{ __html: sku?.description && draftToHtml(JSON.parse(sku?.description)) }}></h5>
                         <h2>&#8358;{sku?.price?.toLocaleString()}</h2>
                         <h5>Please select a size</h5>
 
@@ -204,10 +214,10 @@ function Product() {
                                 <div>
                                     {
                                         sku?.colors.map(
-                                            col => 
-                                            <button className={`product-size-butt ${color === col ? 'selected' : ''}`} key={col}  style={{backgroundColor : col}}
-                                                onClick={() => editCartRef('color', col)}
-                                            ></button>
+                                            col =>
+                                                <button className={`product-size-butt ${color === col ? 'selected' : ''}`} key={col} style={{ backgroundColor: col }}
+                                                    onClick={() => editCartRef('color', col)}
+                                                ></button>
                                         )
                                     }
                                 </div>
@@ -216,12 +226,12 @@ function Product() {
                                 width: "30%"
                             }}>
                                 <h4>Qty</h4>
-                                <NumberInput onChange={e => editCartRef('quantity', e )}/>
+                                <NumberInput onChange={e => editCartRef('quantity', e)} />
                             </div>
                         </div>
 
-                        <button className='cart-button grow' 
-                            onClick={ 
+                        <button className='cart-button grow'
+                            onClick={
                                 () => {
                                     addToCart()
                                 }
@@ -234,73 +244,90 @@ function Product() {
                     <div className='rating-div'>
                         <h3>Rating</h3>
                         <div style={{
-                            display : "flex"
+                            display: "flex"
                         }}>
-                            <Rating 
-                                initial={data.review}
+                            <Rating
+                                initial={sku.ratings}
                                 readonly
                             />
                             <button
-                                onClick = {
+                                onClick={
                                     (e) => {
                                         let show = document.querySelector('#rating-show');
                                         e.target.style.transform = show.style.height === '0px' ? "rotate(180deg)" : "rotate(0deg)"
-                                        show.style.height = show.style.height === '0px' ? "300px" : "0px";
+                                        show.style.height = show.style.height === '0px' ? "500px" : "0px";
                                     }
                                 }
 
                                 style={{
-                                    marginLeft : "8px",
+                                    marginLeft: "8px",
                                     border: "none",
-                                    backgroundColor:"transparent"
+                                    backgroundColor: "transparent"
                                 }}
-                                
+
                             >
 
-                            <img src={drop} alt=""
-                                style={{
-                                    transition : "ease all 0.8s"
-                                }}
-                            />
+                                <img src={drop} alt=""
+                                    style={{
+                                        transition: "ease all 0.8s"
+                                    }}
+                                />
 
                             </button>
                         </div>
                     </div>
                     <div id="rating-show">
-                        
-                    <div className='ratings-message'>
-                        <h3>Comfortable and Stylish</h3>
-                        <div style={{
-                            display : "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between"
-                        }}>
-                            <h4>Toafeek James</h4>
-                            <Rating
-                                red={false}
-                                initial={3}
-                                readonly
-                            />
-                        </div>
+                        <Scrollbars height={500}>
+                            {
+                                reviews && reviews.map(
+                                    review => {
+                                        return (
 
-                        <h5>This trouser is very comfortable and 
-                            i love the material that as used to make it.  
-                            The colour is also awesome.</h5>
+                                            <div className='ratings-message'>
+                                                <h3>{review?.headline}</h3>
+                                                <div style={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "space-between"
+                                                }}>
+                                                    <h4>{review?.user}</h4>
+                                                    <Rating
+                                                        red={false}
+                                                        initial={review?.rate}
+                                                        readonly
+                                                    />
+                                                </div>
 
-                        <div style={{
-                            display : "flex",
-                            alignItems: "center",
-                            justifyContent : "flex-end",
-                            marginBottom : "5px"
-                        }}>
-                        <VeriSvg />
-                        <h5 style={{
-                            margin : "3px",
-                            paddingLeft : "5px"
-                        }}>Verified customer</h5>
-                        </div>
-                    </div>
+                                                <h5>{review?.details}</h5>
 
+                                                <div style={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "flex-end",
+                                                    marginBottom: "5px"
+                                                }}>
+                                                    <VeriSvg />
+                                                    <h5 style={{
+                                                        margin: "3px",
+                                                        paddingLeft: "5px"
+                                                    }}>Verified customer</h5>
+                                                </div>
+                                            </div>
+                                        )
+                                    }
+                                )
+                            }
+
+                            <div style={{
+                                display: 'flex',
+                                marginTop: '30px'
+                            }}>
+                                <h3 style={{ borderBottom: '2px solid black', margin: 'auto', fontWeight: '400', cursor: 'pointer' }}
+                                    onClick={() => navigate('/reviews/' + id)}
+                                >See more</h3>
+                            </div>
+
+                        </Scrollbars>
                     </div>
 
 
@@ -308,15 +335,15 @@ function Product() {
             </div>
 
             <SkuCardList title="Similar Products">
-                <SkuCard/>
-                <SkuCard/>
-                <SkuCard/>
-                <SkuCard/>
-                <SkuCard/>
-                <SkuCard/>
+                <SkuCard />
+                <SkuCard />
+                <SkuCard />
+                <SkuCard />
+                <SkuCard />
+                <SkuCard />
             </SkuCardList>
 
-            <FaveModal 
+            <FaveModal
                 show={showFave}
                 closed={
                     () => {
@@ -324,10 +351,10 @@ function Product() {
                     }
                 }
                 sku={sku}
-                />
-            <CartModal 
+            />
+            <CartModal
                 show={showCart}
-                closed = {
+                closed={
                     () => {
                         setCart(!showCart)
                     }
@@ -338,7 +365,7 @@ function Product() {
 
         </div>
     ) : (
-        <div style={{height : '80vh'}}>
+        <div style={{ height: '80vh' }}>
             <NoModalLoading />
         </div>
     )
