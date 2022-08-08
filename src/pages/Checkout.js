@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { getRequest, postRequest } from '../functions/api';
+import { getRequest, postRequest, putRequest } from '../functions/api';
 import { toast } from 'react-toastify';
 import Select from 'react-select';
 import { AddCardInput, AddCardSelect } from './PaymentInfo';
@@ -10,6 +10,7 @@ import { getStates } from '../functions/api';
 import shirt from '../assets/shirt.png';
 import '../css/checkout.css';
 import Loading , { NoModalLoading } from '../components/Loading';
+import { checkOut } from '../functions/storage';
 
 function Checkout() {
     const navigate = useNavigate();
@@ -267,7 +268,12 @@ function Checkout() {
         setLoading(false)
         if (res?.status === 201) {
             console.log(res)
-            toast.success('Order created successfully')
+            checkOut()
+            const clear_res = await putRequest('pref/cart', {cart_data : []})
+
+            if (clear_res?.status === 200) {
+                toast.success('Order created successfully')
+            }
         } else {
             toast.error(res?.data?.message)
         }
@@ -411,11 +417,11 @@ function Checkout() {
                                                         <h3 style={{ margin: '3px' }}>{sku.name}</h3>
                                                         <h5 style={{ margin: '3px', color: 'rgba(0,0,0,0.3)' }}>Color : <span style={{
                                                             width : '20px',
-                                                        }}>.....</span></h5>
                                                             height : '20px',
                                                             backgroundColor : data.color,
                                                             color : data.color,
-                                                        <h5 style={{ margin: '3px', color: 'rgba(0,0,0,0.3)' }}>Size : {sizeMap[sku.size]}</h5>
+                                                        }}>.....</span></h5>
+                                                        <h5 style={{ margin: '3px', color: 'rgba(0,0,0,0.3)' }}>Size : {sizeMap[data.size]}</h5>
                                                         <h5 style={{ margin: '3px', color: 'rgba(0,0,0,0.3)' }}>{data.quantity} Unit{data.quantity === 1 ? '' : 's'}</h5>
                                                         <h3 style={{ margin: '3px' }}>&#8358;{cost.toLocaleString()}</h3>
                                                         {

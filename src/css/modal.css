@@ -107,13 +107,15 @@
 
 @media screen and (max-width : 780px) {
     .cart-modal {
-        height: 100vh;
+        height: fit-content;
     }
     .cart-modal-info {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        overflow-y: scroll;
+    }
+
+    .scroll-div {
         height: calc(100vh - 60px);
     }
     .cart-modal-info-1, .cart-modal-info-2 {

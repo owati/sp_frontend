@@ -13,6 +13,7 @@ import { NoModalLoading } from '../components/Loading';
 import { getRequest, putRequest } from '../functions/api';
 import { removeCart } from '../functions/storage';
 import { updateItem } from '../redux/slicers/cartSlicer';
+import { ReactComponent as CartEmpty } from '../assets/cart_empty.svg';
 
 
 function Cart() {
@@ -46,26 +47,28 @@ function Cart() {
                 setProduct(newCartList);
             }
         }
+        else {
+            setProduct([])
+        }
     }
 
     function removeFromCart(id) {
         const new_cart = removeCart(id)
         if (user) {
-            putRequest('pref/cart', {cart_data : new_cart});
+            putRequest('pref/cart', { cart_data: new_cart });
         }
 
         dispatch(updateItem(new_cart))
     }
     useEffect(() => {
-        console.log('cart updated')
         getProducts()
     }, [cart])
 
     const sizeMap = {
-        small : 'S',
-        medium : 'M',
-        large : 'L',
-        xlarge : 'XL'
+        small: 'S',
+        medium: 'M',
+        large: 'L',
+        xlarge: 'XL'
     }
 
 
@@ -80,10 +83,10 @@ function Cart() {
             }
 
             return total
-        },[productsList]
+        }, [productsList]
     )
 
-    
+
 
     return productsList ? (
         <div style={{
@@ -116,7 +119,7 @@ function Cart() {
 
                                         const cost = sku?.price * data?.quantity;
 
-                                        return <div className='cart-details' key={'cart '+index}>
+                                        return <div className='cart-details' key={'cart ' + index}>
                                             <div>
                                                 <div style={{
                                                     display: "flex",
@@ -131,14 +134,14 @@ function Cart() {
 
                                                     <div className='cart-details-info'>
                                                         <h3 style={{ margin: "0px" }}>{sku.name}</h3>
-                                                        <h5 style={{marginTop : '10px', color : 'black'}}>{sku.headline}</h5>
-                                                        <h5 style={{marginTop : '14px'}}>Color : <span style={{
-                                                            width : '20px',
-                                                            height : '20px',
-                                                            backgroundColor : data.color,
-                                                            color : data.color,
+                                                        <h5 style={{ marginTop: '10px', color: 'black' }}>{sku.headline}</h5>
+                                                        <h5 style={{ marginTop: '14px' }}>Color : <span style={{
+                                                            width: '20px',
+                                                            height: '20px',
+                                                            backgroundColor: data.color,
+                                                            color: data.color,
                                                         }}>.....</span></h5>
-                                                        <h5 style={{marginTop : '7px'}}>Size : {sizeMap[data.size]}</h5>
+                                                        <h5 style={{ marginTop: '7px' }}>Size : {sizeMap[data.size]}</h5>
                                                         <h5 className='invert-none' style={
                                                             {
                                                                 marginTop: "7px",
@@ -260,7 +263,10 @@ function Cart() {
 
                         </div>
 
-                    </div> : <></>
+                    </div> :
+                    <div style={{display : 'flex', margin : "50px 0px"}}>
+                        <CartEmpty  style={{margin : 'auto'}}/>
+                    </div>
             }
 
             <SkuCardList title="You might also like">
@@ -277,7 +283,7 @@ function Cart() {
                 <SkuCard />
             </SkuCardList>
 
-            <CartChangeModal show={showChange}  closed={
+            <CartChangeModal show={showChange} closed={
                 () => {
                     setShow(null)
                 }

@@ -102,6 +102,9 @@ h5.small-marg {
 }
 
 @media screen and (max-width : 453px) {
+    .sku-grid {
+        grid-template-columns:  1fr;
+    }
     .sku-grid .sku-card {
         width: 200px;
         height: 270px;

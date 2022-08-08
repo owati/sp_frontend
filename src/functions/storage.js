@@ -48,6 +48,7 @@ export function mergeCart(fetchedCart) {
             cart.push(item)
         }
     }
+    localStorage.setItem('cart', JSON.stringify(cart))
     return cart;
 }
 export function getCart() {
