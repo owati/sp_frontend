@@ -40,6 +40,10 @@ export function removerFave(id) {
     return new_list;
 }
 
+export function clearFave() {
+    localStorage.setItem('faves', '[]');
+}
+
 //----cart functions---------
 export function mergeCart(fetchedCart) {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];

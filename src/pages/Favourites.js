@@ -11,7 +11,7 @@ import SkuCard from '../components/SkuCard';
 import close from '../assets/close.png'
 import { getRequest, putRequest } from '../functions/api';
 import Loading, { NoModalLoading } from '../components/Loading';
-import { addCart, removerFave } from '../functions/storage';
+import { addCart, clearFave, mergeCart, removerFave } from '../functions/storage';
 import { updateItem } from '../redux/slicers/cartSlicer';
 import { updateItem as updateFave} from '../redux/slicers/faveSlicer'
 import { toast } from 'react-toastify';
@@ -37,6 +37,8 @@ function Favourites() {
                 console.log(res)
                 setFaves(res?.data?.data)
             } 
+        } else {
+            setFaves([])
         }
     }
     useEffect(
@@ -67,7 +69,7 @@ function Favourites() {
         if(user) {
             setLoading(true)
             const res = await putRequest('pref/cart', {cart_data : cart});
-            const fave_res = await putRequest('pref/cart', {faves})
+            const fave_res = await putRequest('pref/faves', {faves})
             setLoading(false)
         }
         
@@ -75,6 +77,49 @@ function Favourites() {
         dispatch(updateItem(cart));
 
         toast.success('successfully moved to cart')
+    }
+
+    async function removeFromFave(id) {
+        const faves = removerFave(id);
+
+        if (user) {
+            setLoading(true)
+            await putRequest('pref/faves', {faves})
+            setLoading(false)
+        }
+
+        dispatch(updateFave(faves));
+    }
+
+
+    async function moveAllToCart() {
+        clearFave();
+
+        const cart_data = faveProducts.map(
+            prod => {
+                return {
+                    id : prod._id,
+                    _id : uuid(),
+                    data : {
+                        quantity : 1,
+                        color : prod.colors[0],  
+                        size : prod.sizes[0]
+                    }
+                }
+            }
+        )
+
+        const cart =  mergeCart(cart_data);
+        if (user) {
+            setLoading(true)
+            const res = await putRequest('pref/cart', {cart_data : cart});
+            const fave_res = await putRequest('pref/faves', {faves : []})
+            setLoading(false)
+        }
+
+        dispatch(updateFave([]));
+        dispatch(updateItem(cart));
+
     }
 
     return faveProducts ? (
@@ -93,12 +138,12 @@ function Favourites() {
                 justifyContent: 'space-between',
                 marginBottom  : "20px"
             }}>
-                <button style={{
+                <button disabled={faveProducts?.length == 0} style={{
                     display: "flex",
                     backgroundColor: "transparent",
                     border: "none",
                     alignItems: "center"
-                }} className="grow">
+                }} className="grow" onClick={moveAllToCart}>
                     <Cart />
                     <h4 style={{ margin: "0px 5px" }}>Move all to cart</h4>
                 </button>
@@ -108,7 +153,7 @@ function Favourites() {
             </div>
 
             {
-                faveProducts?.length && <SkuGrid>
+                faveProducts?.length ? <SkuGrid>
                     {
                         faveProducts.map(
                             product => {
@@ -117,13 +162,19 @@ function Favourites() {
                                         display : "flex",
                                         justifyContent : "center"
                                     }}>
-                                        <FaveSkuCard data={product} add={addToCart}/>
+                                        <FaveSkuCard data={product} add={addToCart} rem={removeFromFave}/>
                                     </div>
                                 )
                             }
                         )
                     }
-                </SkuGrid>
+                </SkuGrid> : <div style={{height : '60vh', display : 'flex'}}>
+                    <h3 style={{
+                        margin : 'auto',
+                        color : 'rgba(0,0,0,0.6)'
+                    }}>You currently have no favourites</h3>
+                    
+                </div>
             }
 
 
@@ -157,10 +208,10 @@ function Favourites() {
 export default Favourites
 
 
-function FaveSkuCard({data, add}) {
+function FaveSkuCard({data, add, rem}) {
     return (
         <div className='fave-card shadow-4'>
-            <button className='fave-close shadow-5 grow'>
+            <button className='fave-close shadow-5 grow' onClick={() => rem(data._id)}>
                 <img src={close} alt="closed picture"/>
             </button>
             <div className='fave-image-holder'>
