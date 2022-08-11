@@ -10,6 +10,8 @@ import { ReactComponent as Heart } from '../assets/heart.svg';
 import { ReactComponent as NotifySvg } from '../assets/notify.svg';
 import { ReactComponent as Clock } from '../assets/clock.svg';
 import { ReactComponent as Edit } from '../assets/carbon_edit.svg';
+import { ReactComponent as Camera } from '../assets/camera.svg';
+import { ReactComponent as Profile } from '../assets/profile.svg';
 import Modal from '../components/Modal';
 import { Notify } from './Notification';
 import AccountInput from '../components/inputs/AccountInput';
@@ -17,6 +19,7 @@ import close from '../assets/close.png'
 
 function Account({ loading }) {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const user = useSelector(state => state.user.info);
     const [defAddress, setAddr] = useState(null);
     const [changePass, showPass] = useState(false);
@@ -45,6 +48,25 @@ function Account({ loading }) {
         ['Orders', <Clock className='account-icons' />],
         ['Notifications', <NotifySvg className='account-icons' />]
     ]
+
+    async function handleProfilePost(e) {
+        const [file] = e.target.files;
+                                
+        if (['image/jpeg', 'image/png'].includes(file.type)) {
+            const profileForm = document.querySelector('#profile-form');
+            const formData = new FormData(profileForm);
+            loading(true)
+            const res = await postRequest('account/profile/image', formData)
+            loading(false);
+            if (res?.status === 200) {
+                dispatch(setUser(res?.data?.data))
+            } else {
+                toast.error('There was an error uploading the picture')
+            }
+        } else {
+            toast.error('Only images files (png, jpg) are allowed')
+        }
+    }
     return (
         <div>
             <div className='account-desktop-view'>
@@ -103,14 +125,30 @@ function Account({ loading }) {
                     alignItems: "center",
                     marginBottom: "20px"
                 }}>
-                    <div className='account-profile-pic' style={{
-                        width: "70px",
-                        height: "70px",
-                        marginRight: "10px"
-                    }}>
-
-                    </div>
-                    <div>
+                    <form  encType='multipart/form-data' id="profile-form" style={{position : "relative"}}>
+                        <div className='account-profile-pic' style={{
+                            width : '70px',
+                            height : '70px'
+                        }}>
+                            <input  id="set-profile" name="image" type="file" accept="image/png, image/jpeg" style={{display : 'none'}} onChange={
+                                e => {
+                                    handleProfilePost(e)
+                                }
+                            }/>
+                            {
+                                user?.profile_image ? 
+                                <img src={user.profile_image} style={{width : '100%', height : '100%', objectFit : 'cover'}}/>
+                                : <Profile />
+                            }
+                        </div>
+                        <Camera className='camera-input' onClick={
+                            () => {
+                                const fileInput = document.querySelector('#set-profile');
+                                fileInput.click()
+                            }
+                        }/>
+                    </form>
+                    <div style={{marginLeft : '20px'}}>
                         <h3 style={{ margin: "0px" }}>{user?.first_name + ' ' + user?.last_name}</h3>
                         <h4 style={{ margin: "0px", color: "rgba(0,0,0,0.3)" }}>{user?.email}</h4>
                     </div>

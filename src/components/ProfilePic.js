@@ -1,4 +1,4 @@
-
+import {ReactComponent as Profile} from '../assets/profile.svg';
 
 function ProfilePic ({ link, size }) {
     let length = size === "small" ? "30px" : size === "medium" ? "50px" : "80px"
@@ -8,12 +8,12 @@ function ProfilePic ({ link, size }) {
             height : length,
             borderRadius :"100px",
             overflow : "hidden",
-            backgroundColor : "black",
+            backgroundColor : "grey",
             marginLeft : "10px"
         }}> 
             { link ? 
-                <img  src={link} height="30" width="30"/>
-                : <></>}
+                <img  src={link} width={length} height={length} style={{objectFit : 'cover'}}/>
+                : <Profile />}
         </div>
     )
 }
