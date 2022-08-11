@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import '../css/sidebar.css';
 import Modal from '../components/Modal';
-import { Link } from 'react-router-dom';
+import {ReactComponent as Profile} from '../assets/profile.svg';
+import { Link, useNavigate } from 'react-router-dom';
 import Vector from '../assets/Vector.png';
 import ProfilePic from './ProfilePic';
 import close from '../assets/close.png';
@@ -19,12 +20,14 @@ function SideBar({ show, closed }) {
 
     const user = useSelector(state => state.user.info);
 
+    const navigate = useNavigate();
+
     const sideActions = [
         ["Bag"  ,cart],
         ["Favourite" , fave],
         ["Notifications" , notify],
         ["Orders" , clock],
-        ["Settings" , setings],
+        ["Settings" , setings, '/account/Account'],
         ["Logout" , logout],
         ["Help" , help]
     ]
@@ -37,6 +40,7 @@ function SideBar({ show, closed }) {
             side.style.width = "85vw";
         }
     }, [show])
+
     return (
         <Modal show={show} direction='left' added="no-mode">
             <div className='sidebar'>
@@ -55,11 +59,11 @@ function SideBar({ show, closed }) {
                                 justifyContent: "center",
                                 paddingBottom: "5px"
                             }}>
-                                <ProfilePic size="medium" />
+                                <ProfilePic size="medium" link={user?.profile_image}/>
                             </div>
 
                             <div style={{ textAlign: "center", paddingBottom: "15px" }}>
-                                <h3 className='small-marg'>{user?.first_name + user?.last_name}</h3>
+                                <h3 className='small-marg'>{user?.first_name + ' ' + user?.last_name}</h3>
                                 <h4 className='small-marg'>{user?.email}</h4>
                             </div>
                         </> : 
@@ -107,7 +111,7 @@ function SideBar({ show, closed }) {
                                 sideActions
                                 .map(
                                     action => {
-                                        const [name , image ] = action
+                                        const [name , image, link ] = action
                                         if (!user && ["Notifications", "Logout", "Settings", "Orders"].includes(name)) {
                                             return <></>
                                         }
@@ -115,6 +119,7 @@ function SideBar({ show, closed }) {
                                             onClick = {
                                                 () => {
                                                     // the routing code...
+                                                    navigate(link)
                                                     closed()
                                                 }
                                             }

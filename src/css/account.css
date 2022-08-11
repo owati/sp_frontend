@@ -28,7 +28,16 @@ header h1 {
     width: 150px;
     height: 150px;
     border-radius: 75px;
-    background-color: black;
+    background-color: grey;
+    position: relative;
+    overflow: hidden;
+}
+
+
+.camera-input {
+    position: absolute;
+    right : 5px;
+    bottom: 5px;
 }
 
 .account-icons {
@@ -633,6 +642,13 @@ textarea.address-input{
         display: flex;
         flex-direction: column;
         align-items: center;
+    }
+
+    .camera-input {
+        bottom: 0px;
+        right: 0px;
+        width: 20px;
+        height: 20px;
     }
 
     .account-edit-div label h3 {

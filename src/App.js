@@ -4,10 +4,10 @@ import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import Loading from './components/Loading';
 import Layout from './components/Layout';
 import Reviews, { CreateReview } from './pages/Reviews';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { getRequest } from './functions/api';
-import { setUser } from './redux/slicers/userSlicer';
+import { setUser, remUser } from './redux/slicers/userSlicer';
 import { updateItem } from './redux/slicers/faveSlicer';
 import { updateItem as updateCart } from './redux/slicers/cartSlicer';
 import { toast, ToastContainer } from 'react-toastify'
@@ -19,7 +19,7 @@ import { mergeCart, mergeFaves } from './functions/storage';
 
 function App() {
   const dispatch = useDispatch();
-
+  const user =  useSelector(state => state.user.info)
   let fetchUser = async () => {
     let response = await getRequest('account/info');
     if (response.status === 200) {
@@ -32,6 +32,7 @@ function App() {
         dispatch(updateCart(mergeCart(cart_res.data.data)))
       }
     }
+    else dispatch(remUser())
     const fave = mergeFaves(response?.data?.userInfo?.favourites || []) // fetches and updates the local storage
     dispatch(updateItem(fave))
   }
@@ -42,7 +43,6 @@ function App() {
       fetchUser();
     }, []
   )
-  
   return (
     <Router>
       <Routes>

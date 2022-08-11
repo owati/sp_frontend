@@ -68,13 +68,13 @@ function NavBar() {
                     }}
                      />
                     { user ?
-                        <ProfilePic size="small"/>
+                        <ProfilePic size="small" link={user?.profile_image}/>
                         : <></>
                     }
                 </div>
 
                 <div>
-                    <img src={cart} height="25" width="25" className='nav-img grow' />
+                    <img src={cart} height="25" width="25" className='nav-img grow' onClick={() => navigate('/cart')} />
                     <img src={search} height="25" width="25" className='nav-img grow'
                         onClick={ 
                             () => {
